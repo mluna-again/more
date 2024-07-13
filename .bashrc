@@ -8,7 +8,7 @@ alias dotsd="yadm diff"
 alias dotsdd="yadm diff --cached"
 alias dotsl="yadm log"
 dotsc() {
-  yadm commit -m "$@"
+  yadm commit -m "$*"
 }
 
 export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
