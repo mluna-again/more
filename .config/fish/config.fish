@@ -1,43 +1,7 @@
-# KANAGAWA
-set -l foreground DCD7BA normal
-set -l selection 2D4F67 brcyan
-set -l comment 727169 brblack
-set -l red C34043 red
-set -l orange FF9E64 brred
-set -l yellow C0A36E yellow
-set -l green 76946A green
-set -l purple 957FB8 magenta
-set -l cyan 7AA89F cyan
-set -l pink D27E99 brmagenta
-
-# Syntax Highlighting Colors
-set -g fish_color_normal $foreground
-set -g fish_color_command $cyan
-set -g fish_color_keyword $pink
-set -g fish_color_quote $yellow
-set -g fish_color_redirection $foreground
-set -g fish_color_end $orange
-set -g fish_color_error $red
-set -g fish_color_param $purple
-set -g fish_color_comment $comment
-set -g fish_color_selection --background=$selection
-set -g fish_color_search_match --background=$selection
-set -g fish_color_operator $green
-set -g fish_color_escape $pink
-set -g fish_color_autosuggestion $comment
-
-# Completion Pager Colors
-set -g fish_pager_color_progress $comment
-set -g fish_pager_color_prefix $cyan
-set -g fish_pager_color_completion $foreground
-set -g fish_pager_color_description $comment
-
-# GENERAL
 set -U fish_greeting
 set -g fish_key_bindings fish_vi_key_bindings
 set -g fish_color_valid_path
 
-# PATH
 set -e fish_user_paths
 set -U fish_user_paths /usr/local/bin \
     /opt/homebrew/bin \
@@ -47,46 +11,18 @@ set -U fish_user_paths /usr/local/bin \
     "$HOME/.dotnet/tools" \
     "$HOME/.cargo/bin" \
     "/usr/local/go/bin" \
-    "$HOME/.composer/vendor/bin" \
-    "$HOME/.config/composer/vendor/bin" \
     "$HOME/.local/scripts/bin" \
-    "$HOME/.symfony5/bin" \
-    "$HOME/.nimble/bin" \
-    "$HOME/.local/bin/inklecate" \
     "$HOME/.local/share/bob/nvim-bin" \
-    "$HOME/.local/bin/odin" \
-    "$HOME/.local/bin/flutter/bin" \
-    "$HOME/.config/emacs/bin" \
     "$HOME/.local/gem/bin"
 
-function search_dir
-    set -l dir (find . -maxdepth 10 | grep -v '^.$' | sed 's|^./||' | fzf --scheme=path --tiebreak=begin)
-    if test -z "$dir"
-        commandline -f repaint
-        return
-    end
-
-    if test -d "$dir"
-        cd "$dir"
-        commandline -f repaint
-        return
-    end
-
-    nvim "$dir"
-    commandline -f repaint
-end
-
-# BINDINGS
 bind -M insert \ce end-of-line
 bind -M insert \ca beginning-of-line
 bind -M insert \ck accept-autosuggestion
 bind -M insert \cp history-search-backward
 bind -M insert \cn history-search-forward
-bind -M insert \cf search_dir
 bind -M insert \cb edit_command_buffer
 bind --mode insert --sets-mode default jj backward-char repaint
 
-# ENV
 set -gx CURL_HOME "$HOME/.config/curl"
 set -gx HOMEBREW_NO_AUTO_UPDATE 1
 set -gx COLORTERM truecolor
@@ -100,9 +36,7 @@ set -gx GOPATH "$HOME/.local/go"
 set -gx SHELLCHECK_OPTS "-e SC2001"
 set -gx GEM_HOME "$HOME/.local/gem"
 
-# ALIASES
 abbr --add pg pgcli -h 127.0.0.1 -u postgres
-abbr --add ph iex -S mix phx.server
 abbr --add dots yadm
 abbr --add dotss yadm status
 abbr --add dotsa yadm add -u
@@ -126,13 +60,6 @@ abbr --add ga git add .
 abbr --add gA git add
 abbr --add gr git reset --soft
 abbr --add gofmt go fmt ./...
-abbr --add artisan php artisan
-abbr --add sym symfony
-abbr --add jcurl curl -sSf -H \"Content-Type: application/json\"
-abbr --add ww watchexec -r -c clear
-abbr --add hcurl curl -s -o /dev/null -w "%{http_code}"
-abbr --add clip fish_clipboard_copy
-abbr --add --set-cursor b bash -c \"%
 abbr --add dateiso date +"%Y-%m-%dT%H:%M:%S%z"
 abbr --add emacsc "emacsclient -a '' -c --tty"
 abbr --add setup-idf source "$HOME/.local/esp/esp-idf/export.fish"
@@ -169,16 +96,4 @@ if status is-interactive
     command -vq direnv; and direnv hook fish | source
     command -vq zoxide; and zoxide init fish | source
     command -vq starship; and starship init fish | source
-
-    # if uname | grep -iq linux && \
-    #     test -z "$TMUX" && \
-    #     test -z "$NVIM" && \
-    #     command -vq tmux && \
-    #     test -z "$INSIDE_EMACS"
-    #     t
-    # end
 end
-
-# clean up undo nvim files older than 3 days
-set -l nvim_undo_dir "$HOME/.local/state/nvim/undo"
-test -d "$nvim_undo_dir"; and find "$nvim_undo_dir" -type f -mtime +3 -delete
