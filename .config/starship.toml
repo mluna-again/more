@@ -1,0 +1,99 @@
+add_newline = false
+
+format = """$username$hostname :: $directory$python$git_branch$git_commit$git_state$git_metrics$git_status$memory_usage$jobs
+${custom.goldfish}$status$character"""
+right_format = "$cmd_duration$time"
+palette = "kanagawa"
+
+[palettes.kanagawa]
+red = "#c4746e"
+yellow = "#c4b28a"
+green = "#87a987"
+bright-green = "#8a9a7b"
+background = "#1D1C19"
+
+# so, for some reason, if there is *not* a % in the prompt, the funny unicode symbols won't align 🤨
+# computers were a mistake
+# i just noticed it because i had the battery widget... how lucky...
+[custom.hack]
+symbol = "[%](fg:background)"
+when = true
+
+[custom.goldfish]
+command = ''' test "$fish_private_mode" = 1 && echo '🥷' '''
+when = true
+ignore_timeout = true
+
+[directory]
+truncation_length = 3
+
+[localip]
+ssh_only = false
+disabled = false
+style = "fg:yellow"
+format = "[$localipv4](bold red)"
+
+[fill]
+# symbol = "━"
+symbol = " "
+style = "yellow"
+
+[character]
+success_symbol = '[λ](yellow)'
+error_symbol = '[λ](red)'
+vicmd_symbol = '[λ](green)'
+
+[[battery.display]]
+threshold = 100
+
+[memory_usage]
+disabled = true
+threshold = 1
+format = "[${ram}]($style) "
+
+[time]
+format = "[$time](blue) "
+disabled = false
+use_12hr = true
+time_format = "at %I:%M %P"
+
+[username]
+disabled = false
+show_always = true
+style_user = "fg:yellow"
+style_root = "fg:yellow"
+format = "[$user]($style)"
+
+[hostname]
+disabled = false
+ssh_only = false
+format = '@[$hostname]($style)'
+style = 'red'
+
+[ruby]
+detect_variables = ["RENV_VERSION"]
+symbol = " "
+
+[status]
+disabled = false
+symbol = ""
+
+[battery]
+full_symbol = "󰁹 "
+charging_symbol = "󰂄 "
+discharging_symbol = "󰁾 "
+unknown_symbol = "󰂑 "
+empty_symbol = "󰂎 "
+
+[jobs]
+symbol = " "
+number_threshold = 1
+style = "yellow"
+
+[python]
+symbol = " "
+
+[cmd_duration]
+min_time = 1000
+show_milliseconds = false
+disabled = false
