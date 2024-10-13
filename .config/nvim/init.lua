@@ -24,6 +24,12 @@ end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
+  {
+    "rebelot/kanagawa.nvim",
+    config = function()
+      vim.cmd("colorscheme kanagawa-dragon")
+    end
+  },
 	{
 		"nvim-telescope/telescope.nvim",
 		event = "VimEnter",
