@@ -25,6 +25,9 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   {
+    "fatih/vim-go",
+  },
+  {
     "rebelot/kanagawa.nvim",
     config = function()
       vim.cmd("colorscheme kanagawa-dragon")
