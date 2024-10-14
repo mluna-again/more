@@ -14,6 +14,7 @@ vim.opt.hlsearch = true
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
+vim.opt.laststatus = 3
 
 -- PLUGINS
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -48,7 +49,35 @@ require("lazy").setup({
 			},
 		},
 		config = function()
-			require("telescope").setup({})
+      local telescope = require("telescope")
+      local telescopeConfig = require("telescope.config")
+
+      -- Clone the default Telescope configuration
+      local vimgrep_arguments = { unpack(telescopeConfig.values.vimgrep_arguments) }
+
+      -- I want to search in hidden/dot files.
+      table.insert(vimgrep_arguments, "--hidden")
+      -- I don't want to search in the `.git` directory.
+      table.insert(vimgrep_arguments, "--glob")
+      table.insert(vimgrep_arguments, "!**/.git/*")
+
+      telescope.setup({
+        defaults = {
+          mappings = {
+            i = {
+              ["<C-s>"] = "select_horizontal",
+            },
+          },
+          -- `hidden = true` is not supported in text grep commands.
+          vimgrep_arguments = vimgrep_arguments,
+        },
+        pickers = {
+          find_files = {
+            -- `hidden = true` will still show the inside of `.git/` as it's not `.gitignore`d.
+            find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
+          },
+        },
+      })
 
 			pcall(require("telescope").load_extension, "fzf")
 
@@ -62,7 +91,65 @@ require("lazy").setup({
 	{
 		"stevearc/oil.nvim",
 		config = function()
-			require("oil").setup()
+      require("oil").setup({
+        keymaps = {
+          ["g?"] = "actions.show_help",
+          ["<CR>"] = "actions.select",
+          ["<C-v>"] = {
+            callback = function()
+              oil.select({ vertical = true })
+              oil.close()
+            end,
+            desc = "Vertical Split",
+            mode = "n",
+          },
+          ["<C-s>"] = {
+            callback = function()
+              oil.select({ horizontal = true })
+              oil.close()
+            end,
+            desc = "Horizontal Split",
+            mode = "n",
+          },
+          ["<C-t>"] = "actions.select_tab",
+          ["<C-p>"] = "actions.preview",
+          ["<C-c>"] = "actions.close",
+          ["<Esc>"] = "actions.close",
+          ["q"] = "actions.close",
+          ["<C-l>"] = "actions.refresh",
+          ["<BS>"] = "actions.parent",
+          ["_"] = "actions.open_cwd",
+          ["`"] = "actions.cd",
+          ["~"] = "actions.tcd",
+          ["g."] = "actions.toggle_hidden",
+        },
+        view_options = {
+          show_hidden = true,
+        },
+        float = {
+          border = "rounded",
+          win_options = {
+            winblend = 0,
+            winhighlight = "Normal:OilBackground,FloatBorder:OilBorder,FloatTitle:OilBorder,LineNr:OilBackground",
+          },
+          padding = 6,
+        },
+        buf_options = {
+          buflisted = false,
+          bufhidden = "hide",
+        },
+        preview = {
+          win_options = {
+            winblend = 0,
+            winhighlight = "Normal:OilBackground,FloatBorder:OilBorder,FloatTitle:OilBorder,LineNr:OilBackground",
+          },
+        },
+        win_options = {
+          winhighlight = "Normal:OilBackground,FloatBorder:OilBorder,FloatTitle:OilBorder,LineNr:OilBackground",
+        },
+        skip_confirm_for_simple_edits = true,
+      })
+
 			vim.keymap.set("n", "<leader>fn", "<cmd>Oil<cr>", { desc = "File explorer" })
 		end,
 	},
@@ -229,8 +316,8 @@ require("lazy").setup({
 -- KEYMAPS
 vim.keymap.set("i", "jj", "<esc>", { desc = "Enter NORMAL mode" })
 vim.keymap.set("n", "dh", "<cmd>nohlsearch<cr>", { desc = "Delete highlighted items" })
-vim.keymap.set("n", "<leader>ws", "<C-w>s", { desc = "Vertical split" })
-vim.keymap.set("n", "<leader>wv", "<C-w>v", { desc = "Horizontal split" })
+vim.keymap.set("n", "<leader>ws", "<C-w>s<C-w><C-r>", { desc = "Vertical split" })
+vim.keymap.set("n", "<leader>wv", "<C-w>v<C-w><C-r>", { desc = "Horizontal split" })
 vim.keymap.set("n", "<leader>wj", "<C-w><C-j>", { desc = "Focus window below" })
 vim.keymap.set("n", "<leader>wk", "<C-w><C-k>", { desc = "Focus window above" })
 vim.keymap.set("n", "<leader>wh", "<C-w><C-h>", { desc = "Focus window to the left" })
