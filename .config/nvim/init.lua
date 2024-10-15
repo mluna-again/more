@@ -35,6 +35,9 @@ require("lazy").setup({
     end
   },
   {
+    "chaoren/vim-wordmotion"
+  },
+  {
     "rebelot/kanagawa.nvim",
     config = function()
       vim.cmd("colorscheme kanagawa-dragon")
