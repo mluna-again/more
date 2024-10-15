@@ -1,0 +1,19 @@
+.envrc
+.env
+
+.DS_Store
+
+# packer (nvim)
+packer_compiled.lua
+
+Session.vim*
+session.vim*
+
+/scratch-pad.clj
+/scratch-pad.exs
+
+/dev/
+
+.config/fish/fish_variables
+
+/__START__.sh
