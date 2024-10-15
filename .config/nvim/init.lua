@@ -322,6 +322,15 @@ require("lazy").setup({
   },
 })
 
+-- FUNCTIONS
+vim.api.nvim_create_user_command("SessionSave", function() 
+  vim.cmd("mksession! session.vim")
+end, {})
+
+vim.api.nvim_create_user_command("SessionLoad", function() 
+  vim.cmd("source session.vim")
+end, {})
+
 -- KEYMAPS
 vim.keymap.set("i", "jj", "<esc>", { desc = "Enter NORMAL mode" })
 vim.keymap.set("n", "dh", "<cmd>nohlsearch<cr>", { desc = "Delete highlighted items" })
@@ -337,3 +346,5 @@ vim.keymap.set("n", "<leader>wL", "<C-w>L", { desc = "Move window to the right" 
 vim.keymap.set("n", "<leader>wH", "<C-w>H", { desc = "Move window to the left" })
 vim.keymap.set("n", "<leader>wJ", "<C-w>J", { desc = "Move window down" })
 vim.keymap.set("n", "<leader>wK", "<C-w>K", { desc = "Move window up" })
+vim.keymap.set("n", "<leader>ss", "<cmd>SessionSave<cr>", { desc = "Save session" })
+vim.keymap.set("n", "<leader>sl", "<cmd>SessionLoad<cr>", { desc = "Load session" })
