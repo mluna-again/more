@@ -29,6 +29,12 @@ require("lazy").setup({
     "fatih/vim-go",
   },
   {
+    "lewis6991/gitsigns.nvim",
+    config = function()
+      require('gitsigns').setup()
+    end
+  },
+  {
     "rebelot/kanagawa.nvim",
     config = function()
       vim.cmd("colorscheme kanagawa-dragon")
