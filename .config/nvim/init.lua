@@ -280,6 +280,7 @@ require("lazy").setup({
 				formatters_by_ft = {
 					go = { "goimports" },
 					lua = { "stylua" },
+          elixir = { "mix" },
 				},
 			})
 			vim.api.nvim_create_user_command("W", function()
