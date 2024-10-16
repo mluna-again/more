@@ -30,6 +30,7 @@ function dock
     set -l query $argv[2]
     test -z "$cmd"; and begin
         printf "Available CMDs:\n"
+        printf "\tup\n"
         printf "\tid\n"
         printf "\tlogs\n"
         printf "\tdelete\n"
@@ -52,6 +53,9 @@ function dock
     end
 
     switch "$cmd"
+        case up
+            docker compose up
+
         case postgres db
             set -l use_pgcli 1
             if not command -v pgcli &>/dev/null; and test -z "$DOCK_DB_USE_PGCLI"
