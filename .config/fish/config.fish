@@ -65,6 +65,7 @@ abbr --add dateiso date +"%Y-%m-%dT%H:%M:%S%z"
 abbr --add emacsc "emacsclient -a '' -c --tty"
 abbr --add setup-idf source "$HOME/.local/esp/esp-idf/export.fish"
 abbr --add esp idf.py
+abbr --add rsync rsync -avh --info=progress2
 
 command -v z &>/dev/null; and function cd
     z $argv
