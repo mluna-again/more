@@ -67,6 +67,13 @@ abbr --add setup-idf source "$HOME/.local/esp/esp-idf/export.fish"
 abbr --add esp idf.py
 abbr --add rsync rsync -avh --info=progress2
 
+set fish_cursor_default block
+set fish_cursor_insert block
+set fish_cursor_replace_one underscore
+set fish_cursor_replace underscore
+set fish_cursor_external line
+set fish_cursor_visual block
+
 command -v z &>/dev/null; and function cd
     z $argv
 end
