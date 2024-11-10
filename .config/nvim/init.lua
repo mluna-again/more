@@ -27,6 +27,12 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   {
+    "ggandor/leap.nvim",
+    config = function()
+      require('leap').create_default_mappings()
+    end
+  },
+  {
     "fatih/vim-go",
   },
   {
