@@ -110,3 +110,7 @@ if status is-interactive
     command -vq zoxide; and zoxide init fish | source
     command -vq starship; and starship init fish | source
 end
+
+if test -n "$fish_private_mode"
+  set -x STARSHIP_FISH_PRIVATE_MODE "$fish_private_mode"
+end
