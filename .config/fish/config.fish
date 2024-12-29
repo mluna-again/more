@@ -115,3 +115,16 @@ end
 if test -n "$fish_private_mode"
   set -x STARSHIP_FISH_PRIVATE_MODE "$fish_private_mode"
 end
+
+function tnew
+  if test -z "$TMUX"
+    echo not inside tmux >&2
+    return 1
+  end
+
+  if test -n "$fish_private_mode"
+    tmux new-window -a -c "#{pane_current_path}" fish -P
+  else
+    tmux new-window -a -c "#{pane_current_path}" fish
+  end
+end
