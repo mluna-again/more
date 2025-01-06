@@ -31,6 +31,7 @@ function dock
     test -z "$cmd"; and begin
         printf "Available CMDs:\n"
         printf "\tup\n"
+        printf "\tdown\n"
         printf "\tid\n"
         printf "\tlogs\n"
         printf "\tdelete\n"
@@ -55,6 +56,9 @@ function dock
     switch "$cmd"
         case up
             docker compose up
+
+        case down
+            docker compose down
 
         case postgres db
             set -l use_pgcli 1
