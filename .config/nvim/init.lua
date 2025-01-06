@@ -27,6 +27,11 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   {
+    "mattn/emmet-vim",
+    config = function()
+    end
+  },
+  {
     "ggandor/leap.nvim",
     config = function()
       require('leap').create_default_mappings()
@@ -267,6 +272,7 @@ require("lazy").setup({
         bashls = {},
         tsserver = {},
         cssls = {},
+        clangd = {},
       }
 
       require("mason").setup({})
@@ -295,6 +301,7 @@ require("lazy").setup({
           lua = { "stylua" },
           elixir = { "mix" },
           python = { "black" },
+          c = { "clang-format" },
         },
       })
       vim.api.nvim_create_user_command("W", function()
