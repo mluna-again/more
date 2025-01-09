@@ -46,6 +46,7 @@ function dock
         printf "\ttest\n"
         printf "Special Environment Variables:\n"
         printf "\$__DOCK_PROJECT_NAME - Auto selects container with a name matching the variable value. Used in: test\n\n"
+        printf "\$__DOCK_PROJECT_DB - Auto selects container with a name matching the variable value. Used in: db\n\n"
         printf "Usage:\n"
         printf "\tdock <cmd>\n"
         printf "\tdock <cmd> [<initial_query>] # automatically selects first match\n"
@@ -113,7 +114,7 @@ function dock
                 docker container ls --format "table {{.ID}}\t{{.Names}}\t{{.Ports}}" | \
                     awk 'NR > 1' | \
                     grep -- "->$pgport" |
-                    fzf --header="PostgreSQL containers" --with-nth=2
+                    fzf -q "$__DOCK_PROJECT_DB" -1 --header="PostgreSQL containers" --with-nth=2
             )
 
             if test -z "$container"
