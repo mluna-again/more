@@ -43,6 +43,7 @@ function dock
         printf "\texec\n"
         printf "\tpostgres\n"
         printf "\tdb\n"
+        printf "\ttest\n"
         printf "Usage:\n"
         printf "\tdock <cmd>\n"
         printf "\tdock <cmd> [<initial_query>] # automatically selects first match\n"
@@ -59,6 +60,25 @@ function dock
 
         case down
             docker compose down
+
+        case test
+            set -l cmd "$query"
+            if test -z "$cmd"
+              set cmd "mix test"
+              echo "no cmd provided. defaulting to $cmd" 2>&1
+            end
+
+            set -l id (
+                docker container ls --format "table {{.ID}}\t{{.Names}}\t{{.Status}}" | awk 'NR > 1' | \
+                    fzf --header="Choose container to test" | \
+                    awk '{print $1}'
+            )
+
+            if test -z "$id"
+                return 1
+            end
+
+            docker container exec --detach-keys="ctrl-@" -it "$id" sh -c "$cmd"
 
         case postgres db
             set -l use_pgcli 1
