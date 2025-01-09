@@ -302,6 +302,7 @@ require("lazy").setup({
           elixir = { "mix" },
           python = { "black" },
           c = { "clang-format" },
+          cpp = { "clang-format" },
         },
       })
       vim.api.nvim_create_user_command("W", function()
