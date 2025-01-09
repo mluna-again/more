@@ -62,7 +62,7 @@ function dock
             docker compose down
 
         case test
-            set -l cmd "$query"
+            set -l cmd "$argv[2..-1]"
             if test -z "$cmd"
               set cmd "mix test"
               echo "no cmd provided. defaulting to $cmd" 2>&1
