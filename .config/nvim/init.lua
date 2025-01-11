@@ -25,7 +25,15 @@ if not vim.loop.fs_stat(lazypath) then
 end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
+vim.cmd("packadd cfilter")
+
 require("lazy").setup({
+  {
+    "kevinhwang91/nvim-bqf",
+    ft = "qf",
+    config = function()
+    end,
+  },
   {
     "mattn/emmet-vim",
     config = function()
@@ -371,3 +379,5 @@ vim.keymap.set("n", "<leader>wJ", "<C-w>J", { desc = "Move window down" })
 vim.keymap.set("n", "<leader>wK", "<C-w>K", { desc = "Move window up" })
 vim.keymap.set("n", "<leader>ss", "<cmd>SessionSave<cr>", { desc = "Save session" })
 vim.keymap.set("n", "<leader>sl", "<cmd>SessionLoad<cr>", { desc = "Load session" })
+vim.keymap.set("n", "<C-n>", "<cmd>cnext<cr>", { desc = "Go to next QuickList item" })
+vim.keymap.set("n", "<C-p>", "<cmd>cprevious<cr>", { desc = "Go to prev QuickList item" })
