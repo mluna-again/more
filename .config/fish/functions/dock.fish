@@ -44,6 +44,7 @@ function dock
         printf "\tpostgres\n"
         printf "\tdb\n"
         printf "\ttest\n"
+        printf "\tbuild\n"
         printf "Special Environment Variables:\n"
         printf "\$__DOCK_PROJECT_NAME - Auto selects container with a name matching the variable value. Used in: test\n\n"
         printf "\$__DOCK_PROJECT_DB - Auto selects container with a name matching the variable value. Used in: db\n\n"
@@ -63,6 +64,9 @@ function dock
 
         case down
             docker compose down
+
+        case build
+            docker compose build
 
         case test
             set -l cmd "$argv[2..-1]"
