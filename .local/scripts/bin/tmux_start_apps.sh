@@ -9,7 +9,7 @@ while read -r pane; do
   shell="$(awk '{print $2}' <<< "$pane")"
   cwd="$(awk '{print $3}' <<< "$pane")"
 
-  if grep -ivq "$shell" <<< "$_SHELLS"; then
+  if grep -qiv "$shell" <<< "$_SHELLS"; then
     continue
   fi
 
@@ -19,6 +19,6 @@ while read -r pane; do
   fi
 done < <(tmux list-panes -F '#{pane_id} #{pane_current_command} #{pane_current_path}')
 
-[ "$apps_ran" -eq 0 ] && tmux display 'No apps in current window'
+[ "$apps_ran" -eq 0 ] && tmux display 'No apps in current window or already running'
 
 true

@@ -8,7 +8,7 @@ cmd=$(tmux command-prompt 'display -p "%%%"')
 while read -r pane; do
   id="$(awk '{print $1}' <<< "$pane")"
   shell="$(awk '{print $2}' <<< "$pane")"
-  if grep -qvi "$shell" <<< "$_SHELLS"; then
+  if grep -qiv "$shell" <<< "$_SHELLS"; then
     continue
   fi
 
