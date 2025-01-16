@@ -3,7 +3,7 @@
 _SHELLS="bash fish sh zsh"
 
 cmd=$(tmux command-prompt 'display -p "%%%"')
-[ -z "$cmd" ] && exit 1
+[ -z "$cmd" ] && exit 0
 
 while read -r pane; do
   id="$(awk '{print $1}' <<< "$pane")"
@@ -14,3 +14,5 @@ while read -r pane; do
 
   tmux send-keys -t "$id" "$cmd" Enter
 done < <(tmux list-panes -F "#{pane_id} #{pane_current_command}")
+
+true
