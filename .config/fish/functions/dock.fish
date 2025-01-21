@@ -147,7 +147,7 @@ function dock
 
             set -l id (
                 docker container ls --format "table {{.ID}}\t{{.Names}}\t{{.Status}}" | awk 'NR > 1' | \
-                    fzf --header="Choose container to exec into" | \
+                    fzf --header="Choose container to exec into" -q "$__DOCK_PROJECT_NAME" -1 | \
                     awk '{print $1}'
             )
 
