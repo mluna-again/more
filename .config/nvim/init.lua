@@ -312,6 +312,7 @@ require("lazy").setup({
           elixir = { "mix" },
           python = { "black" },
           c = { "clang-format" },
+          css = { "prettier" },
           cpp = { "clang-format" },
         },
       })
