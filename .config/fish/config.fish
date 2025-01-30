@@ -70,6 +70,7 @@ abbr --add emacsc "emacsclient -a '' -c --tty"
 abbr --add setup-idf source "$HOME/.local/esp/esp-idf/export.fish"
 abbr --add esp idf.py
 abbr --add rsync rsync -avh --info=progress2
+abbr --add p fish -P
 
 if test "$TERM" = xterm-kitty
   abbr --add ssh kitten ssh
