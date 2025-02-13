@@ -283,6 +283,7 @@ require("lazy").setup({
         tsserver = {},
         cssls = {},
         clangd = {},
+        solargraph = {},
       }
 
       require("mason").setup({})
@@ -311,6 +312,7 @@ require("lazy").setup({
           lua = { "stylua" },
           elixir = { "mix" },
           python = { "black" },
+          ruby = { "rubocop" },
           c = { "clang-format" },
           css = { "prettier" },
           cpp = { "clang-format" },
