@@ -7,6 +7,7 @@ alias dotsR="yadm reset --hard"
 alias dotsd="yadm diff"
 alias dotsdd="yadm diff --cached"
 alias dotsl="yadm log"
+alias work="SHELL=/usr/bin/fish toolbox enter work"
 dotsc() {
   yadm commit -m "$*"
 }
