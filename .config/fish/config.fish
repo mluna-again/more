@@ -72,6 +72,7 @@ abbr --add esp idf.py
 abbr --add rsync rsync -avh --info=progress2
 abbr --add p fish -P
 abbr --add un podman unshare
+abbr --add work SHELL=/usr/bin/fish toolbox enter work
 
 if test "$TERM" = xterm-kitty
   abbr --add ssh kitten ssh
