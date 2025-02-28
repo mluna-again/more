@@ -136,5 +136,5 @@ function box
     distrobox create -n "$name" -H "$HOME/Boxes/$name" --hostname "$name"
   end
 
-  distrobox enter "$name"
+  distrobox enter --no-workdir "$name"
 end
