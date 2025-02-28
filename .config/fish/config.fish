@@ -121,3 +121,20 @@ end
 if test -n "$fish_private_mode"
   set -x STARSHIP_FISH_PRIVATE_MODE "$fish_private_mode"
 end
+
+# Distrobox stuff
+function box
+  set -l name $argv[1]
+  test -z "$name"; and return 1
+  set -l existing (distrobox ls | grep "$name");
+  if test -z "$existing"
+    read -P "box $name doesnt exist, create it? [N/y] " response
+    if test (echo "$response" | tr '[:upper:]' '[:lower:]') != y
+      return 1
+    end
+
+    distrobox create -n "$name" -H "$HOME/Boxes/$name" --hostname "$name"
+  end
+
+  distrobox enter "$name"
+end
