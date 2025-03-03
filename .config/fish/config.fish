@@ -125,7 +125,11 @@ end
 # Distrobox stuff
 function box
   set -l name $argv[1]
-  test -z "$name"; and return 1
+  if test -z "$name"
+    distrobox ls
+    return
+  end
+
   set -l existing (distrobox ls | grep "$name");
   if test -z "$existing"
     read -P "box $name doesnt exist, create it? [N/y] " response
@@ -133,8 +137,8 @@ function box
       return 1
     end
 
-    distrobox create -n "$name" -H "$HOME/Boxes/$name" --hostname "$name"
+    distrobox create -n "$name" --hostname "$name"
   end
 
-  distrobox enter --no-workdir "$name"
+  distrobox enter "$name" -- $argv[2..]
 end
