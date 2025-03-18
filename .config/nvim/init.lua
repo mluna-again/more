@@ -386,3 +386,4 @@ vim.keymap.set("n", "<leader>ss", "<cmd>SessionSave<cr>", { desc = "Save session
 vim.keymap.set("n", "<leader>sl", "<cmd>SessionLoad<cr>", { desc = "Load session" })
 vim.keymap.set("n", "<C-n>", "<cmd>cnext<cr>", { desc = "Go to next QuickList item" })
 vim.keymap.set("n", "<C-p>", "<cmd>cprevious<cr>", { desc = "Go to prev QuickList item" })
+vim.keymap.set("n", "<C-y>", [[:let @+ = substitute(expand("%:p"), getenv("HOME"), ".", "")<cr>]], { desc = "Yanks the current file relative path to the system clipboard" })
