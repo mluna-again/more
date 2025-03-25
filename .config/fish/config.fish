@@ -14,7 +14,8 @@ set -U fish_user_paths /usr/local/bin \
     "$HOME/.local/scripts/bin" \
     "$HOME/.local/share/bob/nvim-bin" \
     "$HOME/.local/gem/bin" \
-    "$HOME/Scripts"
+    "$HOME/Scripts" \
+    "$HOME/.local/zig"
 
 bind -M insert \ce end-of-line
 bind -M insert \ca beginning-of-line
