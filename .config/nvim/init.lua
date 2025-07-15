@@ -18,6 +18,7 @@ vim.opt.expandtab = true
 vim.opt.laststatus = 3
 vim.opt.spelllang:append("es_MX")
 vim.opt.spelllang:append("fr")
+vim.opt.spelllang:append("jp")
 
 -- PLUGINS
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
