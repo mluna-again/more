@@ -160,7 +160,7 @@ function dock
                 return 1
             end
 
-            docker container exec --detach-keys="ctrl-@" -it "$id" "$shell"
+            docker container exec --detach-keys="ctrl-@" -it "$id" sh -c "$shell"
 
         case ports
             set -l line (docker container ls --format "table {{.Names}}\t{{.Ports}}" | \
