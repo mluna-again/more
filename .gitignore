@@ -17,3 +17,5 @@ session.vim*
 .config/fish/fish_variables
 
 /__START__.sh
+
+.npmrc

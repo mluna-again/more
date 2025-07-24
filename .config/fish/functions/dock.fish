@@ -48,6 +48,7 @@ function dock
         printf "Special Environment Variables:\n"
         printf "\$__DOCK_PROJECT_NAME - Auto selects container with a name matching the variable value. Used in: test\n\n"
         printf "\$__DOCK_PROJECT_DB - Auto selects container with a name matching the variable value. Used in: db\n\n"
+        printf "\$__DOCK_PROJECT_CMD - Default shell value. Used in: exec\n\n"
         printf "Usage:\n"
         printf "\tdock <cmd>\n"
         printf "\tdock <cmd> [<initial_query>] # automatically selects first match\n"
@@ -140,6 +141,10 @@ function dock
 
         case exec
             set -l shell "$query"
+            if test -z "$shell"
+              set shell "$__DOCK_PROJECT_CMD"
+            end
+
             if test -z "$shell"
                 set shell bash
                 echo "no shell provided. defaulting to bash" 2>&1
