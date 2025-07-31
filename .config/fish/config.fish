@@ -103,13 +103,19 @@ command -v bat &>/dev/null; and function cat
     bat --theme kanagawa-dragon $argv
 end
 
-if uname | grep -i darwin &>/dev/null
-    set -l p (brew --prefix asdf)/libexec/asdf.fish
-    test -e "$p"; and source "$p"
+# ASDF configuration code
+if test -z $ASDF_DATA_DIR
+    set _asdf_shims "$HOME/.asdf/shims"
 else
-    set -l p ~/.asdf/asdf.fish
-    test -e "$p"; and source "$p"
+    set _asdf_shims "$ASDF_DATA_DIR/shims"
 end
+
+# Do not use fish_add_path (added in Fish 3.2) because it
+# potentially changes the order of items in PATH
+if not contains $_asdf_shims $PATH
+    set -gx --prepend PATH $_asdf_shims
+end
+set --erase _asdf_shims
 
 if status is-interactive
     # Commands to run in interactive sessions can go here
