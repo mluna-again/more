@@ -39,7 +39,6 @@ set -gx ELIXIR_ERL_OPTIONS "-kernel shell_history enabled"
 set -gx ERL_AFLAGS "-kernel shell_history enabled -kernel shell_history_file_bytes 1024000"
 set -gx GOPATH "$HOME/.local/go"
 set -gx SHELLCHECK_OPTS "-e SC2001"
-set -gx GEM_HOME "$HOME/.local/gem"
 set -gx MANPAGER "nvim +Man!"
 
 abbr --add pg pgcli -h 127.0.0.1 -u postgres

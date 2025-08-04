@@ -65,8 +65,19 @@ require("lazy").setup({
   {
     "rebelot/kanagawa.nvim",
     config = function()
+      require("kanagawa").setup({
+        colors = {
+          theme = {
+            all = {
+              ui = {
+                bg = "none"
+              },
+            },
+          },
+        },
+      })
       vim.cmd("colorscheme kanagawa-dragon")
-    end
+    end,
   },
   {
     "nvim-telescope/telescope.nvim",
