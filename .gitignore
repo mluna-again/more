@@ -19,3 +19,6 @@ session.vim*
 /__START__.sh
 
 .npmrc
+
+/.claude
+CLAUDE.md
