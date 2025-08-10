@@ -12,5 +12,5 @@ fi
 
 options="'Player' m 'display-popup -w 95% -h 95% -y S -EE docker container exec -it $id bop tui player'"
 options="${options} 'Selector' s 'display-popup -w 95% -h 95% -y S -EE docker container exec -it $id bop tui select'"
-options="${options} 'Queue' Q 'display-popup -w 95% -h 95% -y S -EE docker container exec -it $id bop tui queue'"
+options="${options} 'Queue' q 'display-popup -w 95% -h 95% -y S -EE docker container exec -it $id bop tui queue'"
 eval tmux display-menu -T " Runner " -x C -y "10%" "$options"
