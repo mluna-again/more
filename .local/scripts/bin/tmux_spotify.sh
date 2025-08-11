@@ -16,6 +16,7 @@
 # options="${options} 'Queue' q 'display-popup -w 95% -h 95% -y S -EE docker container exec -it $id bop tui queue'"
 # eval tmux display-menu -T " Runner " -x C -y "10%" "$options"
 
+# cargo install spotify_player --features image,fzf
 if ! command -v spotify_player &>/dev/null; then
   tmux display-message "spotify_player is not installed. Remember to run spotify_player authenticate afterwards."
   exit 0
