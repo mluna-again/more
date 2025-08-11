@@ -46,7 +46,7 @@ require("lazy").setup({
           {
             section = "terminal",
             cmd = "/bin/cat ~/.local/ascii/mewo.txt",
-            height = 15,
+            height = 17,
             padding = 0,
           },
           { section = "header", padding = 0 },
