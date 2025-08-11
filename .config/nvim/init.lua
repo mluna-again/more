@@ -78,6 +78,12 @@ require("lazy").setup({
     },
   },
   {
+    "sindrets/diffview.nvim",
+    opts = {
+      use_icons = false
+    },
+  },
+  {
     "kevinhwang91/nvim-bqf",
     ft = "qf",
     config = function()
