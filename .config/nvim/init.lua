@@ -43,7 +43,13 @@ require("lazy").setup({
         enabled = true,
         pane_gap = 1,
         sections = {
-          { section = "header", padding = 0 },
+          -- { section = "header", padding = 0 },
+          {
+            section = "terminal",
+            cmd = "/bin/cat ~/.local/ascii/mewo.txt",
+            height = 29,
+            padding = 0,
+          },
           { section = "keys", gap = 0, padding = {2, 0} },
           { section = "startup" },
         },
@@ -70,7 +76,7 @@ require("lazy").setup({
 ⠀▌                                                     ▐  
 ⠀▌ Meow? (Waiting for something to happen?)            ▐  
 ⠀▌                                                     ▐  
-⠀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ]],
+⠀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀]],
           keys = {
             { icon = " ", key = "<leader>ff", desc = "Find Files", action = ":lua Snacks.dashboard.pick('files')" },
             { icon = " ", key = "<leader>cn", desc = "New File", action = ":ene | startinsert" },
