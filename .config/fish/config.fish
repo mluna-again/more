@@ -73,6 +73,7 @@ abbr --add p fish -P
 abbr --add un podman unshare
 abbr --add work SHELL=/usr/bin/fish toolbox enter work
 abbr --add mv mv -i
+abbr --add rubydocs gem rdoc --all --ri --no-rdoc
 
 if test "$TERM" = xterm-kitty
   abbr --add ssh kitten ssh
