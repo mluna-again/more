@@ -2,7 +2,7 @@
 
 _SHELLS="bash fish sh zsh"
 
-cmd=$(tmux command-prompt 'display -p "%%%"')
+cmd=$(tmux command-prompt 'display -p "%%%"' | sed 's|;|\\;|g')
 [ -z "$cmd" ] && exit 0
 
 while read -r pane; do
