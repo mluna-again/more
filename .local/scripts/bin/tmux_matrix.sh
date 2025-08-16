@@ -39,11 +39,11 @@ if (( pane_count != 1 )) && (( pane_count != 5 )); then
 fi
 
 if (( pane_count == 1 )); then
-  tmux split-window -h -l "30%" || die "Failed at split-window -h -l '30%'"
-  tmux split-window -v -l "50%" || die "Failed at split-window -v -l '50%'"
-  tmux split-window -v -l "50%" || die "Failed at split-window -v -l '50%'"
+  tmux split-window -c '#{pane_current_path}' -h -l "30%" || die "Failed at split-window -h -l '30%'"
+  tmux split-window -c '#{pane_current_path}' -v -l "50%" || die "Failed at split-window -v -l '50%'"
+  tmux split-window -c '#{pane_current_path}' -v -l "50%" || die "Failed at split-window -v -l '50%'"
   tmux select-pane -t "$current_pane" || die "Failed at select-pane -t \$current_pane"
-  tmux split-window -v -l "25%" || die "Failed at split-window -v -l '25%'"
+  tmux split-window -c '#{pane_current_path}' -v -l "25%" || die "Failed at split-window -v -l '25%'"
   tmux select-pane -t "$current_pane" || die "Failed at select-pane -t \$current_pane"
 
   exit 0
