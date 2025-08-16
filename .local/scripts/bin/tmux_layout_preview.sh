@@ -4,7 +4,7 @@ padd=$(tput cols) || exit
 padd=$(( padd / 2 ))
 
 case "$1" in
-  "Even Horizontal")
+  "Even Vertical")
     cat - <<EOF | ruby -ne "puts \$_.rjust($padd + \$_.size/2, ' ')"
 ┏━━━━━━┳━━━━━━┓
 ┃      ┃      ┃
@@ -15,7 +15,7 @@ case "$1" in
 ┗━━━━━━┻━━━━━━┛
 EOF
     ;;
-  "Even Vertical")
+  "Even Horizontal")
     cat - <<EOF | ruby -ne "puts \$_.rjust($padd + \$_.size/2, ' ')"
 ┏━━━━━━━━━━━━━┓
 ┃             ┃
