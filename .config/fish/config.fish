@@ -63,6 +63,9 @@ abbr --add gs git status
 abbr --add ga git add .
 abbr --add gA git add
 abbr --add gr git reset --soft
+abbr --add gwl git worktree list
+abbr --add --set-cursor gwc git worktree add ~/Worktrees/(basename (pwd))/%
+abbr --add --set-cursor gwr git worktree remove ~/Worktrees/(basename (pwd))/%
 abbr --add gofmt go fmt ./...
 abbr --add dateiso date +"%Y-%m-%dT%H:%M:%S%z"
 abbr --add emacsc "emacsclient -a '' -c --tty"
