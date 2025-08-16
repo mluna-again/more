@@ -2,9 +2,10 @@
 
 goto_top_pane() {
   count=0
-  while true; do
+  while [[ "$(tmux display -p -F '#{pane_at_top}')" != 1 ]]; do
     tmux select-pane -U || exit
     if (( count > 5 )); then
+      tmux display "Ok. Something is wrong, can't find top pane. Aborting."
       break
     fi
     count=$(( count + 1 ))
@@ -13,9 +14,10 @@ goto_top_pane() {
 
 goto_bottom_pane() {
   count=0
-  while true; do
+  while [[ "$(tmux display -p -F '#{pane_at_bottom}')" != 1 ]]; do
     tmux select-pane -D || exit
     if (( count > 5 )); then
+      tmux display "Ok. Something is wrong, can't find bottom pane. Aborting."
       break
     fi
     count=$(( count + 1 ))
@@ -54,7 +56,6 @@ goto_top_pane
 tmux resize-pane -t . -y "50%" || exit
 tmux select-pane -D || exit
 tmux resize-pane -t . -y "25%" || exit
-tmux select-pane -t "$first_pane" || exit
 tmux select-pane -D || exit
 tmux resize-pane -t . -y "25%" || exit
 tmux select-pane -t "$first_pane" || exit
