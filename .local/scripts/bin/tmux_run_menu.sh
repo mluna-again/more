@@ -9,5 +9,6 @@ options="${options} 'Clear panes' C 'run-shell ~/.local/scripts/bin/tmux_clear_e
 options="${options} 'Spotify' m 'run-shell ~/.local/scripts/bin/tmux_spotify.sh'"
 options="${options} 'Matrix' M 'run-shell ~/.local/scripts/bin/tmux_matrix.sh'"
 options="${options} 'Close empty panels' X 'run-shell ~/.local/scripts/bin/tmux_close_empty_panels.sh'"
+options="${options} 'Autism' $ 'run-shell ~/.local/scripts/bin/tmux_hacktheworld.sh'"
 
 eval tmux display-menu -T " Runner " -x C -y "10%" "$options"
