@@ -73,7 +73,7 @@ while read -r pane; do
       tmux send-keys -t "$id" ~/.local/scripts/bin/rain.sh Enter
       ;;
     2)
-      tmux send-keys -t "$id" luna Enter
+      tmux send-keys -t "$id" luna Space -pet Space cat Space -animation Space sleeping Enter
       ;;
     3)
       tmux send-keys -t "$id" ~/.local/scripts/bin/amogus.sh Enter
