@@ -7,7 +7,7 @@ options="${options} 'Run command' r 'run-shell ~/.local/scripts/bin/tmux_run_cmd
 options="${options} 'Send Keys' k 'run-shell ~/.local/scripts/bin/tmux_sendkeys_everypane.sh'"
 options="${options} 'Clear panes' C 'run-shell ~/.local/scripts/bin/tmux_clear_everypane.sh'"
 options="${options} 'Spotify' m 'run-shell ~/.local/scripts/bin/tmux_spotify.sh'"
-options="${options} 'Matrix' M 'run-shell -C ~/.local/scripts/bin/tmux_matrix.sh'"
+options="${options} 'Matrix' M 'run-shell ~/.local/scripts/bin/tmux_matrix.sh'"
 options="${options} 'Close empty panels' X 'run-shell ~/.local/scripts/bin/tmux_close_empty_panels.sh'"
 options="${options} 'Autism' $ 'run-shell ~/.local/scripts/bin/tmux_hacktheworld.sh'"
 

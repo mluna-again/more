@@ -1,8 +1,10 @@
 #! /usr/bin/env bash
 
+exit_code="$1"
+
 die() {
   tmux display "$1"
-  exit 1
+  exit "${exit_code:-0}"
 }
 
 goto_top_pane() {
@@ -35,8 +37,7 @@ pane_count=$(tmux list-panes | wc -l) || die "Failed at \$pane_coun"
 
 if (( pane_count != 1 )) && (( pane_count != 5 )); then
   tmux display-message "This command only works on windows with 1 or 5 panes."
-  echo booo
-  exit 0
+  exit "${exit_code:-0}"
 fi
 
 if (( pane_count == 1 )); then
