@@ -15,6 +15,13 @@ looks_empty() {
   return 1
 }
 
+last_one() {
+  local count
+  count=$(tmux list-panes | wc -l)
+
+  [ "$count" -eq 1 ]
+}
+
 response=$(tmux command-prompt -1 -p "Are you sure? [N/y] " 'display -p %%')
 if ! grep -iq "y" <<< "$response"; then
   exit 0
@@ -25,6 +32,7 @@ while read -r pane; do
   cmd=$(awk '{print $2}' <<< "$pane")
 
   looks_empty "$cmd" || continue
+  last_one && continue
 
   tmux kill-pane -t "$id"
 done < <(tmux list-panes -F '#{pane_id} #{pane_current_command}')

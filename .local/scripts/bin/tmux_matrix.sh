@@ -35,6 +35,7 @@ pane_count=$(tmux list-panes | wc -l) || die "Failed at \$pane_coun"
 
 if (( pane_count != 1 )) && (( pane_count != 5 )); then
   tmux display-message "This command only works on windows with 1 or 5 panes."
+  echo booo
   exit 0
 fi
 

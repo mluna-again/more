@@ -54,7 +54,8 @@ if (( neovim_count < 1 )); then
   exit 0
 fi
 
-~/.local/scripts/bin/tmux_matrix.sh || exit
+output=$(~/.local/scripts/bin/tmux_matrix.sh) || exit
+[ -n "$output" ] && exit 0
 
 index=0
 while read -r pane; do
