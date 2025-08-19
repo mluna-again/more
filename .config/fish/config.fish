@@ -79,10 +79,6 @@ abbr --add mv mv -i
 abbr --add rubydocs gem rdoc --all --ri --no-rdoc
 abbr --add llsblk lsblk -o "NAME,MAJ:MIN,RM,SIZE,RO,FSTYPE,MOUNTPOINT,UUID"
 
-if test "$TERM" = xterm-kitty
-  abbr --add ssh kitten ssh
-end
-
 set fish_cursor_default block
 set fish_cursor_insert block
 set fish_cursor_replace_one underscore
