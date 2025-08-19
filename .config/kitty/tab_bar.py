@@ -11,6 +11,8 @@ from kitty.utils import color_as_int, log_error
 
 opts = get_options()
 
+MARGIN = 0
+
 SHELLS = {
     "fish": True,
     "bash": True,
@@ -32,6 +34,9 @@ def draw_tab(
     is_last: bool,
     extra_data: ExtraData,
 ) -> int:
+    if index == 1:
+        screen.cursor.x = MARGIN
+
     # draw left side (tab by tab)
     accessor = TabAccessor(tab.tab_id)
 
@@ -48,7 +53,7 @@ def draw_tab(
     screen.cursor.bg = as_rgb(color_as_int(bg))
     screen.cursor.fg = as_rgb(color_as_int(fg))
 
-    activity_indicator = ""
+    activity_indicator = " "
     if tab.has_activity_since_last_focus or tab.needs_attention:
         activity_indicator = "*"
 
@@ -56,9 +61,14 @@ def draw_tab(
 
     # draw right side
     if is_last:
-        right_side = " KITTY "
         width = screen.columns
-        screen.cursor.x = width - len(right_side)
+        right_side = " KITTY "
+        # fill space
+        padd = width - screen.cursor.x - len(right_side) - MARGIN
+        screen.cursor.bg = as_rgb(color_as_int(opts.inactive_tab_background))
+        screen.cursor.fg = as_rgb(color_as_int(opts.inactive_tab_background))
+        screen.draw(" "*padd)
+
         screen.cursor.bg = as_rgb(color_as_int(opts.active_tab_background))
         screen.cursor.fg = as_rgb(color_as_int(opts.active_tab_foreground))
         screen.draw(right_side)
