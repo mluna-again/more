@@ -57,7 +57,7 @@ def draw_tab(
     if tab.has_activity_since_last_focus or tab.needs_attention:
         activity_indicator = "*"
 
-    screen.draw(f" {index} {title}{activity_indicator} ")
+    screen.draw(f"  {index} {title}{activity_indicator} ")
 
     # draw right side
     if is_last:
