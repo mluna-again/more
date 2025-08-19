@@ -15,12 +15,12 @@ vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.softtabstop = 2
 vim.opt.expandtab = true
-vim.opt.laststatus = 3
+vim.opt.laststatus = 0
+vim.opt.cmdheight = 0
 vim.opt.spelllang:append("es_MX")
 vim.opt.spelllang:append("fr")
 vim.opt.spelllang:append("jp")
 vim.opt.fillchars = {eob = " "}
-vim.opt.ruler = false
 
 -- PLUGINS
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -186,7 +186,7 @@ require("lazy").setup({
             CursorLine = { bg = theme.syn.bg, fg = theme.ui.fg },
             CursorLineNr = { bg = theme.syn.bg, fg = theme.syn.comment },
 
-            StatusLine = { bg = theme.ui.bg_p1, fg = theme.ui.fg },
+            StatusLine = { bg = "none", fg = theme.ui.fg },
           }
         end,
         colors = {
