@@ -1,5 +1,5 @@
 add_newline = false
-format = "${custom.icon}$directory$hostname "
+format = "${custom.icon}$hostname$directory "
 right_format = "$git_status$git_branch"
 palette = "kanagawa-dragon"
 
@@ -16,6 +16,7 @@ format = "[ $path ](bg:black fg:white)"
 
 [hostname]
 format = "[ $hostname ](bg:black_dark fg:white)"
+ssh_only = false
 
 [username]
 show_always = true
