@@ -1,5 +1,5 @@
 add_newline = false
-format = "${custom.icon}$directory "
+format = "${custom.icon}$directory$hostname "
 right_format = "$git_status$git_branch"
 palette = "kanagawa-dragon"
 
@@ -13,6 +13,9 @@ red = "#c4746e"
 
 [directory]
 format = "[ $path ](bg:black fg:white)"
+
+[hostname]
+format = "[ $hostname ](bg:black_dark fg:white)"
 
 [username]
 show_always = true
