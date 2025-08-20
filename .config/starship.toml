@@ -1,5 +1,5 @@
 add_newline = false
-format = "${custom.icon}$hostname$directory$status "
+format = "${custom.fish_private}${custom.icon}$hostname$directory$status "
 right_format = "$git_status$git_branch"
 palette = "kanagawa-dragon"
 
@@ -45,5 +45,9 @@ deleted = " * "
 format = "[$all_status](bg:black_dark fg:red)"
 
 [custom.icon]
+format = "[ λ ](bg:black fg:yellow)"
+when = 'test -z "$STARSHIP_FISH_PRIVATE_MODE"'
+
+[custom.fish_private]
 format = "[ λ ](bg:yellow fg:black)"
-when = true
+when = 'test -n "$STARSHIP_FISH_PRIVATE_MODE"'
