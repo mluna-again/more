@@ -9,6 +9,7 @@ yellow = "#c4b28a"
 black = "#393836"
 black_dark = "#282727"
 white = "#c5c9c5"
+red = "#c4746e"
 
 [directory]
 format = "[ $path ](bg:black fg:white)"
@@ -22,7 +23,18 @@ format = "[ $branch ](bg:black fg:white)[ $symbol ](bg:yellow fg:black)"
 symbol = "GIT"
 
 [git_status]
-format = "[ * ](bg:black_dark fg:white)"
+conflicted = " * "
+ahead = " * "
+behind = " * "
+diverged = " * "
+up_to_date = ""
+untracked = " * "
+stashed = " * "
+modified = " * "
+staged = " * "
+renamed = " * "
+deleted = " * "
+format = "[$all_status](bg:black_dark fg:red)"
 
 [custom.icon]
 format = "[ λ ](bg:yellow fg:black)"
