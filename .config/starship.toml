@@ -1,11 +1,13 @@
 add_newline = false
 format = "${custom.icon}$directory "
+right_format = "$git_status$git_branch"
 palette = "kanagawa-dragon"
 
 [palettes.kanagawa-dragon]
 grey = "#a6a69c"
 yellow = "#c4b28a"
 black = "#393836"
+black_dark = "#282727"
 white = "#c5c9c5"
 
 [directory]
@@ -14,6 +16,13 @@ format = "[ $path ](bg:black fg:white)"
 [username]
 show_always = true
 format = "$user"
+
+[git_branch]
+format = "[ $branch ](bg:black fg:white)[ $symbol ](bg:yellow fg:black)"
+symbol = "GIT"
+
+[git_status]
+format = "[ * ](bg:black_dark fg:white)"
 
 [custom.icon]
 format = "[ λ ](bg:yellow fg:black)"
