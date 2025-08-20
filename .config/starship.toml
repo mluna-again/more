@@ -27,7 +27,7 @@ show_always = true
 format = "$user"
 
 [git_branch]
-format = "[ $branch ](bg:black fg:white)[ $symbol ](bg:yellow fg:black)"
+format = "[ $branch ](bg:black fg:white)[ $symbol ](bg:black_dark fg:white)"
 symbol = "GIT"
 
 [git_status]
