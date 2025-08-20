@@ -1,5 +1,5 @@
 add_newline = false
-format = "${custom.fish_private}${custom.icon}$hostname$directory$status "
+format = "$jobs${custom.fish_private}${custom.icon}$hostname$directory$status "
 right_format = "$git_status$git_branch"
 palette = "kanagawa-dragon"
 
@@ -43,6 +43,11 @@ staged = " * "
 renamed = " * "
 deleted = " * "
 format = "[$all_status](bg:black_dark fg:red)"
+
+[jobs]
+format = "[ $symbol $number ](bg:red fg:black)"
+number_threshold = 1
+symbol_threshold = 1
 
 [custom.icon]
 format = "[ λ ](bg:black fg:yellow)"
