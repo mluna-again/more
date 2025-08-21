@@ -60,6 +60,7 @@ abbr --add gb "git checkout (git branch --sort=-committerdate -a | sed 's/\*/ /'
 abbr --add gP git pull
 abbr --add gp git push
 abbr --add gs git status
+abbr --add gss git stash list -p
 abbr --add ga git add .
 abbr --add gA git add
 abbr --add gr git reset --soft
