@@ -354,6 +354,10 @@ require("lazy").setup({
         },
         completion = { completeopt = "menu,menuone,noinsert" },
         mapping = cmp.mapping.preset.insert({
+          ["<CR>"] = cmp.mapping.confirm({
+            behavior = cmp.ConfirmBehavior.Replace,
+            select = true,
+          }),
           ["<C-n>"] = cmp.mapping.select_next_item(),
 
           ["<C-p>"] = cmp.mapping.select_prev_item(),
