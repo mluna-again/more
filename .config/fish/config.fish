@@ -31,7 +31,7 @@ bind --mode insert --sets-mode default jj backward-char repaint
 set -gx CURL_HOME "$HOME/.config/curl"
 set -gx HOMEBREW_NO_AUTO_UPDATE 1
 set -gx COLORTERM truecolor
-set -gx VISUAL "nvim -u NONE"
+set -gx VISUAL nvim
 set -gx EDITOR "$VISUAL"
 set -gx FZF_DEFAULT_COMMAND 'ag -g ""'
 set -gx ELIXIR_ERL_OPTIONS "-kernel shell_history enabled"
