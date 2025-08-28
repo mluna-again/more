@@ -34,6 +34,10 @@ vim.cmd("packadd cfilter")
 
 require("lazy").setup({
   {
+    "gpanders/nvim-parinfer",
+    commit = "5ca09287ab3f4144f78ff7977fabc27466f71044",
+  },
+  {
     "folke/snacks.nvim",
     priority = 1000,
     lazy = false,
