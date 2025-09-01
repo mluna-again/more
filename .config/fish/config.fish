@@ -70,7 +70,7 @@ abbr --add --set-cursor gwr git worktree remove ~/Worktrees/(basename (pwd))/%
 abbr --add gofmt go fmt ./...
 abbr --add dateiso date +"%Y-%m-%dT%H:%M:%S%z"
 abbr --add emacsc "emacsclient -a '' -c --tty"
-abbr --add setup-idf source "$HOME/.local/esp/esp-idf/export.fish"
+abbr --add setup-idf source "$HOME/esp/esp-idf/export.fish"
 abbr --add esp idf.py
 abbr --add rsync rsync -avh --info=progress2
 abbr --add p fish -P
