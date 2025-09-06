@@ -23,7 +23,7 @@ case "$layout" in
     layout="Even Horizontal"
     ;;
 esac
-layout="$(sed 's/ /-/g' <<< $layout | tr '[:upper:]' '[:lower:]')"
+layout="$(sed 's/ /-/g' <<< "$layout" | tr '[:upper:]' '[:lower:]')"
 
 
 tmux select-layout "$layout" && \

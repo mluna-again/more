@@ -510,6 +510,24 @@ vim.api.nvim_create_user_command("SessionLoad", function()
   vim.cmd("source session.vim")
 end, {})
 
+vim.api.nvim_create_user_command("ShellCheck", function()
+  local win = vim.api.nvim_get_current_win()
+
+  vim.cmd("compiler shellcheck")
+  vim.cmd("silent make %")
+
+  if #vim.call("getqflist") == 0 then
+    vim.cmd("cclose")
+  else
+    vim.cmd("cope")
+  end
+  vim.api.nvim_set_current_win(win)
+end, {})
+vim.api.nvim_create_autocmd({"BufWritePost", "BufEnter"}, {
+  pattern = {"*.sh"},
+  command = "ShellCheck",
+})
+
 -- KEYMAPS
 vim.keymap.set("i", "jj", "<esc>", { desc = "Enter NORMAL mode" })
 vim.keymap.set("n", "dh", "<cmd>nohlsearch<cr>", { desc = "Delete highlighted items" })
