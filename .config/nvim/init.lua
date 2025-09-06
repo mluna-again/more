@@ -427,6 +427,7 @@ require("lazy").setup({
         cssls = {},
         clangd = {},
         solargraph = {},
+        ols = {},
       }
 
       require("mason").setup({})
