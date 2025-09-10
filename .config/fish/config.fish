@@ -16,7 +16,8 @@ set -U fish_user_paths /usr/local/bin \
     "$HOME/.local/gem/bin" \
     "$HOME/Scripts" \
     "$HOME/.local/zig" \
-    "$HOME/.local/odin"
+    "$HOME/.local/odin" \
+    "$HOME/.local/bin/nvim/bin"
 
 bind -M insert \ce end-of-line
 bind -M insert \ca beginning-of-line
@@ -81,6 +82,7 @@ abbr --add mv mv -i
 abbr --add rubydocs gem rdoc --all --ri --no-rdoc
 abbr --add llsblk lsblk -o "NAME,MAJ:MIN,RM,SIZE,RO,FSTYPE,MOUNTPOINT,UUID"
 abbr --add oil nvim -c 'Oil'
+abbr --add nv NVIM_APPNAME=bare_nvim nvim
 
 set fish_cursor_default block
 set fish_cursor_insert block
