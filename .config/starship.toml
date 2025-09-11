@@ -10,6 +10,7 @@ black = "#393836"
 black_dark = "#282727"
 white = "#c5c9c5"
 red = "#c4746e"
+violet = "#8992a7"
 
 [status]
 format = "[ $status ](bg:black_dark fg:red)"
@@ -45,7 +46,7 @@ deleted = " * "
 format = "[$all_status](bg:black_dark fg:red)"
 
 [jobs]
-format = "[ $symbol $number ](bg:red fg:black)"
+format = "[ $symbol $number ](bg:violet fg:black)"
 number_threshold = 1
 symbol_threshold = 1
 
