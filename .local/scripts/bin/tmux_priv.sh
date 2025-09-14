@@ -1,19 +1,6 @@
 #! /usr/bin/env bash
 
-_SHELLS=(
-  fish
-  bash
-  sh
-  zsh
-)
-
-looks_empty() {
-  for shell in "${_SHELLS[@]}"; do
-    grep -iq "$shell" <<< "$1" && return 0
-  done
-
-  return 1
-}
+source ~/.local/scripts/bin/tmux_util.sh || exit
 
 while read -r id cmd; do
   looks_empty "$cmd" || continue

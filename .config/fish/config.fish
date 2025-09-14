@@ -39,7 +39,7 @@ set -gx FZF_DEFAULT_COMMAND 'ag -g ""'
 set -gx ELIXIR_ERL_OPTIONS "-kernel shell_history enabled"
 set -gx ERL_AFLAGS "-kernel shell_history enabled -kernel shell_history_file_bytes 1024000"
 set -gx GOPATH "$HOME/.local/go"
-set -gx SHELLCHECK_OPTS "-e SC2001"
+set -gx SHELLCHECK_OPTS "-e SC2001 -e SC1090"
 set -gx MANPAGER "nvim +Man!"
 set -gx AUTOSSH_PORT 0
 
