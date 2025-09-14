@@ -40,7 +40,7 @@ set -gx ELIXIR_ERL_OPTIONS "-kernel shell_history enabled"
 set -gx ERL_AFLAGS "-kernel shell_history enabled -kernel shell_history_file_bytes 1024000"
 set -gx GOPATH "$HOME/.local/go"
 set -gx SHELLCHECK_OPTS "-e SC2001 -e SC1090"
-set -gx MANPAGER "nvim +Man!"
+set -gx MANPAGER "nvim '+Man!'"
 set -gx AUTOSSH_PORT 0
 
 abbr --add pg pgcli -h 127.0.0.1 -u postgres
@@ -84,6 +84,8 @@ abbr --add rubydocs gem rdoc --all --ri --no-rdoc
 abbr --add llsblk lsblk -o "NAME,MAJ:MIN,RM,SIZE,RO,FSTYPE,MOUNTPOINT,UUID"
 abbr --add oil nvim -c 'Oil'
 abbr --add nv NVIM_APPNAME=bare_nvim nvim
+abbr --add pager $MANPAGER
+abbr --add ss ss -nlput
 
 set fish_cursor_default block
 set fish_cursor_insert block
