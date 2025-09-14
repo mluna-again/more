@@ -25,13 +25,19 @@ if ! command -v spotify_player &>/dev/null; then
 fi
 
 can_open_instance() {
-  instance_count=$(pgrep -i --count spotify_player)
+  instance_count=$(tmux list-panes -a -F '#{pane_current_command}' | grep -i --count spotify_player)
 
   if (( instance_count > 0 )); then
     return 1
   fi
 
   return 0
+}
+
+dup_instance_err() {
+  session=$(tmux list-panes -a -F '#{session_name} #{pane_current_command}' | awk '$2 ~ /spotify_player/ {print $1}' | head -1) || exit
+  tmux display "You have another spotify_player instance running already in session: $session."
+  exit 0
 }
 
 # use a window named "music" instead of a popup, to reduce startup time
@@ -49,8 +55,7 @@ while read -r win_id win_name; do
 
   if ! looks_empty "$pane_cmd"; then
     if [ "$pane_cmd" != spotify_player ]; then
-      tmux display "Other program is running in current window. Or multiple panes open."
-      exit 0
+      dup_instance_err
     fi
 
     exit 0
@@ -67,8 +72,7 @@ done < <(tmux list-windows -F '#{window_id} #{window_name}')
 
 
 if ! can_open_instance; then
-  tmux display "You have another spotify_player instance running already."
-  exit 0
+  dup_instance_err
 fi
 tmux display-popup -w 95% -h 95% -y S -EE spotify_player
 
