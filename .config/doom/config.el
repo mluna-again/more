@@ -176,3 +176,7 @@
 
 (custom-theme-set-faces! 'doom-gruvbox
   '(default :background "#181816"))
+
+(unless (display-graphic-p (selected-frame))
+  (custom-theme-set-faces! 'doom-gruvbox
+                           '(default :background "unspecified-bg")))
