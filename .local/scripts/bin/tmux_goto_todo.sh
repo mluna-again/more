@@ -2,32 +2,28 @@
 
 source ~/.local/scripts/bin/tmux_util.sh || exit
 
-window=$(tmux list-windows -F '#{window_id} #{window_name}' | awk '$2 == "todo" {print $1}') || exit
-current_window=$(tmux list-windows -F '#{window_active} #{window_id}' | awk '$1 == "1" {print $2}') || exit
-read -r pane pane_cmd < <(tmux list-panes -t todo -F '#{pane_id} #{pane_current_command}' | head -1)
-
-if [ "$window" = "$current_window" ] && [ "$pane_cmd" = emacsclient ]; then
-  tmux select-window -l
+current_session=$(tmux display -p '#{session_name}') || exit
+if ! tmux switch-client -t todo; then
+  tmux new-session -d -c ~/Todo -n todos -s todo emacsclient -a '' --tty todo.org
+  tmux switch-client -t todo
   exit 0
 fi
 
-if [ -z "$window" ]; then
-  tmux new-window -n todo -c '#{pane_current_path}'
+read -r pane cmd < <(tmux display -p '#{pane_id} #{pane_current_command}' | head -1) || exit
+
+if [ "$current_session" = todo ] && [ "$cmd" = emacsclient ]; then
+  tmux switch-client -l
+  exit 0
 fi
 
-tmux select-window -t todo
-
-# reeval in case window was just created
-read -r pane pane_cmd < <(tmux list-panes -t todo -F '#{pane_id} #{pane_current_command}' | head -1) || exit
-
-pane_count=$(tmux list-panes -t todo | wc -l) || exit
+pane_count=$(tmux list-panes -t todo | wc -l)
 if (( pane_count > 1 )); then
   tmux display "More than one pane open."
   exit 0
 fi
 
-if ! looks_empty "$pane_cmd"; then
-  if [ "$pane_cmd" != emacsclient ]; then
+if ! looks_empty "$cmd"; then
+  if [ "$cmd" != emacsclient ]; then
     tmux display "Another program running."
     exit 0
   fi
@@ -35,6 +31,4 @@ if ! looks_empty "$pane_cmd"; then
   exit 0
 fi
 
-tmux send-keys -t "$pane" emacsc Space todo.org Enter
-
-tmux select-window -t "$window"
+tmux send-keys -t "$pane" emacsclient Space -a Space \'\' Space --tty Space ~/Todo/todo.org Enter
