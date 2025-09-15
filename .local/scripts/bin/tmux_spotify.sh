@@ -53,17 +53,23 @@ while read -r win_id win_name; do
     exit 0
   fi
 
+  pane_count=$(tmux list-panes | wc -l) || exit
+  if (( pane_count > 1 )); then
+    tmux display "More than one pane open."
+    exit 0
+  fi
+
   if ! looks_empty "$pane_cmd"; then
     if [ "$pane_cmd" != spotify_player ]; then
-      dup_instance_err
+      tmux display "Another program running."
+      exit 0
     fi
 
     exit 0
   fi
 
   if ! can_open_instance; then
-    tmux display "You have another spotify_player instance running already."
-    exit 0
+    dup_instance_err
   fi
   tmux send-keys -t "$pane_id" spotify_player Enter || exit
 
