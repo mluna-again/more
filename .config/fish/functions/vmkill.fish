@@ -1,11 +1,6 @@
-function vmssh
-  set -l user $argv[1]
-  if test -z $user
-    set user user
-  end
-
+function vmkill
   if echo $argv | grep -iq help
-    printf "Usage:\n\$ vmssh [<user>]\n"
+    printf "Usage:\n\$ vmkill\n"
     return 1
   end
 
@@ -24,8 +19,5 @@ function vmssh
     return 1
   end
 
-  quickemu --vm ~/VMs/$selected --display none --ssh-port 22220 ; or return 1
-  echo "Connecting..."
-  echo ssh -p22220 $user@localhost
-  ssh -p22220 $user@localhost
+  quickemu --vm ~/VMs/$selected --kill
 end
