@@ -108,6 +108,7 @@
   (define-key company-active-map (kbd "C-k") #'company-complete-selection))
 
 (map! :leader :mode 'lsp-mode "l h" #'lsp-describe-thing-at-point)
+(map! :leader :mode 'lsp-mode "l r" #'lsp-rename)
 
 (setq org-timer-done-hook
       (lambda()
