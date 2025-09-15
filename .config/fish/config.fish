@@ -86,6 +86,7 @@ abbr --add oil nvim -c 'Oil'
 abbr --add nv NVIM_APPNAME=bare_nvim nvim
 abbr --add pager $MANPAGER
 abbr --add ss ss -nlput
+abbr --add semacs ~/.config/emacs/bin/doom sync
 
 set fish_cursor_default block
 set fish_cursor_insert block

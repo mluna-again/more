@@ -81,12 +81,12 @@
 (setq-default evil-escape-key-sequence "jj")
 
 (setq org-startup-with-inline-images t)
-(add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
+;(add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
+;(setq org-superstar-headline-bullets-list
+;      '("󰴈" "" "󰫢" ""))
 (add-hook 'org-mode-hook (lambda ()
                            (setq fill-column 120)
                            (turn-on-auto-fill)))
-(setq org-superstar-headline-bullets-list
-      '("󰴈" "" "󰫢" ""))
 
 (setq org-roam-directory (file-truename "~/Org"))
 (map! "C-SPC" #'completion-at-point)
@@ -130,9 +130,6 @@
         (ispell-hunspell-add-multi-dic "en_US,es_ES"))
     (error "Could not load hunspell")))
 
-(use-package! evil-terminal-cursor-changer
-  :hook (tty-setup . evil-terminal-cursor-changer-activate))
-
 (setq browse-url-browser-function #'browse-url-firefox)
 (setenv "BROWSER" "firefox")
 
@@ -154,22 +151,11 @@
   (global-set-key (kbd "<mouse-4>") 'scroll-down-line)
   (global-set-key (kbd "<mouse-5>") 'scroll-up-line))
 
-(defun open-ledger-journal ()
-  (interactive)
-  (find-file "~/Ledger/journal.ledger"))
-
 (defun open-config-file ()
   (interactive)
   (find-file "~/.config/doom/config.el"))
 
 (map! :leader :n "o c" #'open-config-file)
-(map! :leader :n "o l" #'open-ledger-journal)
-
-(add-to-list '+doom-dashboard-menu-sections
-             '("Open Ledger Journal"
-               :key "SPC o l"
-               :icon (nerd-icons-faicon "nf-fa-book" :face 'doom-dashboard-menu-title)
-               :action open-ledger-journal))
 
 (add-to-list '+doom-dashboard-menu-sections
              '("Open config file"
