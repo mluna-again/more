@@ -2,7 +2,7 @@
 
 source ~/.local/scripts/bin/tmux_util.sh || exit
 
-window=$(tmux list-windows -F '#{window_id} #{window_name}' | awk '$2 ~ /todo/ {print $1}') || exit
+window=$(tmux list-windows -F '#{window_id} #{window_name}' | awk '$2 == "todo" {print $1}') || exit
 current_window=$(tmux list-windows -F '#{window_active} #{window_id}' | awk '$1 == "1" {print $2}') || exit
 read -r pane pane_cmd < <(tmux list-panes -t todo -F '#{pane_id} #{pane_current_command}' | head -1)
 
