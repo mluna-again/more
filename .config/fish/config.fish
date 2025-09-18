@@ -72,7 +72,8 @@ abbr --add --set-cursor gwc git worktree add ~/Worktrees/(basename (pwd))/%
 abbr --add --set-cursor gwr git worktree remove ~/Worktrees/(basename (pwd))/%
 abbr --add gofmt go fmt ./...
 abbr --add dateiso date +"%Y-%m-%dT%H:%M:%S%z"
-abbr --add emacsc "emacsclient -a '' -c --tty"
+abbr --add emacs "emacsclient -a '' -c --tty"
+abbr --add doom '~/.config/emacs/bin/doom'
 abbr --add setup-idf source "$HOME/esp/esp-idf/export.fish"
 abbr --add esp idf.py
 abbr --add rsync rsync -avh --info=progress2
@@ -86,7 +87,6 @@ abbr --add oil nvim -c 'Oil'
 abbr --add nv NVIM_APPNAME=bare_nvim nvim
 abbr --add pager $MANPAGER
 abbr --add ss ss -nlput
-abbr --add semacs ~/.config/emacs/bin/doom sync
 
 set fish_cursor_default block
 set fish_cursor_insert block
