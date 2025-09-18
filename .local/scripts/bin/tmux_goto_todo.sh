@@ -2,6 +2,10 @@
 
 source ~/.local/scripts/bin/tmux_util.sh || exit
 
+if ! [ -d ~/Todo ]; then
+  mkdir ~/Todo || exit
+fi
+
 current_session=$(tmux display -p '#{session_name}') || exit
 if ! tmux switch-client -t todo; then
   tmux new-session -d -c ~/Todo -n todos -s todo emacsclient -a '' --tty todo.org
