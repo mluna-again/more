@@ -174,3 +174,11 @@
 (add-hook 'evil-insert-state-entry-hook (lambda () (send-string-to-terminal "\033[5 q")))
 (add-hook 'evil-insert-state-exit-hook  (lambda () (send-string-to-terminal "\033[2 q")))
 (add-hook 'evil-normal-state-entry-hook  (lambda () (send-string-to-terminal "\033[2 q")))
+
+;; disable line wrapping
+;; do i really need an incantation for every little change i want to change????
+;; this doens't work for whatever reason.
+;; (remove-hook 'org-mode-hook #'auto-fill-mode)
+;; (add-hook 'org-mode-hook (lambda () (auto-fill-mode -1)))
+;; so i guess i'll do it every time
+(add-hook 'evil-insert-state-entry-hook (lambda () (auto-fill-mode -1)))
