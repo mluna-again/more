@@ -169,3 +169,7 @@
 (unless (display-graphic-p (selected-frame))
   (custom-theme-set-faces! 'doom-gruvbox
                            '(default :background "unspecified-bg")))
+
+;; Fix cursor shape in evil-mode (block on normal mode, bar in insert)
+(add-hook 'evil-insert-state-entry-hook (lambda () (send-string-to-terminal "\033[5 q")))
+(add-hook 'evil-insert-state-exit-hook  (lambda () (send-string-to-terminal "\033[2 q")))
