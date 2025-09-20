@@ -393,6 +393,8 @@ require("lazy").setup({
 
       telescope.setup({
         defaults = {
+          prompt_prefix = "  ",
+          selection_caret = "  ",
           mappings = {
             i = {
               ["<C-s>"] = "select_horizontal",
