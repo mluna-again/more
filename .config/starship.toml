@@ -1,4 +1,4 @@
-add_newline = false
+add_newline = true
 format = "$jobs${custom.fish_private}${custom.icon}$hostname$directory$status "
 right_format = "$git_status$git_branch"
 palette = "kanagawa-dragon"
