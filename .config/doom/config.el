@@ -110,6 +110,9 @@
 (map! :leader :mode 'lsp-mode "l h" #'lsp-describe-thing-at-point)
 (map! :leader :mode 'lsp-mode "l r" #'lsp-rename)
 
+(map! :leader :mode 'gdscript-mode "r r" #'gdscript-godot-run-current-scene)
+(map! :leader :mode 'gdscript-mode "r a" #'gdscript-godot-run-project)
+
 (setq org-timer-done-hook
       (lambda()
         (message-box "   Go away   ")))
