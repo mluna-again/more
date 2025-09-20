@@ -34,6 +34,122 @@ vim.cmd("packadd cfilter")
 
 require("lazy").setup({
   {
+    "nvim-lualine/lualine.nvim",
+    opts = {
+      options = {
+        icons_enabled = true,
+        theme = {
+          normal = {
+            a = "StatusLineNormalNormal",
+            b = "StatusLineNormalNormal",
+            c = "StatusLineNormalNormal",
+          },
+          insert = {
+            a = "StatusLineNormalNormal",
+            b = "StatusLineNormalNormal",
+            c = "StatusLineNormalNormal",
+          },
+          visual = {
+            a = "StatusLineNormalNormal",
+            b = "StatusLineNormalNormal",
+            c = "StatusLineNormalNormal",
+          },
+          replace = {
+            a = "StatusLineNormalNormal",
+            b = "StatusLineNormalNormal",
+            c = "StatusLineNormalNormal",
+          },
+          command = {
+            a = "StatusLineNormalNormal",
+            b = "StatusLineNormalNormal",
+            c = "StatusLineNormalNormal",
+          },
+          inactive = {
+            a = "StatusLineNormalNormal",
+            b = "StatusLineNormalNormal",
+            c = "StatusLineNormalNormal",
+          },
+        },
+        globalstatus = true,
+        component_separators = "",
+        padding = 0,
+        section_separators = { left = "", right = "" },
+        disabled_filetypes = {
+          statusline = { "TelescopePrompt", "snacks_dashboard" },
+          winbar = { "TelescopePrompt" },
+        },
+      },
+      sections = {
+        lualine_a = {
+          {
+            "mode",
+            color = {},
+            icon = { " MODE ", color = "StatusLineModeIcon" },
+            padding = { right = 1 },
+          },
+        },
+        lualine_b = {
+          {
+            "filename",
+            icons_enabled = true,
+            symbols = {
+              modified = "",
+            },
+            color = {},
+            icon = { " FILE ", color = "StatusLineFileIcon" },
+            padding = { right = 1 },
+          },
+        },
+        lualine_c = {
+          { "branch", padding = { right = 1 }, icon = { " BRANCH ", color = "StatusLineBranchIcon" } },
+        },
+        lualine_x = {
+          {
+            "diagnostics",
+            diagnostics_color = {
+              -- Same values as the general color option can be used here.
+              error = "DiagnosticError", -- Changes diagnostics' error color.
+              warn = "DiagnosticWarn", -- Changes diagnostics' warn color.
+              info = "DiagnosticInfo", -- Changes diagnostics' info color.
+              hint = "DiagnosticHint", -- Changes diagnostics' hint color.
+            },
+            symbols = { error = "ERR ", warn = "WARN ", info = "INFO ", hint = "HINT " },
+            padding = { left = 1, right = 1 },
+          },
+        },
+        lualine_y = {
+          {
+            "searchcount",
+            padding = { right = 1 },
+          },
+          {
+            "location",
+            padding = { right = 1 },
+          },
+          {
+            "progress",
+            icon = { " POS ", color = "StatusLineProgressIcon", align = "right" },
+          },
+        },
+        lualine_z = {
+          {
+            'vim.fn.fnamemodify(vim.fn.getcwd(), ":t")',
+            icon = { " DIR ", color = "StatusLineFolderIcon", align = "right" },
+            padding = { left = 1 },
+          },
+        },
+      },
+      inactive_sections = {
+        lualine_a = {},
+        lualine_b = {},
+        lualine_c = {},
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = {},
+      },
+    },
+  },
+  {
     "gpanders/nvim-parinfer",
     commit = "5ca09287ab3f4144f78ff7977fabc27466f71044",
   },
@@ -189,8 +305,50 @@ require("lazy").setup({
             LineNr = { fg = theme.syn.comment, bg = theme.ui.bg },
             CursorLine = { bg = theme.syn.bg, fg = theme.ui.fg },
             CursorLineNr = { bg = theme.syn.bg, fg = theme.syn.comment },
+            SignColumn = { fg = theme.syn.comment, bg = theme.ui.bg },
+            GitSignsAdd = { fg = theme.syn.green, bg = theme.ui.bg },
+            GitSignsAddNr = { fg = theme.syn.green, bg = theme.ui.bg },
+            GitSignsAddLn = { fg = theme.syn.green, bg = theme.ui.bg },
+            GitSignsChange = { fg = theme.syn.identifier, bg = theme.ui.bg },
+            GitSignsChangeNr = { fg = theme.syn.identifier, bg = theme.ui.bg },
+            GitSignsChangeLn = { fg = theme.syn.identifier, bg = theme.ui.bg },
+            GitSignsDelete = { fg = theme.syn.operator, bg = theme.ui.bg },
+            GitSignsDeleteNr = { fg = theme.syn.operator, bg = theme.ui.bg },
+            GitSignsDeleteLn = { fg = theme.syn.operator, bg = theme.ui.bg },
 
             StatusLine = { bg = "none", fg = theme.ui.fg },
+            StatusLineFolderIcon = { bg = theme.syn.special2, fg = theme.ui.bg_m1 },
+            StatusLineFileIcon = { bg = theme.syn.identifier, fg = theme.ui.bg_m1 },
+            StatusLineModeIcon = { bg = theme.syn.regex, fg = theme.ui.bg_m1 },
+            StatusLineBranchIcon = { bg = theme.syn.keyword, fg = theme.ui.bg_m1 },
+            StatusLineProgressIcon = { bg = theme.syn.identifier, fg = theme.ui.bg_m1 },
+            StatusLinePositionIcon = { bg = theme.syn.string, fg = theme.ui.bg_m1 },
+            StatusLineNormalNormal = { bg = theme.ui.bg, fg = theme.ui.fg },
+            StatusLineNormalMode = { bg = theme.syn.regex, fg = theme.ui.fg },
+            StatusLineInsertMode = { bg = theme.syn.identifier, fg = theme.ui.fg },
+            StatusLineVisualMode = { bg = theme.syn.special1, fg = theme.ui.bg },
+            StatusLineReplaceMode = { bg = theme.syn.constant, fg = theme.ui.fg },
+            StatusLineCommandMode = { bg = theme.syn.keyword, fg = theme.ui.fg },
+            StatusLineInactiveMode = { bg = theme.syn.comment, fg = theme.ui.fg },
+
+            ErrorMsg = { fg = theme.syn.special2, bg = theme.ui.bg },
+
+            DiagnosticError = { fg = theme.syn.special2, bg = theme.ui.bg },
+            DiagnosticWarn = { fg = theme.syn.constant, bg = theme.ui.bg },
+            DiagnosticInfo = { fg = theme.diag.info, bg = theme.ui.bg },
+            DiagnosticHint = { fg = theme.syn.identifier, bg = theme.ui.bg },
+            DiagnosticSignWarn = { fg = theme.syn.constant, bg = theme.ui.bg },
+            DiagnosticSignError = { fg = theme.syn.special2, bg = theme.ui.bg },
+            DiagnosticSignInfo = { fg = theme.diag.info, bg = theme.ui.bg },
+            DiagnosticSignHint = { fg = theme.syn.identifier, bg = theme.ui.bg },
+            DiagnosticFloatingError = { fg = theme.syn.special2, bg = theme.ui.bg_gutter },
+            DiagnosticFloatingWarn = { fg = theme.syn.constant, bg = theme.ui.bg_gutter },
+            DiagnosticFloatingInfo = { fg = theme.diag.info, bg = theme.ui.bg_gutter },
+            DiagnosticFloatingHint = { fg = theme.syn.identifier, bg = theme.ui.bg_gutter },
+            DiagnosticFloatingSignWarn = { fg = theme.syn.constant, bg = theme.ui.bg_gutter },
+            DiagnosticFloatingSignError = { fg = theme.syn.special2, bg = theme.ui.bg_gutter },
+            DiagnosticFloatingSignInfo = { fg = theme.diag.info, bg = theme.ui.bg_gutter },
+            DiagnosticFloatingSignHint = { fg = theme.syn.identifier, bg = theme.ui.bg_gutter },
           }
         end,
         colors = {
