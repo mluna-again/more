@@ -322,7 +322,7 @@ require("lazy").setup({
               StatusLineBranchIcon = { bg = theme.syn.keyword, fg = theme.ui.bg_m1 },
               StatusLineProgressIcon = { bg = theme.syn.identifier, fg = theme.ui.bg_m1 },
               StatusLinePositionIcon = { bg = theme.syn.string, fg = theme.ui.bg_m1 },
-              StatusLineNormalNormal = { bg = theme.ui.bg, fg = theme.ui.fg },
+              StatusLineNormalNormal = { bg = theme.ui.bg_gutter, fg = theme.ui.fg },
               StatusLineNormalMode = { bg = theme.syn.regex, fg = theme.ui.fg },
               StatusLineInsertMode = { bg = theme.syn.identifier, fg = theme.ui.fg },
               StatusLineVisualMode = { bg = theme.syn.special1, fg = theme.ui.bg },
