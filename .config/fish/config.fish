@@ -128,7 +128,7 @@ set --erase _asdf_shims
 if status is-interactive
     # Commands to run in interactive sessions can go here
     command -v atuin &>/dev/null; and atuin init fish --disable-up-arrow | source
-    command -vq fortune; and fortune | catsays -
+    command -vq fortune; and fortune
     command -vq direnv; and direnv hook fish | source
     command -vq zoxide; and zoxide init fish | source
     command -vq starship; and starship init fish | source
