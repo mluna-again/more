@@ -17,9 +17,6 @@ vim.opt.softtabstop = 2
 vim.opt.expandtab = true
 vim.opt.laststatus = 3
 vim.opt.cmdheight = 0
-vim.opt.spelllang:append("es_MX")
-vim.opt.spelllang:append("fr")
-vim.opt.spelllang:append("jp")
 vim.opt.fillchars = {eob = " "}
 
 -- PLUGINS
