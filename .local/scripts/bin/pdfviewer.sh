@@ -36,9 +36,10 @@ while true; do
   esac
   shift
 done
+file_base=$(basename "$file")
 
 if (( _delete == 1 )); then
-  rm -rf "$(pdfdir "$file")"
+  rm -rf "$(pdfdir "$file_base")"
   exit 1
 fi
 
@@ -80,12 +81,12 @@ last_index() {
   find "$dir" -type f | wc -l | xargs
 }
 
-dir=$(pdfdir "$file")
+dir=$(pdfdir "$file_base")
 if [ -d "$dir" ]; then
   echo "Directory for $file already exists. Reusing assets." 1>&2
 else
   mkdir -p "$dir"
-  pdftocairo -jpeg "$file" "$dir/$file" || exit
+  pdftocairo -jpeg "$file" "$dir/$file_base" || exit
 fi
 
 index=1
