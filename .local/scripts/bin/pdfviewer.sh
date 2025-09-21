@@ -57,15 +57,23 @@ fname_by_index() {
 }
 
 display_img() {
-  chafa "$1" --format kitty
+  local h
+  h=$(tput lines)
+  h=$(( h - 1)) # helpbar
+  chafa --size x"$h" "$1" --center on --format kitty
 }
 
 helpbar() {
-  local dir current
+  local dir current msg padd width msg_w
   dir="$1"
   current="$2"
   total=$(find "$dir" -type f | wc -l | xargs)
-  echo "quit (q), next (n), previous (p), g (first), G (last) [${current}/${total}]"
+  msg="quit (q), next (n), previous (p), g (first), G (last) [${current}/${total}]"
+  msg_w="${#msg}"
+  width=$(tput cols)
+  padd=$(( (width - msg_w) / 2 ))
+  for (( i = 0; i < padd; i++ )); do printf " "; done
+  echo -n "$msg"
 }
 
 last_index() {
