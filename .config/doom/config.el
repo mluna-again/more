@@ -84,9 +84,6 @@
 ;(add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
 ;(setq org-superstar-headline-bullets-list
 ;      '("󰴈" "" "󰫢" ""))
-(add-hook 'org-mode-hook (lambda ()
-                           (setq fill-column 120)
-                           (turn-on-auto-fill)))
 
 (setq org-roam-directory (file-truename "~/Org"))
 (map! "C-SPC" #'completion-at-point)
@@ -179,9 +176,9 @@
 (add-hook 'evil-normal-state-entry-hook  (lambda () (send-string-to-terminal "\033[2 q")))
 
 ;; disable line wrapping
-;; do i really need an incantation for every little change i want to change????
-;; this doens't work for whatever reason.
-;; (remove-hook 'org-mode-hook #'auto-fill-mode)
-;; (add-hook 'org-mode-hook (lambda () (auto-fill-mode -1)))
-;; so i guess i'll do it every time
-(add-hook 'evil-insert-state-entry-hook (lambda () (auto-fill-mode -1)))
+(remove-hook 'org-mode-hook #'auto-fill-mode)
+(add-hook 'org-mode-hook (lambda () (auto-fill-mode -1)))
+
+(after! org
+  (setq org-todo-keywords
+        '((sequence "TODO" "DOING" "PAUSED" "|" "DONE" "CANCELED"))))
