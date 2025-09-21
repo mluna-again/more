@@ -89,6 +89,7 @@ else
 fi
 
 index=1
+clear
 display_img "$(fname_by_index "$index" "$dir")"
 helpbar "$dir" "$index"
 while read -r -N 1 key; do
