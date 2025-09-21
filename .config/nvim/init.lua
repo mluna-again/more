@@ -451,22 +451,6 @@ require("lazy").setup({
           keymaps = {
             ["g?"] = "actions.show_help",
             ["<CR>"] = "actions.select",
-            ["<C-v>"] = {
-              callback = function()
-                oil.select({ vertical = true })
-                oil.close()
-              end,
-              desc = "Vertical Split",
-              mode = "n",
-            },
-            ["<C-s>"] = {
-              callback = function()
-                oil.select({ horizontal = true })
-                oil.close()
-              end,
-              desc = "Horizontal Split",
-              mode = "n",
-            },
             ["<C-t>"] = "actions.select_tab",
             ["<C-p>"] = "actions.preview",
             ["<C-c>"] = "actions.close",

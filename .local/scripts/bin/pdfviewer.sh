@@ -70,7 +70,7 @@ helpbar() {
   dir="$1"
   current="$2"
   total=$(find "$dir" -type f | wc -l | xargs)
-  msg="quit (q), next (n), previous (p), g (first), G (last) [${current}/${total}]"
+  msg="quit (q), r (refresh), next (n), previous (p), g (first), G (last) [${current}/${total}]"
   msg_w="${#msg}"
   width=$(tput cols)
   padd=$(( (width - msg_w) / 2 ))
@@ -80,6 +80,17 @@ helpbar() {
 
 last_index() {
   find "$dir" -type f | wc -l | xargs
+}
+
+render() {
+  local fname dir index
+  fname="$1"
+  dir="$2"
+  index="$3"
+
+  clear
+  display_img "$fname"
+  helpbar "$dir" "$index"
 }
 
 dir=$(pdfdir "$file_base")
@@ -118,6 +129,12 @@ while read -r -N 1 key; do
       index=$(last_index)
       ;;
 
+    r)
+      fname=$(fname_by_index "$index" "$dir")
+      render "$fname" "$dir" "$index"
+      continue
+      ;;
+
     *)
       # avoid extra render
       continue
@@ -125,9 +142,7 @@ while read -r -N 1 key; do
   esac
 
   fname=$(fname_by_index "$index" "$dir")
-  clear
-  display_img "$fname"
-  helpbar "$dir" "$index"
+  render "$fname" "$dir" "$index"
 done
 
 
