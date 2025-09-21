@@ -58,10 +58,11 @@ fname_by_index() {
 }
 
 display_img() {
-  local h
+  local h w
   h=$(tput lines)
+  w=$(tput cols)
   h=$(( h - 1)) # helpbar
-  chafa --size x"$h" "$1" --center on --format kitty
+  chafa --size "$w"x"$h" --center on --format kitty "$1" 
 }
 
 helpbar() {
