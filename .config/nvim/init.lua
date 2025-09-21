@@ -425,6 +425,19 @@ require("lazy").setup({
         local oil = require("oil")
 
         require("oil").setup({
+          columns = {
+            "icon",
+            "permissions",
+            "size",
+            -- "mtime",
+          },
+          cleanup_delay_ms = 2000,
+          lsp_file_methods = {
+            enabled = false,
+            timeout_ms = 1000,
+            autosave_changes = false,
+          },
+          constrain_cursor = "name",
           keymaps = {
             ["g?"] = "actions.show_help",
             ["<CR>"] = "actions.select",
