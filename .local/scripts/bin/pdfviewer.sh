@@ -49,12 +49,11 @@ if [ ! -f "$file" ]; then
 fi
 
 fname_by_index() {
-  local index ext
+  local index dir
   index="$1"
-  ext="$2"
-  fname=$(sed "s/[0-9]+.$ext$//" <<< "$dir/$file")
-  fname="${fname}-${index}.${ext}"
-  echo "$fname"
+  dir="$2"
+
+  find "$dir" -type f | sort -h | awk "NR==$index"
 }
 
 display_img() {
@@ -74,11 +73,10 @@ else
 fi
 
 index=1
-ext=jpg
-display_img "$(fname_by_index "$index" "$ext")"
+display_img "$(fname_by_index "$index" "$dir")"
 helpbar
 while read -r -N 1 key; do
-  fname=$(fname_by_index "$index" "$ext")
+  fname=$(fname_by_index "$index" "$dir")
 
   case "$key" in
     q)
@@ -86,12 +84,12 @@ while read -r -N 1 key; do
       ;;
     n)
       (( index++ ))
-      next_fname=$(fname_by_index "$index" "$ext")
+      next_fname=$(fname_by_index "$index" "$dir")
       [ ! -f "$next_fname" ] && index=1
       ;;
     p)
       (( index-- ))
-      (( index <= 1 )) && index=$(find "$dir" -type f -iname "*$ext" | wc -l)
+      (( index <= 1 )) && index=$(find "$dir" -type f | wc -l)
       ;;
   esac
 
