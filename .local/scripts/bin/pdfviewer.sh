@@ -61,7 +61,11 @@ display_img() {
 }
 
 helpbar() {
-  echo "quit (q), next (n), previous (p)"
+  local dir current
+  dir="$1"
+  current="$2"
+  total=$(find "$dir" -type f | wc -l | xargs)
+  echo "quit (q), next (n), previous (p) [${current}/${total}]"
 }
 
 dir=$(pdfdir "$file")
@@ -74,10 +78,8 @@ fi
 
 index=1
 display_img "$(fname_by_index "$index" "$dir")"
-helpbar
+helpbar "$dir" "$index"
 while read -r -N 1 key; do
-  fname=$(fname_by_index "$index" "$dir")
-
   case "$key" in
     q)
       break
@@ -89,11 +91,17 @@ while read -r -N 1 key; do
       ;;
     p)
       (( index-- ))
-      (( index <= 1 )) && index=$(find "$dir" -type f | wc -l)
+      (( index <= 1 )) && index=$(find "$dir" -type f | wc -l | xargs)
+      ;;
+
+    *)
+      # avoid extra render
+      continue
       ;;
   esac
 
+  fname=$(fname_by_index "$index" "$dir")
   clear
   display_img "$fname"
-  helpbar
+  helpbar "$dir" "$index"
 done
