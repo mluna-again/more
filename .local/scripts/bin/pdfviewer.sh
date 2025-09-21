@@ -104,7 +104,7 @@ while read -r -N 1 key; do
       ;;
     p)
       (( index-- ))
-      (( index <= 1 )) && index=$(last_index)
+      (( index < 1 )) && index=$(last_index)
       ;;
 
     g)
