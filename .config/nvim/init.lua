@@ -256,7 +256,7 @@ require("lazy").setup({
               Input3Border = { bg = theme.ui.bg_dim, fg = theme.ui.bg_dim },
 
               OilBackground = { bg = theme.ui.bg },
-              OilBorder = { bg = theme.ui.bg_m1, fg = theme.ui.bg_m1 },
+              OilBorder = { bg = theme.ui.bg, fg = theme.ui.bg },
               OilPreviewBackground = { bg = theme.ui.bg_gutter },
               OilPreviewBorder = { bg = theme.ui.bg_gutter, fg = theme.ui.bg_gutter },
 
@@ -463,7 +463,7 @@ require("lazy").setup({
             border = "rounded",
             win_options = {
               winblend = 0,
-              winhighlight = "Normal:OilBackground,FloatBorder:OilBorder,FloatTitle:OilBorder,LineNr:OilBackground",
+              -- winhighlight = "Normal:OilBackground,FloatBorder:OilBorder,FloatTitle:OilBorder,LineNr:OilBackground",
             },
             padding = 6,
           },
@@ -474,11 +474,11 @@ require("lazy").setup({
           preview = {
             win_options = {
               winblend = 0,
-              winhighlight = "Normal:OilBackground,FloatBorder:OilBorder,FloatTitle:OilBorder,LineNr:OilBackground",
+              -- winhighlight = "Normal:OilBackground,FloatBorder:OilBorder,FloatTitle:OilBorder,LineNr:OilBackground",
             },
           },
           win_options = {
-            winhighlight = "Normal:OilBackground,FloatBorder:OilBorder,FloatTitle:OilBorder,LineNr:OilBackground",
+            -- winhighlight = "Normal:OilBackground,FloatBorder:OilBorder,FloatTitle:OilBorder,LineNr:OilBackground",
           },
           skip_confirm_for_simple_edits = true,
         })
