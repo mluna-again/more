@@ -89,7 +89,8 @@ else
 fi
 
 index=1
-clear
+tput smcup || exit
+trap 'tput rmcup' EXIT
 display_img "$(fname_by_index "$index" "$dir")"
 helpbar "$dir" "$index"
 while read -r -N 1 key; do
@@ -126,3 +127,5 @@ while read -r -N 1 key; do
   display_img "$fname"
   helpbar "$dir" "$index"
 done
+
+
