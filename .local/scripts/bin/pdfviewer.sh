@@ -65,7 +65,11 @@ helpbar() {
   dir="$1"
   current="$2"
   total=$(find "$dir" -type f | wc -l | xargs)
-  echo "quit (q), next (n), previous (p) [${current}/${total}]"
+  echo "quit (q), next (n), previous (p), g (first), G (last) [${current}/${total}]"
+}
+
+last_index() {
+  find "$dir" -type f | wc -l | xargs
 }
 
 dir=$(pdfdir "$file")
@@ -91,7 +95,15 @@ while read -r -N 1 key; do
       ;;
     p)
       (( index-- ))
-      (( index <= 1 )) && index=$(find "$dir" -type f | wc -l | xargs)
+      (( index <= 1 )) && index=$(last_index)
+      ;;
+
+    g)
+      index=1
+      ;;
+
+    G)
+      index=$(last_index)
       ;;
 
     *)
