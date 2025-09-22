@@ -101,4 +101,8 @@ require("lazy").setup({
   defaults = {
     pin = true,
   },
+
+  change_detection = {
+    enabled = false,
+  },
 })

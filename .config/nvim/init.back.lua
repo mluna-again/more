@@ -76,71 +76,7 @@ require("lazy").setup({
       "fatih/vim-go",
     },
     {
-      "lewis6991/gitsigns.nvim",
-      config = function()
-        require('gitsigns').setup({
-          current_line_blame = true,
-        })
-      end
-    },
-    {
       "chaoren/vim-wordmotion"
-    },
-    {
-      "nvim-telescope/telescope.nvim",
-      event = "VimEnter",
-      branch = "0.1.x",
-      dependencies = {
-        "nvim-lua/plenary.nvim",
-        {
-          "nvim-telescope/telescope-fzf-native.nvim",
-          build = "make",
-          cond = function()
-            return vim.fn.executable("make") == 1
-          end,
-        },
-      },
-      config = function()
-        local telescope = require("telescope")
-        local telescopeConfig = require("telescope.config")
-
-        -- Clone the default Telescope configuration
-        local vimgrep_arguments = { unpack(telescopeConfig.values.vimgrep_arguments) }
-
-        -- I want to search in hidden/dot files.
-        table.insert(vimgrep_arguments, "--hidden")
-        -- I don't want to search in the `.git` directory.
-        table.insert(vimgrep_arguments, "--glob")
-        table.insert(vimgrep_arguments, "!**/.git/*")
-
-        telescope.setup({
-          defaults = {
-            prompt_prefix = "  ",
-            selection_caret = "  ",
-            mappings = {
-              i = {
-                ["<C-s>"] = "select_horizontal",
-              },
-            },
-            -- `hidden = true` is not supported in text grep commands.
-            vimgrep_arguments = vimgrep_arguments,
-          },
-          pickers = {
-            find_files = {
-              -- `hidden = true` will still show the inside of `.git/` as it's not `.gitignore`d.
-              find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
-            },
-          },
-        })
-
-        pcall(require("telescope").load_extension, "fzf")
-
-        local builtin = require("telescope.builtin")
-        vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Find files" })
-        vim.keymap.set("n", "<leader>fw", builtin.live_grep, { desc = "Find expression" })
-        vim.keymap.set("n", "<leader>fo", builtin.oldfiles, { desc = "File history" })
-        vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Find buffer" })
-      end,
     },
     {
       "hrsh7th/nvim-cmp",
@@ -282,32 +218,6 @@ require("lazy").setup({
             bufnr = vim.api.nvim_get_current_buf(),
           })
         end, {})
-      end,
-    },
-    {
-      "nvim-treesitter/nvim-treesitter",
-      build = ":TSUpdate",
-      opts = {
-        ensure_installed = {
-          "lua",
-          "go",
-          "elixir",
-          "bash",
-        },
-        auto_install = true,
-        highlight = {
-          enable = true,
-          -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
-          --  If you are experiencing weird indenting issues, add the language to
-          --  the list of additional_vim_regex_highlighting and disabled languages for indent.
-          additional_vim_regex_highlighting = { "ruby" },
-        },
-        indent = { enable = true, disable = { "ruby" } },
-      },
-      config = function(_, opts)
-        require("nvim-treesitter.install").prefer_git = true
-        ---@diagnostic disable-next-line: missing-fields
-        require("nvim-treesitter.configs").setup(opts)
       end,
     },
     {

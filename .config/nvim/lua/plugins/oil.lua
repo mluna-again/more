@@ -13,7 +13,7 @@ return {
   "stevearc/oil.nvim",
   keys = {
     {
-      "<leader>fn", "<cmd>Oil<cr>", desc = "File Explorer",
+      "<leader>fn", "<cmd>Oil<cr>", desc = "File explorer",
     },
   },
   opts = {
