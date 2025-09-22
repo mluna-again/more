@@ -348,6 +348,8 @@ require("lazy").setup({
               DiagnosticFloatingSignError = { fg = theme.syn.special2, bg = theme.ui.bg_gutter },
               DiagnosticFloatingSignInfo = { fg = theme.diag.info, bg = theme.ui.bg_gutter },
               DiagnosticFloatingSignHint = { fg = theme.syn.identifier, bg = theme.ui.bg_gutter },
+
+              ["@string.special.url"] = { undercurl = false },
             }
           end,
           colors = {
