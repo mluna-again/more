@@ -23,6 +23,21 @@ vim.opt.fillchars = {eob = " "}
 vim.cmd("packadd cfilter")
 
 -- FUNCTIONS
+vim.api.nvim_create_user_command("GoAddTags", function()
+  if not (vim.bo.filetype == "go") then
+    print("Not a go file")
+    return
+  end
+
+  local row = vim.api.nvim_win_get_cursor(0)[1]
+  local offset = vim.fn.line2byte(row)
+  local path = vim.api.nvim_buf_get_name(0)
+  local command = string.format("gomodifytags -file %s -offset %d -add-tags json -w --quiet", path, offset)
+
+  vim.fn.system(command)
+  vim.cmd("e")
+end, {})
+
 vim.api.nvim_create_user_command("SessionSave", function() 
   vim.cmd("mksession! session.vim")
 end, {})

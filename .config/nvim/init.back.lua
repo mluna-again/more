@@ -2,9 +2,6 @@ require("lazy").setup({
   checker = { enabled = false },
   spec = {
     {
-      "fatih/vim-go",
-    },
-    {
       "hrsh7th/nvim-cmp",
       event = "InsertEnter",
       dependencies = {
