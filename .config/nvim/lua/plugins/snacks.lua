@@ -7,13 +7,12 @@ return {
       enabled = true,
       pane_gap = 0,
       sections = {
-        { section = "header", padding = 0 },
+        { section = "header", gap = 0, padding = 0 },
         { section = "keys", gap = 0, padding = 0 },
         { section = "startup" },
       },
       preset = {
         header = [[
-
               ▄▄            ▗▄▖                                  
             ▇█▛▀█▇▃▃      ▐▇█▀█▇▙▃▖                              
             ██▍ ▂▂██▇▆▃▂▆▆██▙▂▔▔▜██▆▆▂▁                          
