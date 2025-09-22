@@ -125,7 +125,7 @@ require("lazy").setup({
     { import = "plugins" },
   },
 
-  install = { colorscheme = { "sorbet" } },
+  install = { colorscheme = { "habamax" } },
   -- automatically check for plugin updates
   checker = { enabled = false },
 
