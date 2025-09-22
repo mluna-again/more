@@ -22,6 +22,15 @@ vim.opt.fillchars = {eob = " "}
 -- VIM MODS
 vim.cmd("packadd cfilter")
 
+-- LSP
+-- im so tired of this bs man every 6 months they change eveything
+local servers = {}
+for _, f in pairs(vim.api.nvim_get_runtime_file('lsp/*.lua', true)) do
+  local server_name = vim.fn.fnamemodify(f, ':t:r')
+  table.insert(servers, server_name)
+end
+vim.lsp.enable(servers)
+
 -- FUNCTIONS
 vim.api.nvim_create_user_command("GoAddTags", function()
   if not (vim.bo.filetype == "go") then
@@ -85,6 +94,13 @@ vim.keymap.set("n", "<leader>sl", "<cmd>SessionLoad<cr>", { desc = "Load session
 vim.keymap.set("n", "<C-n>", "<cmd>cnext<cr>", { desc = "Go to next QuickList item" })
 vim.keymap.set("n", "<C-p>", "<cmd>cprevious<cr>", { desc = "Go to prev QuickList item" })
 vim.keymap.set("n", "<C-y>", [[:let @+ = substitute(expand("%:p"), getcwd(), ".", "")<cr>]], { desc = "Yanks the current file relative path to the system clipboard" })
+vim.keymap.set("n", "<leader>lu", "<cmd>Telescope lsp_definitions<cr>", { desc = "Search definitions" })
+vim.keymap.set("n", "<leader>lc", vim.lsp.buf.code_action, { desc = "Code actions" })
+vim.keymap.set("n", "<leader>lh", vim.lsp.buf.hover, { desc = "Documentation" })
+vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, { desc = "Rename" })
+vim.keymap.set("n", "<leader>lf", vim.lsp.buf.definition, { desc = "Go to definition" })
+vim.keymap.set("n", "<leader>ld", vim.diagnostic.open_float, { desc = "Diagnostics" })
+vim.keymap.set("i", "<c-s>", vim.lsp.buf.signature_help, { desc = "Signature" })
 
 -- PLUGINS
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"

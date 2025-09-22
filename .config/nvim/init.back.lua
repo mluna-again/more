@@ -67,55 +67,6 @@ require("lazy").setup({
         })
       end,
     },
-    {
-      "neovim/nvim-lspconfig",
-      dependencies = {
-        { "williamboman/mason.nvim", config = true },
-        "williamboman/mason-lspconfig.nvim",
-      },
-      config = function()
-        vim.api.nvim_create_autocmd("LspAttach", {
-          group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
-          callback = function(event)
-            local telescope = require("telescope.builtin")
-            vim.keymap.set("n", "<leader>lu", telescope.lsp_definitions, { desc = "Search definitions" })
-            vim.keymap.set("n", "<leader>lc", vim.lsp.buf.code_action, { desc = "Code actions" })
-            vim.keymap.set("n", "<leader>lh", vim.lsp.buf.hover, { desc = "Documentation" })
-            vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, { desc = "Rename" })
-            vim.keymap.set("n", "<leader>lf", vim.lsp.buf.definition, { desc = "Go to definition" })
-            vim.keymap.set("n", "<leader>ld", vim.diagnostic.open_float, { desc = "Diagnostics" })
-            vim.keymap.set("i", "<c-s>", vim.lsp.buf.signature_help, { desc = "Signature" })
-          end,
-        })
-
-        local capabilities = vim.lsp.protocol.make_client_capabilities()
-        capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
-
-        local servers = {
-          gopls = {},
-          elixirls = {},
-          golangci_lint_ls = {},
-          pyright = {},
-          bashls = {},
-          tsserver = {},
-          cssls = {},
-          clangd = {},
-          solargraph = {},
-          ols = {},
-        }
-
-        require("mason").setup({})
-        require("mason-lspconfig").setup({
-          handlers = {
-            function(server_name)
-              local server = servers[server_name] or {}
-              server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-              require("lspconfig")[server_name].setup(server)
-            end,
-          },
-        })
-      end,
-    },
   },
 })
 
