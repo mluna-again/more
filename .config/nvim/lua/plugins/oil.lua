@@ -16,6 +16,7 @@ return {
       "<leader>fn", "<cmd>Oil<cr>", desc = "File explorer",
     },
   },
+  cmd = "Oil",
   opts = {
     columns = {
       "icon",

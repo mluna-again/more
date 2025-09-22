@@ -2,81 +2,12 @@ require("lazy").setup({
   checker = { enabled = false },
   spec = {
     {
-      "gpanders/nvim-parinfer",
-      commit = "5ca09287ab3f4144f78ff7977fabc27466f71044",
-    },
-    {
-      "folke/snacks.nvim",
-      priority = 1000,
-      lazy = false,
-      ---@type snacks.Config
-      opts = {
-        dashboard = {
-          enabled = true,
-          pane_gap = 1,
-          sections = {
-            {
-              section = "terminal",
-              cmd = "/bin/cat ~/.local/ascii/mewo.txt",
-              height = 17,
-              padding = 0,
-            },
-            { section = "header", padding = 0 },
-            { section = "keys", gap = 0, padding = {2, 0} },
-            { section = "startup" },
-          },
-          preset = {
-            header = [[
-⠀▄▄▄▄▄▄▄▄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀▌ MEWO ▐⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀▀▀▀▀▀▀▀▀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄  
-⠀▌                                                     ▐  
-⠀▌ Meow? (Waiting for something to happen?)            ▐  
-⠀▌                                                     ▐  
-⠀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ]],
-            keys = {
-              { icon = " ", key = "<leader>ff", desc = "Find Files", action = ":lua Snacks.dashboard.pick('files')" },
-              { icon = " ", key = "<leader>cn", desc = "New File", action = ":ene | startinsert" },
-              { icon = " ", key = "<leader>fw", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
-              { icon = " ", key = "<leader>fo", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
-              { icon = " ", key = "<leader>co", desc = "Config", action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})" },
-              { icon = " ", key = "<leader>sl", desc = "Restore Session", action = "<cmd>SessionLoad<cr>" },
-              { icon = "󰒲 ", key = "<leader>L", desc = "Lazy", action = ":Lazy", enabled = package.loaded.lazy ~= nil },
-              { icon = " ", key = "q", desc = "Quit", action = ":qa" },
-            },
-          },
-        },
-      },
-    },
-    {
-      "sindrets/diffview.nvim",
-      opts = {
-        use_icons = false
-      },
-    },
-    {
-      "kevinhwang91/nvim-bqf",
-      ft = "qf",
-      config = function()
-      end,
-    },
-    {
       "mattn/emmet-vim",
       config = function()
       end
     },
     {
-      "ggandor/leap.nvim",
-      config = function()
-        require('leap').create_default_mappings()
-      end
-    },
-    {
       "fatih/vim-go",
-    },
-    {
-      "chaoren/vim-wordmotion"
     },
     {
       "hrsh7th/nvim-cmp",
@@ -191,33 +122,6 @@ require("lazy").setup({
             end,
           },
         })
-      end,
-    },
-    {
-      "stevearc/conform.nvim",
-      lazy = false,
-      config = function()
-        require("conform").setup({
-          notify_on_error = true,
-          format_on_save = false,
-          formatters_by_ft = {
-            typescript = { "prettier" },
-            typescriptreact = { "prettier" },
-            go = { "goimports" },
-            lua = { "stylua" },
-            elixir = { "mix" },
-            python = { "black" },
-            ruby = { "rubocop" },
-            c = { "clang-format" },
-            css = { "prettier" },
-            cpp = { "clang-format" },
-          },
-        })
-        vim.api.nvim_create_user_command("W", function()
-          require("conform").format({
-            bufnr = vim.api.nvim_get_current_buf(),
-          })
-        end, {})
       end,
     },
     {
