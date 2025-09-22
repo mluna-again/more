@@ -2,11 +2,6 @@ require("lazy").setup({
   checker = { enabled = false },
   spec = {
     {
-      "mattn/emmet-vim",
-      config = function()
-      end
-    },
-    {
       "fatih/vim-go",
     },
     {
@@ -123,11 +118,6 @@ require("lazy").setup({
           },
         })
       end,
-    },
-    {
-      -- yes, i need this
-      "karb94/neoscroll.nvim",
-      opts = {},
     },
   },
 })
