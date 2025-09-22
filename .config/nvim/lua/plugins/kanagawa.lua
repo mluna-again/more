@@ -4,6 +4,7 @@ return {
   lazy = false,
   config = function()
     require("kanagawa").setup({
+      undercurl = false,
       overrides = function(colors)
         local theme = colors.theme
 
