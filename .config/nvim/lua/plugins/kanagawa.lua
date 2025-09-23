@@ -55,6 +55,7 @@ return {
           PmenuSel = { fg = "NONE", bg = theme.ui.bg_p2 },
           PmenuSbar = { bg = theme.ui.bg_m1 },
           PmenuThumb = { bg = theme.ui.bg_p2 },
+          PmenuExtra = { fg = theme.ui.fg, bg = theme.ui.bg },
 
           Search = { fg = theme.ui.bg_gutter, bg = theme.syn.identifier },
           IncSearch = { fg = theme.ui.bg_gutter, bg = theme.syn.identifier },

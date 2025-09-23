@@ -5,11 +5,14 @@ return {
   opts = {
     cmdline = {
       enabled = true,
+      keymap = {
+        preset = 'none',
+      },
       completion = {
         menu = {
           draw = {
             columns = {
-              { "label", "label_description", gap = 1 }
+              { "label" }
             },
           },
         },
@@ -29,7 +32,7 @@ return {
       menu = {
         draw = {
           columns = {
-            { "label", "label_description", gap = 1 }, { "kind" }
+            { "label" }, { "kind" }
           },
         },
       },
