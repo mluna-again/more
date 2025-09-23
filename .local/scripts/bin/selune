@@ -23,7 +23,7 @@ if [ -z "$selune_functions" ]; then
   exit 0
 fi
 
-func=$(echo "$selune_functions" | fzf --height=10 --ghost="Run a function") || exit
+func=$(echo "$selune_functions" | fzf -1 -q "$1" --height=10 --ghost="Run a function") || exit
 [ -z "$func" ] && exit 1
 
 source "$SCRIPT_PATH" || exit
