@@ -30,8 +30,10 @@ if [ -n "$1" ]; then
 fi
 
 export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --height=10"
-func=$(echo "$selune_functions" | fzf $query --height=10 --ghost="Run a function") || exit
+source "$SCRIPT_PATH" || exit
+
+title="${SELUNE_TITLE:-Run a function}"
+func=$(echo "$selune_functions" | fzf $query --height=10 --ghost="$title") || exit
 [ -z "$func" ] && exit 1
 
-source "$SCRIPT_PATH" || exit
 "$func" "$@"
