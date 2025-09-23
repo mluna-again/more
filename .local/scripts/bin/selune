@@ -24,10 +24,14 @@ if [ -z "$selune_functions" ]; then
 fi
 
 query=""
-[ -n "$1" ] && query="-1 -q $1"
+if [ -n "$1" ]; then
+  query="-1 -q $1"
+  shift
+fi
 
+export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --height=10"
 func=$(echo "$selune_functions" | fzf $query --height=10 --ghost="Run a function") || exit
 [ -z "$func" ] && exit 1
 
 source "$SCRIPT_PATH" || exit
-"$func"
+"$func" "$@"
