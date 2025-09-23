@@ -1,0 +1,30 @@
+#! /usr/bin/env bash
+
+SCRIPT_NAME=selune.sh
+SCRIPT_PATH="$PWD/$SCRIPT_NAME"
+FUNC_REGEX='[a-zA-Z]+[a-zA-Z0-9_-]*\(\)'
+
+selune_exists() {
+  [ -f "$SCRIPT_PATH" ]
+}
+
+stderr() {
+  echo "$*" 1>&2
+}
+
+if ! selune_exists; then
+  stderr "$SCRIPT_NAME not found / not executable."
+  exit 0
+fi
+
+selune_functions=$(grep --only-matching --extended-regexp "$FUNC_REGEX" "$SCRIPT_PATH" | sed 's|()||g')
+if [ -z "$selune_functions" ]; then
+  stderr "No functions found in $SCRIPT_NAME. Regex: $FUNC_REGEX"
+  exit 0
+fi
+
+func=$(echo "$selune_functions" | fzf --height=10) || exit
+[ -z "$func" ] && exit 1
+
+source "$SCRIPT_PATH" || exit
+"$func"
