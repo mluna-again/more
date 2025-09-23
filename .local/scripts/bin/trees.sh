@@ -71,7 +71,7 @@ case "$action" in
     base=$(basename "$(pwd)") || exit
     printf "Name: "
     read -r response || exit
-    tree_name="$response"
+    tree_name=$(sed 's| |_|g' <<< "$response")
     if [ -z "$tree_name" ]; then
       stderr "Name required. Bye."
       exit 1
