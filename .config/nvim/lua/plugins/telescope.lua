@@ -23,6 +23,16 @@ return {
     defaults = {
       prompt_prefix = "  ",
       selection_caret = "  ",
+      mappings = {
+        i = {
+          ["<C-s>"] = "select_horizontal",
+          ["<C-v>"] = "select_vertical",
+        },
+        n = {
+          ["<C-s>"] = "select_horizontal",
+          ["<C-v>"] = "select_vertical",
+        },
+      },
     }
   },
 }
