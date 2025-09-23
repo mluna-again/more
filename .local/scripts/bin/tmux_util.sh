@@ -7,6 +7,10 @@ _SHELLS=(
   zsh
 )
 
+tmux_ask() {
+  tmux command-prompt -p "$1" 'display -p %%'
+}
+
 looks_empty() {
   for shell in "${_SHELLS[@]}"; do
     grep -iq "$shell" <<< "$1" && return 0
