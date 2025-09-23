@@ -31,6 +31,20 @@ return {
       },
       menu = {
         draw = {
+          padding = 0,
+          components = {
+            label = {
+              text = function(ctx)
+                return ctx.label
+              end
+            },
+            kind = {
+              highlight = "BlinkCmpKind",
+              text = function(ctx)
+                return string.format(" %s ", ctx.kind)
+              end
+            },
+          },
           columns = {
             { "label" }, { "kind" }
           },
