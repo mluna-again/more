@@ -31,7 +31,7 @@ return {
       },
       menu = {
         draw = {
-          padding = 0,
+          padding = { 1, 0 },
           components = {
             label = {
               text = function(ctx)
