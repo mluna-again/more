@@ -85,7 +85,6 @@
 ;(setq org-superstar-headline-bullets-list
 ;      '("󰴈" "" "󰫢" ""))
 
-(setq org-roam-directory (file-truename "~/Org"))
 (map! "C-SPC" #'completion-at-point)
 (map! "C-c n l" #'org-roam-buffer-toggle)
 (map! "C-c n f" #'org-roam-node-find)

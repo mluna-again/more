@@ -2,13 +2,15 @@
 
 source ~/.local/scripts/bin/tmux_util.sh || exit
 
-if ! [ -d ~/Todo ]; then
-  mkdir ~/Todo || exit
+_TODO_DIR="$HOME/Org"
+
+if ! [ -d "$_TODO_DIR" ]; then
+  mkdir "$_TODO_DIR" || exit
 fi
 
 current_session=$(tmux display -p '#{session_name}') || exit
 if ! tmux switch-client -t todo; then
-  tmux new-session -d -c ~/Todo -n todos -s todo emacsclient -a '' --tty todo.org
+  tmux new-session -d -c "$_TODO_DIR" -n emacs -s todo emacsclient -a '' --tty todo.org
   tmux switch-client -t todo
   exit 0
 fi
@@ -35,4 +37,4 @@ if ! looks_empty "$cmd"; then
   exit 0
 fi
 
-tmux send-keys -t "$pane" emacsclient Space -a Space \'\' Space --tty Space ~/Todo/todo.org Enter
+tmux send-keys -t "$pane" emacsclient Space -a Space \'\' Space --tty Space "$_TODO_DIR"/todo.org Enter
