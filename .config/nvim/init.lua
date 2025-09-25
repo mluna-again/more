@@ -18,6 +18,9 @@ vim.opt.expandtab = true
 vim.opt.laststatus = 3
 vim.opt.cmdheight = 0
 vim.opt.fillchars = {eob = " "}
+vim.opt.foldenable = false
+vim.wo.foldmethod = "expr"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 
 -- VIM MODS
 vim.cmd("packadd cfilter")
