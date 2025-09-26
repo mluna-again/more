@@ -81,6 +81,7 @@
 (setq-default evil-escape-key-sequence "jj")
 
 (setq org-startup-with-inline-images t)
+(setq org-log-done 'time)
 ;(add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
 ;(setq org-superstar-headline-bullets-list
 ;      '("󰴈" "" "󰫢" ""))
