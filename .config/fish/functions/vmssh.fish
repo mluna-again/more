@@ -26,6 +26,12 @@ function vmssh
 
   quickemu --vm ~/VMs/$selected --display none --ssh-port 22220 ; or return 1
   echo "Connecting..."
-  echo ssh -p22220 $user@localhost
-  ssh -p22220 $user@localhost
+
+  if test -n "$KITTY_WINDOW_ID"
+    echo kitten ssh -p22220 $user@localhost
+    kitten ssh -p22220 $user@localhost
+  else
+    echo ssh -p22220 $user@localhost
+    ssh -p22220 $user@localhost
+  end
 end
