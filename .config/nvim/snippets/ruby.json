@@ -1,0 +1,9 @@
+{
+  "shebang": {
+    "prefix": "ruby",
+    "description": "Insert ruby shebang",
+    "body": [
+      "#! /usr/bin/env ruby\n\n"
+    ]
+  }
+}

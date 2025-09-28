@@ -1,0 +1,34 @@
+{
+  "bash_shebang": {
+    "prefix": "bash",
+    "description": "Insert bash shebang",
+    "body": [
+      "#! /usr/bin/env bash\n\n"
+    ]
+  },
+  "sh_shebang": {
+    "prefix": "sh",
+    "description": "Insert sh shebang",
+    "body": [
+      "#! /bin/sh\n\n"
+    ]
+  },
+  "opt_parser": {
+    "prefix": "opts",
+    "description": "Basic opt parsing",
+    "body": [
+      "usage() {",
+      "\tcat - <<EOF",
+      "Usage:\n\\$ $TM_FILENAME",
+      "EOF",
+      "}\n",
+      "while true; do",
+      "\t[ -z \"\\$1\" ] && break\n",
+      "\tcase \"\\$1\" in",
+      "\t\t--help|-h|help)\n\t\t\tusage\n\t\t\texit 1\n\t\t\t;;$0",
+      "\tesac\n",
+      "\tshift",
+      "done"
+    ]
+  }
+}
