@@ -15,6 +15,7 @@ enable() {
 disable() {
   tmux set-option -gu "$OPT_NAME" || return
   tmux set -g prefix C-x
+  tmux set -g status-position top
 }
 
 if is_on; then
