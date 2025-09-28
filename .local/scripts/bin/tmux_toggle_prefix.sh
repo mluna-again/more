@@ -8,7 +8,8 @@ is_on() {
 
 enable() {
   tmux set-option -g "$OPT_NAME" "#[bg=#{@red},fg=#{@black1}] FORWARD C-b #[bg=default,fg=default]" || return
-  tmux set -g prefix C-b
+  tmux set -g prefix C-b || return
+  tmux set -g status-position bottom
 }
 
 disable() {
