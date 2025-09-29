@@ -9,8 +9,8 @@ last_one() {
   [ "$count" -eq 1 ]
 }
 
-response=$(tmux_prompt "Are you sure? [N/y]")
-if ! grep -iq "y" <<< "$response"; then
+response=$(tmux_prompt "Are you sure?")
+if ! [[ "${response,,}" =~ y(es)? ]]; then
   exit 0
 fi
 

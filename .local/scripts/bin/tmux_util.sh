@@ -13,7 +13,8 @@ tmux_ask() {
 }
 
 tmux_prompt() {
-  tmux command-prompt -p "$1" 'display -p %%'
+  tmux display-popup -h 1 -w 100% -B -y 0 -E sh -c "mina --title=\"$1\" --mode confirm >~/.cache/mina_response"
+  cat ~/.cache/mina_response
 }
 
 looks_empty() {
