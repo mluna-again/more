@@ -2,7 +2,7 @@
 
 source ~/.local/scripts/bin/tmux_util.sh || exit
 
-cmd=$(tmux command-prompt -p 'Run command:' 'display -p "%%%"' | sed 's|;|\\;|g')
+cmd=$(tmux_ask "Run command" | sed 's|;|\\;|g')
 [ -z "$cmd" ] && exit 0
 
 while read -r pane; do

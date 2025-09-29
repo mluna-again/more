@@ -1,6 +1,8 @@
 #! /usr/bin/env bash
 
-keys=$(tmux command-prompt 'display -p "%%%"' | sed 's|;|\\;|g')
+source ~/.local/scripts/bin/tmux_util.sh || exit
+
+keys=$(tmux_ask "Keys" | sed 's|;|\\;|g')
 [ -z "$keys" ] && exit 0
 
 while read -r pane; do
