@@ -21,6 +21,11 @@ return {
   },
   opts = {
     defaults = {
+      layout_strategy = "horizontal",
+      layout_config = {
+        mirror = false,
+        prompt_position = "top",
+      },
       prompt_prefix = "  ",
       selection_caret = "  ",
       mappings = {
