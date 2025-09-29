@@ -1,0 +1,5 @@
+#! /usr/bin/env bash
+
+set -x
+
+go install github.com/mluna-again/mina@latest
