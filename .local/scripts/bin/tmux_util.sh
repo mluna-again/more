@@ -8,6 +8,11 @@ _SHELLS=(
 )
 
 tmux_ask() {
+  tmux display-popup -h 3 -B -y 5% -EE sh -c "mina --title=\"$1\" --icon=\"$2\" --mode prompt >~/.cache/mina_response"
+  cat ~/.cache/mina_response
+}
+
+tmux_prompt() {
   tmux command-prompt -p "$1" 'display -p %%'
 }
 

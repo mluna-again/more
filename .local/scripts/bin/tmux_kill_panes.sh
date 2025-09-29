@@ -14,7 +14,7 @@ done < <(tmux list-panes -F '#{pane_current_command}')
 pane_count=$(tmux list-panes -t . | wc -l)
 
 if [ "$panes_with_content" -eq 1 ] && (( pane_count > 1 )); then
-  response=$(tmux_ask "Are you sure? [N/y] ")
+  response=$(tmux_prompt "Are you sure? [N/y]")
   if [ "${response,,}" != y ]; then
     exit 0
   fi

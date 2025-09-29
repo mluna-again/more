@@ -2,7 +2,7 @@
 
 source ~/.local/scripts/bin/tmux_util.sh || exit
 
-name=$(tmux_ask "Session name:") || exit
+name=$(tmux_ask "Session name") || exit
 [ -z "$name" ] && exit 0
 
 tmux new-session -d -c ~ -s "$name"
