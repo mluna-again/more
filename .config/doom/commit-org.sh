@@ -2,6 +2,9 @@
 
 # Automatically commits Org mode files in ~/Org at a specific time
 # You can just copy this file to /etc/cron.daily/
+# Just change the _HOME variable to match your home directory.
+
+_HOME=/home/void
 
 die() {
   echo "$*" 1>&2
@@ -25,7 +28,7 @@ if ! command -v git &>/dev/null; then
   die git is not installed
 fi
 
-cd ~/Org || exit
+cd "$_HOME/Org" || exit
 
 if [ ! -d .git ]; then
   git init || exit
