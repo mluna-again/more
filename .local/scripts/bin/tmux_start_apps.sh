@@ -14,7 +14,7 @@ while read -r pane; do
   fi
 
   if [ -x "${cwd}/__START__.sh" ]; then
-    tmux send-keys -t "$id" ./__START__.sh Enter
+    tmux send-keys -t "$id" selune Space start Enter
     apps_ran=1
   fi
 done < <(tmux list-panes -F '#{pane_id} #{pane_current_command} #{pane_current_path}')
