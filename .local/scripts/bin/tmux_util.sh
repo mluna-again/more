@@ -13,7 +13,7 @@ tmux_ask() {
 }
 
 tmux_prompt() {
-  tmux display-popup -h 1 -w 100% -B -y 0 -E sh -c "mina --title=\"$1\" --mode confirm >~/.cache/mina_response"
+  tmux display-popup -h 1 -w 100% -B -y 0 -EE sh -c "mina --title=\"$1\" --mode confirm >~/.cache/mina_response"
   cat ~/.cache/mina_response
 }
 
