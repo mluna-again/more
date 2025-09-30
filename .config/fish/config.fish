@@ -51,6 +51,7 @@ abbr --add dotss yadm status
 abbr --add dotsa yadm add -u
 abbr --add dotsA yadm add
 abbr --add dotsl yadm log
+abbr --add dotsl "yadm log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 abbr --add dotsC yadm checkout
 abbr --add dotsR yadm reset --hard
 abbr --add dotsp yadm push
@@ -58,7 +59,7 @@ abbr --add dotsd yadm diff
 abbr --add dotsdd yadm diff --cached
 abbr --add gd git diff
 abbr --add gdd git diff --cached
-abbr --add gl git log
+abbr --add gl "git log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 abbr --add gCC git clean -fd
 abbr --add gC git checkout
 abbr --add gb "git checkout (git branch --sort=-committerdate -a | sed 's/\*/ /' | fzf | xargs)"
