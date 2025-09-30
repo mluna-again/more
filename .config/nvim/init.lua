@@ -107,7 +107,8 @@ vim.keymap.set("n", "<leader>lc", vim.lsp.buf.code_action, { desc = "Code action
 vim.keymap.set("n", "<leader>lh", vim.lsp.buf.hover, { desc = "Documentation" })
 vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, { desc = "Rename" })
 vim.keymap.set("n", "<leader>lf", vim.lsp.buf.definition, { desc = "Go to definition" })
-vim.keymap.set("n", "<leader>ld", vim.diagnostic.open_float, { desc = "Diagnostics" })
+vim.keymap.set("n", "<leader>ld", vim.diagnostic.open_float, { desc = "See inline diagnostics" })
+vim.keymap.set("n", "<leader>lq", vim.diagnostic.setqflist, { desc = "Send diagnostics to qflist" })
 vim.keymap.set("i", "<c-s>", vim.lsp.buf.signature_help, { desc = "Signature" })
 
 -- PLUGINS
