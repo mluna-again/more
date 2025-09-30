@@ -5,7 +5,7 @@
 -- Although I think you don't need --listen if you don't care about clicking scripts in Godot and auto-opening them in nvim
 return {
   filetypes = {"gd", "gdscript", "gdscript3"},
-  root_pattern = { "project.godot", ".git" },
+  root_markers = { "project.godot", ".git" },
   cmd = function(dispatcher, config)
     return vim.lsp.rpc.connect('127.0.0.1', 6005)()
   end,

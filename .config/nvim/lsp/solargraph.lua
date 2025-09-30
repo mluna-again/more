@@ -1,7 +1,7 @@
 return {
   cmd = { 'solargraph', 'stdio' },
   filetypes = {"ruby"},
-  root_pattern = { "Gemfile", ".git" },
+  root_markers = { "Gemfile", ".git" },
   settings = {
     diagnostics = true,
   },

@@ -1,6 +1,6 @@
 return {
   cmd = { "typescript-language-server", "--stdio" },
   filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
-  root_pattern = { "tsconfig.json", "package.json", "jsconfig.json", ".git" },
+  root_markers = { "tsconfig.json", "package.json", "jsconfig.json", ".git" },
   single_file_support = true,
 }
