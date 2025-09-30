@@ -2,6 +2,7 @@ vim.api.nvim_create_user_command("W", function()
   require("conform").format({
     bufnr = vim.api.nvim_get_current_buf(),
   })
+  vim.cmd("write")
 end, {})
 
 return {
