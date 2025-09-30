@@ -121,15 +121,6 @@
 (setq treemacs-width 50)
 (setq treemacs-position 'right)
 
-(with-eval-after-load 'ispell
-  (condition-case nil
-      (progn
-        (setq ispell-program-name "hunspell")
-        (setq ispell-dictionary "es_MX")
-        (ispell-set-spellchecker-params)
-        (ispell-hunspell-add-multi-dic "es_MX"))
-    (error "Could not load hunspell")))
-
 (setq browse-url-browser-function #'browse-url-firefox)
 (setenv "BROWSER" "firefox")
 
