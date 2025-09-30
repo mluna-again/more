@@ -73,10 +73,6 @@ vim.api.nvim_create_user_command("ShellCheck", function()
   vim.api.nvim_set_current_win(win)
   vim.api.nvim_win_set_cursor(win, cursor)
 end, {})
-vim.api.nvim_create_autocmd({"BufWritePost"}, {
-  pattern = {"*.sh"},
-  command = "ShellCheck",
-})
 
 -- KEYMAPS
 -- disable snippet with C-l
