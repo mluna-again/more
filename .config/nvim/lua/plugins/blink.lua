@@ -1,5 +1,6 @@
 return {
   'saghen/blink.cmp',
+  dependencies = { "neovim/nvim-lspconfig" },
   event = "InsertEnter",
   opts = {
     cmdline = {

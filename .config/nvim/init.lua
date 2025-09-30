@@ -111,6 +111,11 @@ vim.keymap.set("n", "<leader>ld", vim.diagnostic.open_float, { desc = "Diagnosti
 vim.keymap.set("i", "<c-s>", vim.lsp.buf.signature_help, { desc = "Signature" })
 
 -- PLUGINS
+local is_windows = vim.fn.has "win32" ~= 0
+local sep = is_windows and "\\" or "/"
+local delim = is_windows and ";" or ":"
+vim.env.PATH = table.concat({ vim.fn.stdpath "data", "mason", "bin" }, sep) .. delim .. vim.env.PATH
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   local lazyrepo = "https://github.com/folke/lazy.nvim.git"
