@@ -13,6 +13,13 @@
       "#! /bin/sh\n\n"
     ]
   },
+  "die": {
+    "prefix": "die",
+    "description": "A function that writes to STDERR and exits with status code 1",
+    "body": [
+      "die() {\n\techo \"\\$*\" 1>&2\n\texit 1\n}"
+    ]
+  },
   "opt_parser": {
     "prefix": "opts",
     "description": "Basic opt parsing",
