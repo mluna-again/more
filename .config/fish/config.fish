@@ -50,7 +50,6 @@ abbr --add dots yadm
 abbr --add dotss yadm status
 abbr --add dotsa yadm add -u
 abbr --add dotsA yadm add
-abbr --add dotsl yadm log
 abbr --add dotsl "yadm log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 abbr --add dotsC yadm checkout
 abbr --add dotsR yadm reset --hard
