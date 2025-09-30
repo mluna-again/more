@@ -125,9 +125,9 @@
   (condition-case nil
       (progn
         (setq ispell-program-name "hunspell")
-        (setq ispell-dictionary "en_US,es_MX")
+        (setq ispell-dictionary "es_MX")
         (ispell-set-spellchecker-params)
-        (ispell-hunspell-add-multi-dic "en_US,es_MX"))
+        (ispell-hunspell-add-multi-dic "es_MX"))
     (error "Could not load hunspell")))
 
 (setq browse-url-browser-function #'browse-url-firefox)
