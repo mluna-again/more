@@ -1,0 +1,38 @@
+spacing: compact
+layout: horizontal
+theme: kanagawa-dragon
+watch_themes: false
+
+heading:
+  visible: false
+
+collection_browser:
+  position: right
+
+text_input:
+  blinking_cursor: false
+
+pager_json: nvim
+pager: nvim
+editor: nvim
+
+focus:
+  on_startup: collection
+  on_response: body
+  on_request_open: body
+
+keymap:
+  send-request: ctrl+j
+  focus-method: ctrl+t
+  focus-url: ctrl+l
+  save-request: ctrl+s
+  expand-section: ctrl+m
+  toggle-collection: ctrl+u
+  new-request: ctrl+n
+  commands: ctrl+p
+  help: f1
+  quit: none
+  jump: ctrl+o
+  open-in-pager: ctrl+e
+  open-in-editor: ctrl+e
+  search-requests: ctrl+r

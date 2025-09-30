@@ -1,0 +1,9 @@
+name: kanagawa-dragon  # use this name in your config file
+primary: '#c4b28a'  # method selector, some minor labels
+secondary: '#c4746e'  # buttons, fixed table columns
+accent: '#b6927b'  # header text, scrollbars, cursors, focus highlights
+background: '#181616' # background colors
+surface: '#625e5a'  # panels, etc
+error: '#c4b28a'  # error messages
+success: '#87a987'  # success messages
+warning: '#c4b28a'  # warning messages
