@@ -79,6 +79,11 @@ vim.api.nvim_create_autocmd({"BufWritePost"}, {
 })
 
 -- KEYMAPS
+-- disable snippet with C-l
+vim.keymap.set({"i", "s", "n"}, '<C-l>', function()
+  vim.snippet.stop()
+  vim.cmd("nohl")
+end, {expr = true, desc = 'Clear highlights'})
 vim.keymap.set("i", "jj", "<esc>", { desc = "Enter NORMAL mode" })
 vim.keymap.set("n", "<leader>ws", "<C-w>s<C-w><C-r>", { desc = "Vertical split" })
 vim.keymap.set("n", "<leader>wv", "<C-w>v<C-w><C-r>", { desc = "Horizontal split" })
