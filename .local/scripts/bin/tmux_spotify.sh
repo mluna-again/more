@@ -26,7 +26,7 @@ if [ "$current_session" = "$_TSESSION" ] && [ "$cmd" = "$_TMUSICPLAYER" ]; then
   exit 0
 fi
 
-pane_count=$(tmux list-panes -t todo | wc -l)
+pane_count=$(tmux list-panes | wc -l)
 if (( pane_count > 1 )); then
   tmux display "More than one pane open."
   exit 0
