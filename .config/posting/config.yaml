@@ -2,6 +2,7 @@ spacing: compact
 layout: horizontal
 theme: kanagawa-dragon
 watch_themes: false
+watch_collection_files: false
 
 heading:
   visible: false
