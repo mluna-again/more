@@ -48,7 +48,7 @@ fi
 [ $# -eq 0 ] && usage
 [ $# -eq 1 ] && FILE="$1"
 NO_POSTPROCESSING=0
-HURL_ARGS=(--color --error-format=long)
+HURL_ARGS=(--error-format=long)
 while true; do
 	[ -z "$1" ] && break
 
@@ -98,11 +98,19 @@ export HURL_KOI_UUID
 export HURL_KOI_RANDOM
 export HURL_KOI_LOREM
 
-output=$(hurl "${HURL_ARGS[@]}" "$FILE") || exit
+output=$(hurl --include "${HURL_ARGS[@]}" "$FILE") || exit
 
 if [ "$NO_POSTPROCESSING" -eq 1 ]; then
 	echo "$output"
 	exit
 fi
 
-echo "$output" | nvim -c 'set buftype=nofile' -c 'set ft=json' -c '%!jq .'
+ft="set ft"
+grep -iq "content-type: text/html" <<< "$output" && ft="set ft=html"
+grep -iq "content-type: application/json" <<< "$output" && ft="set ft=json"
+
+if grep -iq -e "content-type: application/json" -e "HTTP.* 200" <<< "$output"; then
+  echo "$output" | awk '/^\s*$/ { headers_done=1 } headers_done {print}' | nvim -c 'set buftype=nofile' -c 'set ft=json' -c '%!jq .'
+else
+  echo "$output" | nvim -c 'set buftype=nofile' -c "$ft"
+fi
