@@ -12,7 +12,7 @@ tmux_menu() {
   title="$1"
   shift
 
-  tmux display-popup -h 17 -w 40 -y 15% -EE sh -c "echo -e \"$*\" | mina -sep @ -title \"$title\" -mode menu >~/.cache/mina_response"
+  tmux display-popup -h 17 -w 40 -y 15% -EE sh -c "printf \"%s\n\" \"$*\" | mina -sep @ -title \"$title\" -mode menu >~/.cache/mina_response"
   cat ~/.cache/mina_response
 }
 
