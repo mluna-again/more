@@ -13,7 +13,7 @@ collection_browser:
 text_input:
   blinking_cursor: false
 
-pager_json: jnv
+pager_json: nvim
 pager: nvim
 editor: nvim
 
