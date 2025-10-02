@@ -105,7 +105,7 @@ if [ "$NO_POSTPROCESSING" -eq 1 ]; then
 	exit
 fi
 
-ft="set ft"
+ft="silent set ft"
 grep -iq "content-type: text/html" <<< "$output" && ft="set ft=html"
 grep -iq "content-type: application/json" <<< "$output" && ft="set ft=json"
 
