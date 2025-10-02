@@ -22,6 +22,7 @@ return {
       c = { "clang-format" },
       css = { "prettier" },
       cpp = { "clang-format" },
+      sql = { "sqlfluff" },
     },
   },
 }

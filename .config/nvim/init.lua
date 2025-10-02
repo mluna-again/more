@@ -25,16 +25,27 @@ vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 -- VIM MODS
 vim.cmd("packadd cfilter")
 
--- LSP
--- im so tired of this bs man every 6 months they change eveything
-local servers = {}
-for _, f in pairs(vim.api.nvim_get_runtime_file('lsp/*.lua', true)) do
-  local server_name = vim.fn.fnamemodify(f, ':t:r')
-  table.insert(servers, server_name)
-end
-vim.lsp.enable(servers)
-
 -- FUNCTIONS
+function getLsp()
+  local servers = {}
+  for _, f in pairs(vim.api.nvim_get_runtime_file('lsp/*.lua', true)) do
+    local server_name = vim.fn.fnamemodify(f, ':t:r')
+    table.insert(servers, server_name)
+  end
+  return servers
+end
+
+-- LspStop only stops it from the current buffer but then it will start the server again when you open other file, who thought that was a good idea?
+vim.api.nvim_create_user_command("LspReallyStop", function()
+  vim.lsp.enable(getLsp(), false)
+end, {})
+
+vim.api.nvim_create_user_command("LspEnable", function()
+  vim.lsp.enable(getLsp())
+end, {})
+
+vim.lsp.enable(getLsp())
+
 vim.api.nvim_create_user_command("GoAddTags", function()
   if not (vim.bo.filetype == "go") then
     print("Not a go file")
