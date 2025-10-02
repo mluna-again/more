@@ -8,7 +8,6 @@ installed() {
 }
 
 installed hurl "Missing dependency: hurl"
-installed jnv "Missing dependency: jnv"
 
 isdarwin() {
 	uname | grep -i darwin
@@ -23,8 +22,6 @@ usage() {
 	-h             help
 	-f <file>      hurl file to execute
 	-x <flag>      hurl flag to append
-	-J             skip JSON parsing (no jvn but still jq to format)
-	-JJ            skip JSON parsing and formatting (no jvn and no jq)
 	-X             no postprocessing, just run the request and return the bare response
 	               (this also enables the -i hurl flag)
 
@@ -50,8 +47,6 @@ fi
 
 [ $# -eq 0 ] && usage
 [ $# -eq 1 ] && FILE="$1"
-NO_PARSE_JSON=0
-NO_FORMAT_JSON=0
 NO_POSTPROCESSING=0
 HURL_ARGS=(--color --error-format=long)
 while true; do
@@ -60,15 +55,6 @@ while true; do
 	case "$1" in
 		-h|--help)
 			usage
-			;;
-
-		-J)
-			NO_PARSE_JSON=1
-			;;
-
-		-JJ)
-			NO_PARSE_JSON=1
-			NO_FORMAT_JSON=1
 			;;
 
 		-X)
@@ -119,14 +105,4 @@ if [ "$NO_POSTPROCESSING" -eq 1 ]; then
 	exit
 fi
 
-if [ "$NO_PARSE_JSON" -eq 0 ]; then
-	if ! jnv <<< "$output"; then
-		echo "$output"
-	fi
-else
-	if [ "$NO_FORMAT_JSON" -eq 0 ]; then
-		echo "$output" | jq
-	else
-		echo "$output"
-	fi
-fi
+echo "$output" | nvim -c 'set buftype=nofile' -c 'set ft=json' -c '%!jq .'
