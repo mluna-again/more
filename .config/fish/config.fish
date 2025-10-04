@@ -138,3 +138,10 @@ end
 if test -n "$fish_private_mode"
   set -x STARSHIP_FISH_PRIVATE_MODE "$fish_private_mode"
 end
+
+# pnpm
+set -gx PNPM_HOME "/home/mluna/.local/share/pnpm"
+if not string match -q -- $PNPM_HOME $PATH
+  set -gx PATH "$PNPM_HOME" $PATH
+end
+# pnpm end
