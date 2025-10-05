@@ -166,6 +166,10 @@ return {
           BlinkCmpKindConstructor = { fg = theme.ui.bg_p2, bg = theme.syn.fun },
           BlinkCmpKindTypeParameter = { fg = theme.ui.bg_p2, bg = theme.syn.parameter },
 
+          TabLine = { bg = theme.ui.bg_p2, fg = theme.ui.fg },
+          TabLineSel = { bg = theme.ui.bg_p1, fg = theme.ui.fg },
+          TabLineFill = { bg = theme.ui.bg },
+
           ["@string.special.url"] = { undercurl = false },
         }
       end,

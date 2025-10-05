@@ -86,6 +86,11 @@ vim.api.nvim_create_user_command("ShellCheck", function()
 end, {})
 
 -- KEYMAPS
+vim.keymap.del({"n", "v"}, "gra")
+vim.keymap.del({"n"}, "gri")
+vim.keymap.del({"n"}, "grn")
+vim.keymap.del({"n"}, "grr")
+vim.keymap.del({"n"}, "grt")
 -- disable snippet with C-l
 vim.keymap.set({"i", "s", "n"}, '<C-l>', function()
   vim.snippet.stop()
@@ -117,6 +122,10 @@ vim.keymap.set("n", "<leader>lf", vim.lsp.buf.definition, { desc = "Go to defini
 vim.keymap.set("n", "<leader>ld", vim.diagnostic.open_float, { desc = "See inline diagnostics" })
 vim.keymap.set("n", "<leader>lq", vim.diagnostic.setqflist, { desc = "Send diagnostics to qflist" })
 vim.keymap.set("i", "<c-s>", vim.lsp.buf.signature_help, { desc = "Signature" })
+vim.keymap.set("n", "gn", "<cmd>tabnew<cr>", { desc = "New tab" })
+vim.keymap.set("n", "gr", "<cmd>tabprev<cr>", { desc = "Next tab" })
+vim.keymap.set("n", "gt", "<cmd>tabnext<cr>", { desc = "Previous tab" })
+vim.keymap.set("n", "gd", "<cmd>tabclose<cr>", { desc = "Close current tab" })
 
 -- PLUGINS
 local is_windows = vim.fn.has "win32" ~= 0
