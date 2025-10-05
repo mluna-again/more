@@ -88,6 +88,7 @@ abbr --add nv NVIM_APPNAME=bare_nvim nvim
 abbr --add pager $MANPAGER
 abbr --add ss ss -nlput
 abbr --add dtrees cd '(trees.sh dir)'
+abbr --add ympv mpv --script-opts=ytdl_hook-ytdl_path=yt-dlp
 
 set fish_cursor_default block
 set fish_cursor_insert block
