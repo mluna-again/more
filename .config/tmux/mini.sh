@@ -9,7 +9,7 @@ sed -e 's|\(.*plugins/tpm/tpm.*\)|# \1|g' \
   -e 's|run-shell .*search_forwards.sh.*$|command-prompt -T search -p "(search down)" { send-keys -X search-forward "%%" }|g ' \
   -e 's|run-shell .*rename_window.*$|command-prompt -p "Rename window:" "rename-window -t . %%"|g ' \
   -e 's|^bind.*run-shell .*resize.sh.*$|bind Left resize-pane -t . -L 5\nbind Right resize-pane -t . -R 5\nbind Up resize-pane -t . -U 5\nbind Down resize-pane -t . -D 5|g ' \
-  -e 's|run-shell .*reload.sh.*$|source-file ~/.tmux.conf ; display-message "Config reloaded"|g ' \
+  -e 's|run-shell .*reload.sh.*$|source-file ~/.tmux.conf \\; display-message "Config reloaded"|g ' \
   -e 's|display-popup .*switch_session.sh.*$|choose-tree|g ' \
   ~/.tmux.conf | \
   awk '{
