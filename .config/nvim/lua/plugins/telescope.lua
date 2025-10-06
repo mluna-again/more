@@ -30,12 +30,20 @@ return {
       selection_caret = "  ",
       mappings = {
         i = {
-          ["<C-s>"] = "select_horizontal",
-          ["<C-v>"] = "select_vertical",
+          ["<C-s>"] = function(buf)
+            require("telescope.actions.set").edit(buf, "belowright split")
+          end,
+          ["<C-v>"] = function(buf)
+            require("telescope.actions.set").edit(buf, "botright vsplit")
+          end,
         },
         n = {
-          ["<C-s>"] = "select_horizontal",
-          ["<C-v>"] = "select_vertical",
+          ["<C-s>"] = function(buf)
+            require("telescope.actions.set").edit(buf, "belowright split")
+          end,
+          ["<C-v>"] = function(buf)
+            require("telescope.actions.set").edit(buf, "botright vsplit")
+          end,
         },
       },
     }

@@ -45,7 +45,7 @@ return {
       ["`"] = "actions.cd",
       ["~"] = "actions.tcd",
       ["g."] = "actions.toggle_hidden",
-      ["<C-s>"] = { "actions.select", opts = { horizontal = true, close = true } },
+      ["<C-s>"] = { "actions.select", opts = { horizontal = true, close = true, split = "belowright" } },
     },
     view_options = {
       show_hidden = true,
