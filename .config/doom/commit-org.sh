@@ -2,9 +2,12 @@
 
 # Automatically commits Org mode files in ~/Org at a specific time
 # You can just copy this file to /etc/cron.daily/
-_HOME=/home/void
-_GIT_USER=void
-_GIT_EMAIL=example@void.com
+# You need to configure your git repo first.
+### YOU NEED TO CHANGE THIS ###
+_USER=void
+### YOU NEED TO CHANGE THIS ###
+
+_HOME="/home/$_USER"
 
 # Uncomment this if you need help debugging this thing
 # exec > >(tee "$_HOME/commit-org.log") 2>&1
@@ -33,13 +36,6 @@ fi
 
 cd "$_HOME/Org" || exit
 
-if [ ! -d .git ]; then
-  git init || exit
-fi
-
-git config user.name "$_GIT_USER" || exit
-git config user.email "$_GIT_EMAIL" || exit
-
 if [ "$(are_there_changes)" -eq 0 ]; then
   log no changes
   exit
@@ -47,3 +43,8 @@ fi
 
 git add . || exit
 git commit -m "$(date_formatted)" || exit
+
+if [ -n "$(git remote -v)" ]; then
+  # use user's ssh key
+  sudo -u "$_USER" git push || exit
+fi
