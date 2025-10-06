@@ -7,7 +7,8 @@
 _USER=void
 ### YOU NEED TO CHANGE THIS ###
 
-_HOME="/home/$_USER"
+# this doesnt feel right
+_HOME=$(eval echo ~$_USER) || exit
 
 # Uncomment this if you need help debugging this thing
 # exec > >(tee "$_HOME/commit-org.log") 2>&1
