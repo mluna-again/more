@@ -2,6 +2,7 @@
 
 source ~/.local/scripts/bin/tmux_util.sh || exit
 
+SAVER="Screen saver"
 GEMMA=Gemma
 START_APPS="Start applications"
 STOP_APPS="Stop applications"
@@ -18,6 +19,7 @@ RELOAD_CONFIG="Reload TMUX config"
 AUTISM="Autism"
 
 items=$(cat - <<EOF
+$SAVER@Space
 $GEMMA@g
 $START_APPS@s
 $STOP_APPS@S
@@ -39,6 +41,7 @@ response=$(tmux_menu "Command palette" "$items")
 [ -z "$response" ] && exit 0
 
 case "$response" in
+  "$SAVER") ~/.local/scripts/bin/tmux_samurai.sh ;;
   "$GEMMA") ~/.local/scripts/bin/tmux_gemma.sh ;;
   "$START_APPS") ~/.local/scripts/bin/tmux_start_apps.sh ;;
   "$STOP_APPS") ~/.local/scripts/bin/tmux_stop_apps.sh ;;
