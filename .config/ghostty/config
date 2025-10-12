@@ -25,7 +25,7 @@ font-family = "JetBrainsMono Nerd Font Mono"
 font-style-bold = false
 font-style-italic = false
 font-style-bold-italic = false
-font-size = 14
+font-size = 12
 adjust-cell-height = 60%
 
 cursor-style = block
@@ -42,6 +42,7 @@ title = "Ghostty"
 window-padding-x = 3
 window-padding-y = 3
 window-padding-color = extend
+window-decoration = none
 macos-titlebar-style = hidden
 
 clipboard-read = ask
