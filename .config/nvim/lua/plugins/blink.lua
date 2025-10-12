@@ -54,6 +54,7 @@ return {
     sources = {
       default = { 'lsp', 'path', 'snippets', 'buffer' },
       providers = {
+        lsp = { fallbacks = {} },
         snippets = {
           opts = {
             friendly_snippets = false,
