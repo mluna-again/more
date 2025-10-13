@@ -30,8 +30,9 @@ adjust-cell-height = 60%
 
 cursor-style = block
 cursor-style-blink = true
-shell-integration-features = no-cursor
 mouse-hide-while-typing = true
+
+shell-integration-features = no-cursor,ssh-env
 
 background-opacity = 1
 background-blur = true
