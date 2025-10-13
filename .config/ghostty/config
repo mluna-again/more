@@ -30,6 +30,7 @@ adjust-cell-height = 60%
 
 cursor-style = block
 cursor-style-blink = true
+shell-integration-features = no-cursor
 mouse-hide-while-typing = true
 
 background-opacity = 1
