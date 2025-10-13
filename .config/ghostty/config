@@ -55,8 +55,9 @@ clipboard-paste-bracketed-safe = false
 
 quit-after-last-window-closed = true
 
-# custom-shader = ~/.config/ghostty/shaders/crt.glsl
 custom-shader = ~/.config/ghostty/shaders/cursor_trail.glsl
+# custom-shader = ~/.config/ghostty/shaders/crt.glsl
+# custom-shader = ~/.config/ghostty/shaders/drunk.glsl
 
 keybind = ctrl+f=toggle_maximize
 keybind = ctrl+shift+f=toggle_fullscreen
