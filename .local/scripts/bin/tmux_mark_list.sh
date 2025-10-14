@@ -16,7 +16,7 @@ read -r session window pane _name <<< "$selected"
 
 # reorder marks so the most recent one is the first
 sorted=$(sed "/^${selected}.*$/d" < "$STATE") || exit
-printf "%s\n%s" "$selected" "$sorted" > "$STATE" || exit
+printf "%s\n%s\n" "$selected" "$sorted" > "$STATE" || exit
 
 tmux switch-client -t "$session" || exit
 tmux select-window -t "$window" || exit
