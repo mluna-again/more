@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-source ~/.local/scripts/bin/tmux_util.sh
+source ~/.local/scripts/bin/tmux_util.sh || exit
 
 STATE="$HOME/.local/share/tmux_marks"
 if [ ! -s "$STATE" ]; then

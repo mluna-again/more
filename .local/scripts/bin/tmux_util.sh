@@ -7,6 +7,17 @@ _SHELLS=(
   zsh
 )
 
+# MARKS
+mark_pane_if_not_already() {
+  local current
+  current=$(tmux display -p "#{pane_title}") || return
+  if grep -iq "^M: " <<< "$current"; then
+    return 0
+  fi
+  tmux select-pane -T "M: #{pane_title}"
+}
+# MARKS
+
 tmux_alert() {
   tmux display "$*"
 }

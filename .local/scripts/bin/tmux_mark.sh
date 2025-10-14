@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-source ~/.local/scripts/bin/tmux_util.sh
+source ~/.local/scripts/bin/tmux_util.sh || exit
 
 STATE="$HOME/.local/share/tmux_marks"
 
@@ -15,5 +15,7 @@ if [ -n "$(awk "\$4 == \"$name\"" "$STATE")" ]; then
   tmux_alert There is already a mark with that name
   exit 0
 fi
+
+mark_pane_if_not_already
 
 printf "%s\n" "$session $window $pane_index $name" >> "$STATE"

@@ -1,5 +1,7 @@
 #! /usr/bin/env bash
 
+source ~/.local/scripts/bin/tmux_util.sh || exit
+
 STATE="$HOME/.local/share/tmux_marks"
 
 session=$(tmux display -p "#{session_name}") || exit
@@ -20,3 +22,5 @@ read -r session window pane _name <<< "$next"
 tmux switch-client -t "$session" || exit
 tmux select-window -t "$window" || exit
 tmux select-pane -t "$pane" || exit
+
+mark_pane_if_not_already

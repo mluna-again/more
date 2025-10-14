@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-source ~/.local/scripts/bin/tmux_util.sh
+source ~/.local/scripts/bin/tmux_util.sh || exit
 
 STATE="$HOME/.local/share/tmux_marks"
 if [ ! -s "$STATE" ]; then
@@ -21,3 +21,5 @@ printf "%s\n%s\n" "$selected" "$sorted" > "$STATE" || exit
 tmux switch-client -t "$session" || exit
 tmux select-window -t "$window" || exit
 tmux select-pane -t "$pane" || exit
+
+mark_pane_if_not_already
