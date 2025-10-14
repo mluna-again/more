@@ -22,7 +22,7 @@ switch_to_session_window_and_pane() {
     tmux select-window -t "$window" || return
     tmux select-pane -t "$pane" || return
   else
-    tmux_alert "No pane found: $name"
+    tmux_alert "No mark found: $name"
     return 1
   fi
 
