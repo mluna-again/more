@@ -11,6 +11,7 @@ SEND_KEYS="Send keys"
 CLEAR_PANES="Clear panes"
 TODO=Todo
 MATRIX=Matrix
+CLEAR_MARKS="Remove all marks"
 CLOSE_EMPTY_PANELS="Close empty panels"
 TOGGLE_BORDERS="Toggle panel borders"
 PRIV_MODE="Private mode"
@@ -28,6 +29,7 @@ $SEND_KEYS@k
 $CLEAR_PANES@C
 $TODO@m
 $MATRIX@M
+$CLEAR_MARKS@G
 $CLOSE_EMPTY_PANELS@X
 $TOGGLE_BORDERS@P
 $PRIV_MODE@p
@@ -42,6 +44,7 @@ response=$(tmux_menu "Command palette" "$items")
 
 case "$response" in
   "$SAVER") ~/.local/scripts/bin/tmux_samurai.sh ;;
+  "$CLEAR_MARKS") ~/.local/scripts/bin/tmux_mark_rm_all.sh ;;
   "$GEMMA") ~/.local/scripts/bin/tmux_gemma.sh ;;
   "$START_APPS") ~/.local/scripts/bin/tmux_start_apps.sh ;;
   "$STOP_APPS") ~/.local/scripts/bin/tmux_stop_apps.sh ;;
