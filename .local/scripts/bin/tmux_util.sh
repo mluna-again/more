@@ -44,9 +44,11 @@ unmark_pane() {
 }
 
 unmark_all() {
-  while read -r session window pane_index name; do
-    unmark_pane "$session" "$window" "$pane_index" "$name"
-  done < "$1"
+  local pane_id name
+  while read -r pane_id name; do
+    new_name=$(sed 's|^M: ||g' <<< "$name")
+    tmux select-pane -t "$pane_id" -T "$new_name"
+  done < <(tmux list-panes -a -F '#{pane_id} #{pane_title}' -f '#{m/r:^M: ,#{pane_title}}')
 }
 
 mark_pane_if_not_already() {
