@@ -13,6 +13,7 @@ next=$(awk "NR==$next" "$STATE")
 if [ -z "$next" ]; then
   next=$(tail -n 1 "$STATE")
 fi
+[ -z "$next" ] && exit 0
 
 read -r session window pane _name <<< "$next"
 
