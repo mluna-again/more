@@ -8,6 +8,47 @@ _SHELLS=(
 )
 
 # MARKS
+switch_to_session_window_and_pane() {
+  local session window pane_index name has_session has_window has_pane
+  session="$1"
+  window="$2"
+  pane_index="$3"
+  name="$4"
+
+  has_pane=$(tmux list-panes -a -F "#{session_name} #{window_name} #{pane_index}" | grep -q "$session $window $pane_index" && echo 1)
+
+  if [ "$has_pane" -eq 1 ]; then
+    tmux switch-client -t "$session" || return
+    tmux select-window -t "$window" || return
+    tmux select-pane -t "$pane" || return
+  else
+    tmux_alert "No pane found: $name"
+    return 1
+  fi
+
+  return 0
+}
+
+unmark_pane() {
+  local session window pane_index name pane_id
+  session="$1"
+  window="$2"
+  pane_index="$3"
+  name="$4"
+
+  pane_id=$(tmux list-panes -a -F "#{session_name} #{window_name} #{pane_index} #{pane_id}" | grep "$session $window $pane_index .*" | awk '{print $4}') || return 1
+  [ -z "$pane_id" ] && return 0
+
+  new_name=$(sed 's|^M: ||g' <<< "$name")
+  tmux select-pane -t "$pane_id" -T "$new_name"
+}
+
+unmark_all() {
+  while read -r session window pane_index name; do
+    unmark_pane "$session" "$window" "$pane_index" "$name"
+  done < "$1"
+}
+
 mark_pane_if_not_already() {
   local current
   current=$(tmux display -p "#{pane_title}") || return

@@ -17,10 +17,8 @@ if [ -z "$next" ]; then
 fi
 [ -z "$next" ] && exit 0
 
-read -r session window pane _name <<< "$next"
+read -r session window pane name <<< "$next"
 
-tmux switch-client -t "$session" || exit
-tmux select-window -t "$window" || exit
-tmux select-pane -t "$pane" || exit
+switch_to_session_window_and_pane "$session" "$window" "$pane" "$name" || exit 0
 
 mark_pane_if_not_already

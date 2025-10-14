@@ -12,6 +12,7 @@ items=$(cat "$STATE")
 selected=$(tmux_fzf_nth "Remove mark" 3 "$items") || exit
 [ -z "$selected" ] && exit 0
 
+unmark_pane $selected || exit
 clean=$(sed -e "/^.*${selected}.*$/d" "$STATE" -e '/^\s*$/d') || exit
 
 if [ -n "$clean" ]; then

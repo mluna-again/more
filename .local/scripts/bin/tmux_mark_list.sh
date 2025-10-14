@@ -12,14 +12,12 @@ items=$(cat "$STATE")
 selected=$(tmux_fzf_nth "Go to mark" 3 "$items") || exit
 [ -z "$selected" ] && exit 0
 
-read -r session window pane _name <<< "$selected"
+read -r session window pane name <<< "$selected"
 
 # reorder marks so the most recent one is the first
 sorted=$(sed "/^${selected}.*$/d" < "$STATE") || exit
 printf "%s\n%s\n" "$selected" "$sorted" > "$STATE" || exit
 
-tmux switch-client -t "$session" || exit
-tmux select-window -t "$window" || exit
-tmux select-pane -t "$pane" || exit
+switch_to_session_window_and_pane "$session" "$window" "$pane" "$name" || exit 0
 
 mark_pane_if_not_already
