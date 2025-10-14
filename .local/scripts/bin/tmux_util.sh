@@ -7,6 +7,35 @@ _SHELLS=(
   zsh
 )
 
+tmux_alert() {
+  tmux display "$*"
+}
+
+tmux_fzf_nth() {
+  local title h
+  title="$1"
+  shift
+  nth="$1"
+  shift
+
+  h=$(printf '%s\n' "$*" | wc -l)
+  h=$(( h + 3 )) # margin + header
+
+  tmux display-popup -h "$h" -w 40 -y 15% -EE sh -c "printf \"%s\n\" \"$*\" | mina -nth "$nth" -title \"$title\" -mode fzf -icon="" >~/.cache/mina_response"
+  cat ~/.cache/mina_response
+}
+
+tmux_fzf() {
+  local title h
+  title="$1"
+  shift
+  h=$(printf '%s\n' "$*" | wc -l)
+  h=$(( h + 3 )) # margin + header
+
+  tmux display-popup -h "$h" -w 40 -y 15% -EE sh -c "printf \"%s\n\" \"$*\" | mina -title \"$title\" -mode fzf -icon="" >~/.cache/mina_response"
+  cat ~/.cache/mina_response
+}
+
 tmux_menu() {
   local title h
   title="$1"
