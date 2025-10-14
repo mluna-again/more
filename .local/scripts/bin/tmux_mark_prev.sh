@@ -17,7 +17,7 @@ if [ -z "$next" ]; then
   next=$(tail -n 1 "$STATE")
 fi
 if [ -z "$next" ]; then
-  tmux_alert "No more sessions"
+  tmux_alert "No previous tag"
   exit 0
 fi
 

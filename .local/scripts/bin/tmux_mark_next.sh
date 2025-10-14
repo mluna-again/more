@@ -16,7 +16,7 @@ if [ -z "$next" ]; then
   next=$(awk "NR==1" "$STATE")
 fi
 if [ -z "$next" ]; then
-  tmux_alert "No more sessions"
+  tmux_alert "No next tag"
   exit 0
 fi
 
