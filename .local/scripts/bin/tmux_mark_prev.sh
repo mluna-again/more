@@ -16,7 +16,10 @@ next=$(awk "NR==$next" "$STATE")
 if [ -z "$next" ]; then
   next=$(tail -n 1 "$STATE")
 fi
-[ -z "$next" ] && exit 0
+if [ -z "$next" ]; then
+  tmux_alert "No more sessions"
+  exit 0
+fi
 
 read -r session window pane name <<< "$next"
 
