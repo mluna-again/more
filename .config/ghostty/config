@@ -62,3 +62,4 @@ custom-shader = ~/.config/ghostty/shaders/cursor_trail.glsl
 
 keybind = ctrl+f=toggle_maximize
 keybind = ctrl+shift+f=toggle_fullscreen
+keybind = ctrl+enter=unbind
