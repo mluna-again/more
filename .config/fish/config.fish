@@ -98,18 +98,6 @@ set fish_cursor_replace underscore
 set fish_cursor_external line
 set fish_cursor_visual block
 
-command -v z &>/dev/null; and function cd
-    z $argv
-end
-
-command -v eza &>/dev/null; and function ls
-    eza --icons -1 $argv
-end
-
-command -v eza &>/dev/null; and function ll
-    eza --icons -1 -lh $argv
-end
-
 command -v bat &>/dev/null; and function cat
     bat $argv
 end
@@ -131,9 +119,7 @@ set --erase _asdf_shims
 if status is-interactive
   # Commands to run in interactive sessions can go here
   command -v atuin &>/dev/null; and atuin init fish --disable-up-arrow | source
-  command -vq fortune; and fortune
   command -vq direnv; and direnv hook fish | source
-  command -vq zoxide; and zoxide init fish | source
   command -vq starship; and starship init fish | source
 
   set -g _host (hostname)
@@ -145,10 +131,3 @@ end
 if test -n "$fish_private_mode"
   set -x STARSHIP_FISH_PRIVATE_MODE "$fish_private_mode"
 end
-
-# pnpm
-set -gx PNPM_HOME "/home/mluna/.local/share/pnpm"
-if not string match -q -- $PNPM_HOME $PATH
-  set -gx PATH "$PNPM_HOME" $PATH
-end
-# pnpm end
