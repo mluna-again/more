@@ -21,6 +21,7 @@ vim.opt.fillchars = {eob = " "}
 vim.opt.foldenable = false
 vim.wo.foldmethod = "expr"
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.g.tmux_navigator_no_mappings = 1
 
 -- VIM MODS
 vim.cmd("packadd cfilter")
