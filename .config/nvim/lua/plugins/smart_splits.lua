@@ -3,6 +3,7 @@ return {
   -- some bug in the 2.0.5 version...
   -- version = '2.0.5',
   commit = "601cc6422b2b94af2e88d14358b81cf7dfb5db5f",
+  lazy = false,
   keys = {
     { "<leader>wh", function() require("smart-splits").move_cursor_left() end, desc =  "Go to left window" },
     { "<leader>wl", function() require("smart-splits").move_cursor_right() end, desc =  "Go to right window" },
