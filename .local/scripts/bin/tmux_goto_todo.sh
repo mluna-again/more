@@ -10,8 +10,9 @@ fi
 
 current_session=$(tmux display -p '#{session_name}') || exit
 if ! tmux switch-client -t todo; then
-  tmux new-session -d -c "$_TODO_DIR" -n emacs -s todo emacsclient -a '' --tty todo.org
+  tmux new-session -d -c "$_TODO_DIR" -n emacs -s todo
   tmux switch-client -t todo
+  tmux send-keys -t todo emacsclient Space -a Space '' Space --tty Space todo.org Enter
   exit 0
 fi
 

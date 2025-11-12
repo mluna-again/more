@@ -3,7 +3,7 @@
 source ~/.local/scripts/bin/tmux_util.sh || exit
 
 SAVER="Screen saver"
-GEMMA=Gemma
+CRUSH=Crush
 START_APPS="Start applications"
 STOP_APPS="Stop applications"
 RUN_CMD="Run command"
@@ -20,8 +20,8 @@ RELOAD_CONFIG="Reload TMUX config"
 AUTISM="Autism"
 
 items=$(cat - <<EOF
-$SAVER@Space
-$GEMMA@g
+$SAVER@q
+$CRUSH@Space
 $START_APPS@s
 $STOP_APPS@S
 $RUN_CMD@r
@@ -45,7 +45,7 @@ response=$(tmux_menu "Command palette" "$items")
 case "$response" in
   "$SAVER") ~/.local/scripts/bin/tmux_samurai.sh ;;
   "$CLEAR_MARKS") ~/.local/scripts/bin/tmux_mark_rm_all.sh ;;
-  "$GEMMA") ~/.local/scripts/bin/tmux_gemma.sh ;;
+  "$CRUSH") ~/.local/scripts/bin/tmux_crush.sh ;;
   "$START_APPS") ~/.local/scripts/bin/tmux_start_apps.sh ;;
   "$STOP_APPS") ~/.local/scripts/bin/tmux_stop_apps.sh ;;
   "$RUN_CMD") ~/.local/scripts/bin/tmux_run_cmd_in_everypane.sh ;;

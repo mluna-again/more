@@ -14,8 +14,9 @@ fi
 current_session=$(tmux display -p '#{session_name}') || exit
 
 if ! tmux switch-client -t "$_TSESSION"; then
-  tmux new-session -d -c ~ -n "$_TSESSION" -s "$_TMUSICPLAYER" "$_TMUSICPLAYER"
-  tmux switch-client -t todo
+  tmux new-session -d -c ~ -n "$_TSESSION" -s "$_TSESSION"
+  tmux switch-client -t "$_TSESSION"
+  tmux send-keys -t "$_TSESSION" "$_TMUSICPLAYER" Enter
   exit 0
 fi
 

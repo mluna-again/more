@@ -18,7 +18,8 @@ set -U fish_user_paths /usr/local/bin \
     "$HOME/.local/zig" \
     "$HOME/.local/odin" \
     "$HOME/.local/bin/nvim/bin" \
-    "$HOME/.bun/bin"
+    "$HOME/.bun/bin" \
+    "$HOME/.config/composer/vendor/bin"
 
 bind -M insert \ce end-of-line
 bind -M insert \ca beginning-of-line
@@ -91,6 +92,8 @@ abbr --add dtrees cd '(trees.sh dir)'
 abbr --add ympv mpv --script-opts=ytdl_hook-ytdl_path=yt-dlp
 abbr --add gv nvim --listen /tmp/godot.pipe
 abbr --add r bin/rails
+abbr --add rd bin/dev
+abbr --add rc bin/rails console
 
 set fish_cursor_default block
 set fish_cursor_insert block
