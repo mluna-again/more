@@ -1,6 +1,6 @@
 {
   "blink.cmp": { "branch": "main", "commit": "2fcf66aa31e37d4b443c669ec1bf189530dcbf20" },
-  "conform.nvim": { "branch": "master", "commit": "25d48271e3d4404ba017cb92a37d3a681c1ad149" },
+  "conform.nvim": { "branch": "master", "commit": "cde4da5c1083d3527776fee69536107d98dae6c9" },
   "conjure": { "branch": "main", "commit": "230de4232577ef52e2044ea4ab5f65cd926a11e2" },
   "diffview.nvim": { "branch": "main", "commit": "1ec7b56b959dab18f7030f541c33ae60e18a6f88" },
   "emmet-vim": { "branch": "master", "commit": "def5d57a1ae5afb1b96ebe83c4652d1c03640f4d" },
