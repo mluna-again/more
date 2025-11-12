@@ -23,6 +23,7 @@ return {
       css = { "prettier" },
       cpp = { "clang-format" },
       sql = { "sqlfluff" },
+      clojure = { "cljfmt" },
     },
   },
 }

@@ -20,6 +20,10 @@ return {
       "c",
       "css",
       "cpp",
+      "python",
+      "clojure",
+      "sql",
+      "php",
     },
     auto_install = true,
     highlight = {
