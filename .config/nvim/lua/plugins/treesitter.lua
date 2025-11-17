@@ -24,6 +24,7 @@ return {
       "clojure",
       "sql",
       "php",
+      "rust"
     },
     auto_install = true,
     highlight = {
