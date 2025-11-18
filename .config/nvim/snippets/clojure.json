@@ -1,0 +1,9 @@
+{
+  "shebang": {
+    "prefix": "bb",
+    "description": "Insert babashka shebang",
+    "body": [
+      "#! /usr/bin/env bb\n\n"
+    ]
+  }
+}

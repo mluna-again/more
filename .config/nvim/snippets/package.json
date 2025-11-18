@@ -4,6 +4,7 @@
     "snippets": [
       { "language": ["sh"], "path": "./sh.json" },
       { "language": ["ruby"], "path": "./ruby.json" },
+      { "language": ["clojure"], "path": "./clojure.json" },
       { "language": "all", "path": "./all.json" }
     ]
   }
