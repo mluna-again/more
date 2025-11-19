@@ -62,11 +62,15 @@ vim.api.nvim_create_user_command("GoAddTags", function()
   vim.cmd("e")
 end, {})
 
-vim.api.nvim_create_user_command("SessionSave", function() 
+vim.api.nvim_create_user_command("TrimWhitespace", function()
+  vim.cmd([[:%s/\s\+$//e]])
+end, {})
+
+vim.api.nvim_create_user_command("SessionSave", function()
   vim.cmd("mksession! session.vim")
 end, {})
 
-vim.api.nvim_create_user_command("SessionLoad", function() 
+vim.api.nvim_create_user_command("SessionLoad", function()
   vim.cmd("source session.vim")
 end, {})
 
