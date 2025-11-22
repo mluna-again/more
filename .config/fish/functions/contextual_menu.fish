@@ -1,5 +1,6 @@
 function contextual_menu
   if test -f selune.sh
+    printf "\n"
     selune
     return
   end
