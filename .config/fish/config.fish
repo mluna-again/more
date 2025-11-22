@@ -31,8 +31,6 @@ bind -M insert \cw backward-kill-path-component
 bind -M insert \cr history-pager
 bind -M insert \co edit_command_buffer
 bind --mode insert --sets-mode default jj backward-char repaint
-bind -M default alt-x contextual_menu repaint
-bind -M insert alt-x contextual_menu repaint
 
 set -gx CURL_HOME "$HOME/.config/curl"
 set -gx HOMEBREW_NO_AUTO_UPDATE 1
