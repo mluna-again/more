@@ -32,14 +32,15 @@ multi_line_mode = psql
 # You can pass a list of destructive commands or leave it empty if you want to skip all warnings.
 # "unconditional_update" will warn you of update statements that don't have a where clause
 # i dont need this because destructive_statements_require_transaction is true
-destructive_warning = unconditional_update
+# nvm you need this to be set to make destructive_statements_require_transaction work (bruh?)
+destructive_warning = drop, shutdown, delete, truncate, alter, update, unconditional_update
 
 # When `destructive_warning` is on and the user declines to proceed with a
 # destructive statement, the current transaction (if any) is left untouched,
 # by default. When setting `destructive_warning_restarts_connection` to
 # "True", the connection to the server is restarted. In that case, the
 # transaction (if any) is rolled back.
-destructive_warning_restarts_connection = False
+destructive_warning_restarts_connection = True
 
 # When this option is on (and if `destructive_warning` is not empty),
 # destructive statements are not executed when outside of a transaction.
@@ -73,7 +74,7 @@ alias_map_file =
 log_file = default
 
 # keyword casing preference. Possible values: "lower", "upper", "auto"
-keyword_casing = auto
+keyword_casing = upper
 
 # casing_file location.
 # In Unix/Linux: ~/.config/pgcli/casing
