@@ -31,7 +31,8 @@ multi_line_mode = psql
 # "shutdown", "delete", or "update".
 # You can pass a list of destructive commands or leave it empty if you want to skip all warnings.
 # "unconditional_update" will warn you of update statements that don't have a where clause
-destructive_warning = drop, shutdown, delete, truncate, alter, update, unconditional_update
+# i dont need this because destructive_statements_require_transaction is true
+destructive_warning = unconditional_update
 
 # When `destructive_warning` is on and the user declines to proceed with a
 # destructive statement, the current transaction (if any) is left untouched,
