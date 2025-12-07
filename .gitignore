@@ -13,6 +13,9 @@ session.vim*
 /scratch-pad.exs
 
 /dev/
+/dev
+/sql/
+/sql
 
 .config/fish/fish_variables
 
