@@ -64,8 +64,10 @@ keybind = ctrl+f=toggle_maximize
 keybind = ctrl+shift+f=toggle_fullscreen
 keybind = ctrl+enter=unbind
 keybind = ctrl+equal=unbind
+keybind = ctrl+x=unbind
 
 keybind = cmd+f=toggle_maximize
 keybind = cmd+shift+f=toggle_fullscreen
 keybind = cmd+enter=unbind
 keybind = cmd+equal=unbind
+keybind = cmd+x=unbind
