@@ -110,7 +110,7 @@ grep -iq "content-type: text/html" <<< "$output" && ft="set ft=html"
 grep -iq "content-type: application/json" <<< "$output" && ft="set ft=json"
 
 if grep -iq -e "content-type: application/json" -e "HTTP.* 200" <<< "$output"; then
-  echo "$output" | awk '/^\s*$/ { headers_done=1 } headers_done {print}' | nvim -c 'set buftype=nofile' -c 'set ft=json' -c '%!jq .'
+  echo "$output" | awk '/^\s*$/ { headers_done=1 } headers_done {print}' | nvim -c 'set cmdheight=1' -c 'set buftype=nofile' -c 'set ft=json' -c '%!jq .'
 else
-  echo "$output" | nvim -c 'set buftype=nofile' -c "$ft"
+  echo "$output" | nvim -c 'set cmdheight=1' -c 'set buftype=nofile' -c "$ft"
 fi
