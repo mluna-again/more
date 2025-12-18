@@ -17,7 +17,7 @@ if ! selune_exists; then
   exit 0
 fi
 
-selune_functions=$(grep --extended-regexp "$FUNC_REGEX" "$SCRIPT_PATH" | sed -e 's|()||g' -e 's|\s*{\s*||' -e 's|#\s*|#|' | awk -F'#' '{if ($2 != "") { printf "%s\t\t\t# %s\n", $1, $2} else {print $1}}')
+selune_functions=$(grep --extended-regexp "$FUNC_REGEX" "$SCRIPT_PATH" | grep -v "^__" | sed -e 's|()||g' -e 's|\s*{\s*||' -e 's|#\s*|#|' | awk -F'#' '{if ($2 != "") { printf "%s\t\t\t# %s\n", $1, $2} else {print $1}}')
 if [ -z "$selune_functions" ]; then
   stderr "No functions found in $SCRIPT_NAME. Regex: $FUNC_REGEX"
   exit 0
