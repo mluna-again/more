@@ -45,6 +45,7 @@ set -gx SHELLCHECK_OPTS "-e SC2001 -e SC1090"
 set -gx MANPAGER "nvim '+Man!'"
 set -gx AUTOSSH_PORT 0
 set -gx POSTING_THEME_DIRECTORY "$HOME/.config/posting/themes"
+set -gx TMUXP_CONFIGDIR "$HOME/.local/tmuxp"
 
 abbr --add pg pgcli -h 127.0.0.1 -u postgres
 abbr --add dots yadm

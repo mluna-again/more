@@ -1,13 +1,43 @@
 #! /usr/bin/env bash
 
-output=$(tmux list-windows -f '#{!=:#{session_name},quake}' -a -F "#{session_id} #{window_id} #{session_name}: #{window_name}" | mina -nth 2,3 -title="Search a TMUX session" -icon="") || exit
+source ~/.local/scripts/bin/tmux_util.sh || exit
+
+files=$(find ~/.local/tmuxp -type f -exec awk '/session_name:/ {s=$2; } /window_name:/ {printf "%s: %s\n", s, $3}' {} \;)
+if [ -z "$files" ]; then
+  tmux_alert "No session files in ~/.local/tmuxp"
+  exit
+fi
+
+output=$(
+    echo "$files" | \
+    grep -v quake | \
+    sort -h | \
+    mina -title="Search a TMUX session" -icon=""
+)
 
 [ -z "$output" ] && exit
 
-session=$(awk '{print $1}' <<< "$output")
-window=$(awk '{print $2}' <<< "$output")
+session=$(awk -F: '{print $1}' <<< "$output" | xargs)
+window=$(awk -F: '{print $2}' <<< "$output" | xargs)
 
 [ -z "$session" ] && exit
 [ -z "$window" ] && exit
 
-tmux switch-client -t "$session" \; select-window -t "$window"
+if ! tmux has-session -t "$session" &>/dev/null; then
+  tmuxp load -d "$session" || exit
+fi
+
+retries=0
+while (( retries < 10 )); do
+  output=$(tmux switch-client -t "$session" \; select-window -t "$window" 2>&1)
+  res="$?"
+  [ "$res" -eq 0 ] && break
+
+  if [ "$res" -ne 0 ] && (( retries >= 9 )); then
+    echo "$output"
+    break
+  fi
+
+  retries=$(( retries + 1 ))
+  sleep 0.1
+done
