@@ -8,8 +8,12 @@ if [ -z "$files" ]; then
   exit
 fi
 
+sessions_without_config=$(
+  tmux list-sessions -F "#{session_name}: #{window_name}" | \
+    grep -v "$files"
+)
 output=$(
-    echo "$files" | \
+    echo -e "${files}\n${sessions_without_config}" | \
     grep -v quake | \
     sort -h | \
     mina -title="Search a TMUX session" -icon=""
