@@ -2,7 +2,7 @@
 
 source ~/.local/scripts/bin/tmux_util.sh || exit
 
-files=$(find ~/.local/tmuxp -type f -exec awk '/session_name:/ {s=$2; } /window_name:/ {printf "%s: %s\n", s, $3}' {} \;)
+files=$(find -L ~/.local/tmuxp -type f -exec awk '/session_name:/ {s=$2; } /window_name:/ {printf "%s: %s\n", s, $3}' {} \;)
 if [ -z "$files" ]; then
   tmux_alert "No session files in ~/.local/tmuxp"
   exit
