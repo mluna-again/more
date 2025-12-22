@@ -2,6 +2,7 @@ add_newline = true
 format = "$jobs${custom.fish_private}${custom.icon}$hostname$directory$status "
 right_format = "$git_status$git_branch"
 palette = "kanagawa-dragon"
+command_timeout = 2000
 
 [palettes.kanagawa-dragon]
 grey = "#a6a69c"
