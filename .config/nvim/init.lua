@@ -118,7 +118,7 @@ vim.keymap.set("n", "<leader>ss", "<cmd>SessionSave<cr>", { desc = "Save session
 vim.keymap.set("n", "<leader>sl", "<cmd>SessionLoad<cr>", { desc = "Load session" })
 vim.keymap.set("n", "<C-n>", "<cmd>cnext<cr>", { desc = "Go to next QuickList item" })
 vim.keymap.set("n", "<C-p>", "<cmd>cprevious<cr>", { desc = "Go to prev QuickList item" })
-vim.keymap.set("n", "<C-y>", [[:let @+ = substitute(expand("%:p"), getcwd(), ".", "")<cr>]], { desc = "Yanks the current file relative path to the system clipboard" })
+vim.keymap.set("n", "<C-y>", [[:let @+ = substitute(expand("%:p") . ":" . line("."), getcwd(), ".", "")<cr>]], { desc = "Yanks the current file relative path to the system clipboard" })
 vim.keymap.set("n", "<leader>lu", "<cmd>Telescope lsp_definitions<cr>", { desc = "Search definitions" })
 vim.keymap.set("n", "<leader>lc", vim.lsp.buf.code_action, { desc = "Code actions" })
 vim.keymap.set("n", "<leader>lh", vim.lsp.buf.hover, { desc = "Documentation" })
