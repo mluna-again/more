@@ -13,6 +13,7 @@ sed -e 's|\(.*plugins/tpm/tpm.*\)|# \1|g' \
   -e 's|display-popup .*switch_session.sh.*$|choose-tree|g ' \
   -e 's|status-right "\(.*\)"|status-right "#(uptime --pretty) \1"|g' \
   -e "s|status-right '\(.*\)'|status-right \"#(uptime --pretty) \1\"|g" \
+  -e "s|status-position.*|status-position bottom|g" \
   ~/.tmux.conf | \
   awk '{
     if ($0 ~ /run-shell/) {
