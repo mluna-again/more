@@ -9,7 +9,7 @@ if [ -z "$files" ]; then
 fi
 
 sessions_without_config=$(
-  tmux list-sessions -F "#{session_name}: #{window_name}" | \
+  tmux list-windows -a -F "#{session_name}: #{window_name}" | \
     grep -v "$files"
 )
 output=$(
