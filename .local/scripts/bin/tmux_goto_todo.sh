@@ -12,7 +12,7 @@ current_session=$(tmux display -p '#{session_name}') || exit
 if ! tmux switch-client -t todo; then
   tmux new-session -d -c "$_TODO_DIR" -n emacs -s todo
   tmux switch-client -t todo
-  tmux send-keys -t todo emacsclient Space -a Space '' Space --tty Space todo.org Enter
+  tmux send-keys -t todo emacsclient Space -a Space "''" Space --tty Space todo.org Enter
   exit 0
 fi
 
@@ -38,4 +38,4 @@ if ! looks_empty "$cmd"; then
   exit 0
 fi
 
-tmux send-keys -t "$pane" emacsclient Space -a Space \'\' Space --tty Space "$_TODO_DIR"/todo.org Enter
+tmux send-keys -t "$pane" emacsclient Space -a Space "''" Space --tty Space "$_TODO_DIR"/todo.org Enter
