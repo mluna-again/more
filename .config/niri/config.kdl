@@ -350,6 +350,13 @@ window-rule {
     clip-to-geometry true
 }
 
+recent-windows {
+  binds {
+    Mod+Tab         { next-window; }
+    Mod+Shift+Tab   { previous-window; }
+  }
+}
+
 binds {
     // Keys consist of modifiers separated by + signs, followed by an XKB key name
     // in the end. To find an XKB name for a particular key, you may use a program
@@ -532,7 +539,7 @@ binds {
     // Mod+Ctrl+1 { move-window-to-workspace 1; }
 
     // Switches focus between the current and the previous workspace.
-    Mod+Tab { focus-monitor-next; }
+    Alt+Tab { focus-monitor-next; }
 
     // The following binds move the focused window in and out of a column.
     // If the window is alone, they will consume it into the nearby column to the side.
