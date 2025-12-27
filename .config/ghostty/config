@@ -41,7 +41,7 @@ background-blur = true
 
 maximize = true
 
-title = "Ghostty"
+# title = "Ghostty"
 
 window-padding-x = 0
 window-padding-y = 0
