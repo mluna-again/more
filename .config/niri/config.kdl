@@ -115,7 +115,7 @@ input {
 // https://yalter.github.io/niri/Configuration:-Layout
 layout {
     // Set gaps around windows in logical pixels.
-    gaps 0
+    gaps 3
 
     // When to center a column when changing focus, options are:
     // - "never", default behavior, focusing an off-screen column will keep at the left
@@ -162,7 +162,7 @@ layout {
         // off
 
         // How many logical pixels the ring extends out from the windows.
-        width 2
+        width 1
 
         // Colors can be set in a variety of ways:
         // - CSS named colors: "red"
@@ -306,6 +306,19 @@ animations {
 
     // Slow down all animations by this factor. Values below 1 speed them up instead.
     // slowdown 3.0
+
+    workspace-switch {
+      spring damping-ratio=0.75 stiffness=1000 epsilon=0.0001
+    }
+
+    horizontal-view-movement {
+      spring damping-ratio=0.85 stiffness=1000 epsilon=0.0001
+    }
+
+    window-movement {
+      spring damping-ratio=0.85 stiffness=1000 epsilon=0.0001
+    }
+
 }
 
 // Window rules let you adjust behavior for individual windows.
@@ -345,12 +358,24 @@ window-rule {
 
 // Example: enable rounded corners for all windows.
 // (This example rule is commented out with a "/-" in front.)
-/-window-rule {
+window-rule {
     geometry-corner-radius 12
     clip-to-geometry true
 }
 
+overview {
+  zoom 0.6
+  backdrop-color "#181616"
+  workspace-shadow {
+    off
+  }
+}
+
 recent-windows {
+  highlight {
+    corner-radius 10
+  }
+
   binds {
     Mod+Tab         { next-window; }
     Mod+Shift+Tab   { previous-window; }
