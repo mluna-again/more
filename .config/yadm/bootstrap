@@ -2,5 +2,11 @@
 
 set -x
 
+### dependencies
+# niri
+# qt6-qtmultimedia
+# quickshell
+# dms
+
 go install github.com/mluna-again/mina@latest || exit
 go install github.com/mluna-again/samurai@latest || exit

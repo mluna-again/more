@@ -24,9 +24,10 @@ return {
       "clojure",
       "sql",
       "php",
-      "rust"
+      "rust",
+      "qmljs",
     },
-    auto_install = true,
+    auto_install = false,
     highlight = {
       enable = true,
     },

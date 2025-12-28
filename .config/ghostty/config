@@ -39,8 +39,6 @@ shell-integration-features = no-cursor,ssh-terminfo,ssh-env
 background-opacity = 1
 background-blur = true
 
-maximize = true
-
 # title = "Ghostty"
 
 window-padding-x = 0
