@@ -635,6 +635,8 @@ binds {
     // Powers off the monitors. To turn them back on, do any input like
     // moving the mouse or pressing any other key.
     // Mod+Shift+P { power-off-monitors; }
+    Mod+Shift+Period { spawn-sh "~/.local/scripts/bin/niri_power_on_monitors.sh"; }
+    Mod+Period { spawn-sh "~/.local/scripts/bin/niri_toggle_monitor.sh"; }
 }
 
 include "local.kdl"
