@@ -3,10 +3,22 @@
 set -x
 
 ### dependencies
+# bash 5+
+# nvim
+# fish
+# tmux
+# tmuxp
+# starship
+# fzf
+# go
 # niri
 # qt6-qtmultimedia
 # quickshell
 # dms
+## optional
+# atuin
+# ripgrep
+# hurl
 
 go install github.com/mluna-again/mina@latest || exit
 go install github.com/mluna-again/samurai@latest || exit
