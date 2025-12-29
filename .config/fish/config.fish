@@ -126,6 +126,8 @@ if status is-interactive
   command -v atuin &>/dev/null; and atuin init fish --disable-up-arrow | source
   command -vq direnv; and direnv hook fish | source
   command -vq starship; and starship init fish | source
+
+  test -z "$TMUX"; and t
 end
 
 if test -n "$fish_private_mode"
