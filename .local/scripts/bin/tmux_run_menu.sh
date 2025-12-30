@@ -2,6 +2,7 @@
 
 source ~/.local/scripts/bin/tmux_util.sh || exit
 
+KILL_SERVER="TMUX: kill server"
 SAVE_SESSION="Sessions: save current"
 KILL_SESSION="Sessions: kill session by name"
 SAVER="Utilities: screen saver"
@@ -21,6 +22,7 @@ RELOAD_CONFIG="TMUX: reload config"
 AUTISM="Random: autism"
 
 items=$(cat - <<EOF | sort -h
+$KILL_SERVER
 $SAVE_SESSION
 $KILL_SESSION
 $SAVER
@@ -46,6 +48,7 @@ response=$(tmux_fzf "Command palette" "$items")
 [ -z "$response" ] && exit 0
 
 case "$response" in
+  "$KILL_SERVER") ~/.local/scripts/bin/tmux_kill_server.sh;;
   "$SAVE_SESSION") ~/.local/scripts/bin/tmux_session_save.sh;;
   "$KILL_SESSION") ~/.local/scripts/bin/tmux_session_kill.sh;;
   "$SAVER") ~/.local/scripts/bin/tmux_samurai.sh ;;
