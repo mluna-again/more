@@ -19,27 +19,27 @@ FORWARD_PREFIX="Fordward prefix"
 RELOAD_CONFIG="Reload TMUX config"
 AUTISM="Autism"
 
-items=$(cat - <<EOF
-$SAVER@q
-$CRUSH@Space
-$START_APPS@s
-$STOP_APPS@S
-$RUN_CMD@r
-$SEND_KEYS@k
-$CLEAR_PANES@C
-$TODO@m
-$MATRIX@M
-$CLEAR_MARKS@G
-$CLOSE_EMPTY_PANELS@X
-$TOGGLE_BORDERS@P
-$PRIV_MODE@p
-$FORWARD_PREFIX@*
-$RELOAD_CONFIG@R
-$AUTISM@$
+items=$(cat - <<EOF | sort -h
+$SAVER
+$CRUSH
+$START_APPS
+$STOP_APPS
+$RUN_CMD
+$SEND_KEYS
+$CLEAR_PANES
+$TODO
+$MATRIX
+$CLEAR_MARKS
+$CLOSE_EMPTY_PANELS
+$TOGGLE_BORDERS
+$PRIV_MODE
+$FORWARD_PREFIX
+$RELOAD_CONFIG
+$AUTISM
 EOF
 )
 
-response=$(tmux_menu "Command palette" "$items")
+response=$(tmux_fzf "Command palette" "$items")
 [ -z "$response" ] && exit 0
 
 case "$response" in

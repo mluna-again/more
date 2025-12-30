@@ -74,8 +74,11 @@ tmux_fzf_nth() {
 
   h=$(printf '%s\n' "$*" | wc -l)
   h=$(( h + 3 )) # margin + header
+  termh=$(tput lines) || return
+  (( (h - 10) >= termh )) && h=$(( termh - 8 ))
+  (( h < 8 )) && h=8
 
-  tmux display-popup -h "$h" -w 40 -y 15% -EE sh -c "printf \"%s\n\" \"$*\" | mina -nth "$nth" -title \"$title\" -mode fzf -icon="" >~/.cache/mina_response"
+  tmux display-popup -h "$h" -w 40 -y S -EE sh -c "printf \"%s\n\" \"$*\" | mina -nth "$nth" -title \"$title\" -mode fzf -icon="" >~/.cache/mina_response"
   cat ~/.cache/mina_response
 }
 
@@ -85,8 +88,11 @@ tmux_fzf() {
   shift
   h=$(printf '%s\n' "$*" | wc -l)
   h=$(( h + 3 )) # margin + header
+  termh=$(tput lines) || return
+  (( (h - 10) >= termh )) && h=$(( termh - 8 ))
+  (( h < 8 )) && h=8
 
-  tmux display-popup -h "$h" -w 40 -y 15% -EE sh -c "printf \"%s\n\" \"$*\" | mina -title \"$title\" -mode fzf -icon="" >~/.cache/mina_response"
+  tmux display-popup -h "$h" -w 40 -y S -EE sh -c "printf \"%s\n\" \"$*\" | mina -title \"$title\" -mode fzf -icon="" >~/.cache/mina_response"
   cat ~/.cache/mina_response
 }
 
@@ -97,6 +103,9 @@ tmux_menu() {
 
   h=$(printf '%s\n' "$*" | wc -l)
   h=$(( h + 3 )) # margin + header
+  termh=$(tput lines) || return
+  (( (h - 10) >= termh )) && h=$(( termh - 8 ))
+  (( h < 8 )) && h=8
 
   tmux display-popup -h "$h" -w 40 -y S -EE sh -c "printf \"%s\n\" \"$*\" | mina -sep @ -title \"$title\" -mode menu >~/.cache/mina_response"
   cat ~/.cache/mina_response
