@@ -2,18 +2,14 @@
 
 source ~/.local/scripts/bin/tmux_util.sh || exit
 
-files=$(find -L ~/.local/tmuxp -type f -exec awk '/session_name:/ {s=$2; } /window_name:/ {printf "%s: %s\n", s, $3}' {} \;)
+files=$(get_sessions)
 if [ -z "$files" ]; then
   tmux_alert "No session files in ~/.local/tmuxp"
   exit
 fi
 
-sessions_without_config=$(
-  tmux list-windows -a -F "#{session_name}: #{window_name}" | \
-    grep -v "$files"
-)
 output=$(
-    echo -e "${files}\n${sessions_without_config}" | \
+    echo "$files" | \
     grep -v quake | \
     sort -h | \
     mina -title="Search a TMUX session" -icon=""

@@ -2,24 +2,25 @@
 
 source ~/.local/scripts/bin/tmux_util.sh || exit
 
-SAVER="Screen saver"
-CRUSH=Crush
-START_APPS="Start applications"
-STOP_APPS="Stop applications"
-RUN_CMD="Run command"
-SEND_KEYS="Send keys"
-CLEAR_PANES="Clear panes"
-TODO=Todo
-MATRIX=Matrix
-CLEAR_MARKS="Remove all marks"
-CLOSE_EMPTY_PANELS="Close empty panels"
-TOGGLE_BORDERS="Toggle panel borders"
-PRIV_MODE="Private mode"
-FORWARD_PREFIX="Fordward prefix"
-RELOAD_CONFIG="Reload TMUX config"
-AUTISM="Autism"
+SAVE_SESSION="Sessions: save current"
+SAVER="Utilities: screen saver"
+CRUSH="Utilities: crush"
+START_APPS="Automation: start applications"
+STOP_APPS="Automation: Stop applications"
+RUN_CMD="Automation: run command in every pane"
+SEND_KEYS="Automation: send keys to panes"
+CLEAR_PANES="Automation: clear panes"
+TODO="Utilities: TODOs"
+MATRIX="Random: matrix"
+CLOSE_EMPTY_PANELS="Automation: close empty panels"
+TOGGLE_BORDERS="Utilities: toggle panel borders"
+PRIV_MODE="Utilities: private mode"
+FORWARD_PREFIX="Utilities: fordward prefix"
+RELOAD_CONFIG="TMUX: reload config"
+AUTISM="Random: autism"
 
 items=$(cat - <<EOF | sort -h
+$SAVE_SESSION
 $SAVER
 $CRUSH
 $START_APPS
@@ -43,8 +44,8 @@ response=$(tmux_fzf "Command palette" "$items")
 [ -z "$response" ] && exit 0
 
 case "$response" in
+  "$SAVE_SESSION") ~/.local/scripts/bin/tmux_session_save.sh;;
   "$SAVER") ~/.local/scripts/bin/tmux_samurai.sh ;;
-  "$CLEAR_MARKS") ~/.local/scripts/bin/tmux_mark_rm_all.sh ;;
   "$CRUSH") ~/.local/scripts/bin/tmux_crush.sh ;;
   "$START_APPS") ~/.local/scripts/bin/tmux_start_apps.sh ;;
   "$STOP_APPS") ~/.local/scripts/bin/tmux_stop_apps.sh ;;
