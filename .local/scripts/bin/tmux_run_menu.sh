@@ -3,6 +3,7 @@
 source ~/.local/scripts/bin/tmux_util.sh || exit
 
 SAVE_SESSION="Sessions: save current"
+KILL_SESSION="Sessions: kill session by name"
 SAVER="Utilities: screen saver"
 CRUSH="Utilities: crush"
 START_APPS="Automation: start applications"
@@ -21,6 +22,7 @@ AUTISM="Random: autism"
 
 items=$(cat - <<EOF | sort -h
 $SAVE_SESSION
+$KILL_SESSION
 $SAVER
 $CRUSH
 $START_APPS
@@ -45,6 +47,7 @@ response=$(tmux_fzf "Command palette" "$items")
 
 case "$response" in
   "$SAVE_SESSION") ~/.local/scripts/bin/tmux_session_save.sh;;
+  "$KILL_SESSION") ~/.local/scripts/bin/tmux_session_kill.sh;;
   "$SAVER") ~/.local/scripts/bin/tmux_samurai.sh ;;
   "$CRUSH") ~/.local/scripts/bin/tmux_crush.sh ;;
   "$START_APPS") ~/.local/scripts/bin/tmux_start_apps.sh ;;
