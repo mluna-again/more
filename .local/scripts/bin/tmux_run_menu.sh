@@ -4,13 +4,11 @@ source ~/.local/scripts/bin/tmux_util.sh || exit
 
 KILL_SERVER="TMUX: kill server"
 SAVE_SESSION="Sessions: save current"
-KILL_SESSION="Sessions: kill session by name"
+KILL_SESSION="Sessions: kill session"
 SAVER="Utilities: screen saver"
 CRUSH="Utilities: crush"
 START_APPS="Automation: start applications"
 STOP_APPS="Automation: Stop applications"
-RUN_CMD="Automation: run command in every pane"
-SEND_KEYS="Automation: send keys to panes"
 CLEAR_PANES="Automation: clear panes"
 TODO="Utilities: TODOs"
 MATRIX="Random: matrix"
@@ -29,8 +27,6 @@ $SAVER
 $CRUSH
 $START_APPS
 $STOP_APPS
-$RUN_CMD
-$SEND_KEYS
 $CLEAR_PANES
 $TODO
 $MATRIX
@@ -55,8 +51,6 @@ case "$response" in
   "$CRUSH") ~/.local/scripts/bin/tmux_crush.sh ;;
   "$START_APPS") ~/.local/scripts/bin/tmux_start_apps.sh ;;
   "$STOP_APPS") ~/.local/scripts/bin/tmux_stop_apps.sh ;;
-  "$RUN_CMD") ~/.local/scripts/bin/tmux_run_cmd_in_everypane.sh ;;
-  "$SEND_KEYS") ~/.local/scripts/bin/tmux_sendkeys_everypane.sh ;;
   "$CLEAR_PANES") ~/.local/scripts/bin/tmux_clear_everypane.sh ;;
   "$TODO") ~/.local/scripts/bin/tmux_goto_todo.sh ;;
   "$MATRIX") ~/.local/scripts/bin/tmux_matrix.sh ;;
