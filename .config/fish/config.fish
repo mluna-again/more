@@ -121,6 +121,10 @@ if not contains $_asdf_shims $PATH
 end
 set --erase _asdf_shims
 
+if test -n "$fish_private_mode"
+  set -x STARSHIP_FISH_PRIVATE_MODE "$fish_private_mode"
+end
+
 if status is-interactive
   # Commands to run in interactive sessions can go here
   command -v atuin &>/dev/null; and atuin init fish --disable-up-arrow | source
@@ -128,8 +132,4 @@ if status is-interactive
   command -vq starship; and starship init fish | source
 
   test -z "$TMUX"; and t
-end
-
-if test -n "$fish_private_mode"
-  set -x STARSHIP_FISH_PRIVATE_MODE "$fish_private_mode"
 end
