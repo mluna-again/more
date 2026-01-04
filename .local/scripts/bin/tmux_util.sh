@@ -8,11 +8,9 @@ _SHELLS=(
 )
 
 get_sessions() {
-  files=$(find -L ~/.local/tmuxp -type f -exec awk '/session_name:/ {s=$2; } /window_name:/ {if ($3 == "") {n=$2} else {n=$3} printf "%s: %s\n", s, n}' {} \;)
-  sessions_without_config=$(
-    tmux list-windows -a -F "#{session_name}: #{window_name}" | \
-      grep -v "$files"
-  )
+  files=$(find -L ~/.local/tmuxp -type f -exec awk '/session_name:/ {s=$2; } /window_name:/ {if ($3 == "") {n=$2} else {n=$3} printf "%s: %s\n", s, n}' {} \; 2>/dev/null)
+  sessions_without_config=$(tmux list-windows -a -F "#{session_name}: #{window_name}")
+  [ -n "$files" ] && sessions_without_config=$(grep -v "$files" <<< "$sessions_without_config")
 
   echo -e "${files}\n${sessions_without_config}"
 }
