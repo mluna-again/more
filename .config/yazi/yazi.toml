@@ -20,10 +20,3 @@ image_quality = 50
 
 [input]
 cursor_blink = false
-
-[icon]
-globs = []
-dirs  = []
-files = []
-exts  = []
-conds = []
