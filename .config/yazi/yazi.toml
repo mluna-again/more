@@ -1,0 +1,29 @@
+[mgr]
+ratio = [2, 4, 3]
+sort_by = "btime"
+sort_sensitive = true
+sort_dir_first = true
+linemode = "btime"
+show_hidden = true
+show_symlink = true
+mouse_events = []
+title_format = "{cwd}"
+
+[preview]
+max_width = 800
+image_filter = "triangle"
+image_quality = 50
+
+[opener]
+
+[open]
+
+[input]
+cursor_blink = false
+
+[icon]
+globs = []
+dirs  = []
+files = []
+exts  = []
+conds = []
