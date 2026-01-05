@@ -3,6 +3,7 @@
 source ~/.local/scripts/bin/tmux_util.sh || exit
 
 KILL_SERVER="TMUX: kill server"
+SWITCH_PREFIX="TMUX: switch prefix"
 SAVE_SESSION="Sessions: save current"
 KILL_SESSION="Sessions: kill session"
 SAVER="Utilities: screen saver"
@@ -21,6 +22,7 @@ AUTISM="Random: autism"
 
 items=$(cat - <<EOF | sort -h
 $KILL_SERVER
+$SWITCH_PREFIX
 $SAVE_SESSION
 $KILL_SESSION
 $SAVER
@@ -44,6 +46,7 @@ response=$(tmux_fzf "Command palette" "$items")
 [ -z "$response" ] && exit 0
 
 case "$response" in
+  "$SWITCH_PREFIX") ~/.local/scripts/bin/tmux_toggle_prefix.sh;;
   "$KILL_SERVER") ~/.local/scripts/bin/tmux_kill_server.sh;;
   "$SAVE_SESSION") ~/.local/scripts/bin/tmux_session_save.sh;;
   "$KILL_SESSION") ~/.local/scripts/bin/tmux_session_kill.sh;;
