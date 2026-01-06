@@ -45,8 +45,6 @@ window-padding-x = 0
 window-padding-y = 0
 window-padding-color = background
 window-padding-balance = true
-window-decoration = none
-macos-titlebar-style = hidden
 
 clipboard-read = ask
 clipboard-write = allow
