@@ -1,0 +1,3 @@
+#! /usr/bin/env bash
+
+chafa --stretch --speed=20fps --margin-bottom=0 "$HOME/.local/vibes/simcat.gif"

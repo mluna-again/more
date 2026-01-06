@@ -3,9 +3,6 @@
 missing_deps=""
 
 command -v chafa &>/dev/null || missing_deps="chafa ${missing_deps}"
-command -v nms &>/dev/null || missing_deps="nms ${missing_deps}"
-command -v docker &>/dev/null || missing_deps="docker ${missing_deps}"
-command -v luna &>/dev/null || missing_deps="luna ${missing_deps}"
 command -v cava &>/dev/null || missing_deps="cava ${missing_deps}"
 
 if [ -n "$missing_deps" ]; then
@@ -18,7 +15,6 @@ _SHELLS=(
   bash
   sh
   zsh
-  nvim # i this this is not a shell
 )
 
 looks_empty() {
@@ -29,7 +25,6 @@ looks_empty() {
   return 1
 }
 
-neovim_count=0
 while read -r pane; do
   cmd=$(awk '{print $1}' <<< "$pane")
   id=$(awk '{print $2}' <<< "$pane")
@@ -37,48 +32,12 @@ while read -r pane; do
     tmux display "Not all panes are empty. Bye."
     exit 0
   fi
-
-  if [ "$cmd" = nvim ]; then
-    tmux select-pane -t "$id"
-    neovim_count=$(( neovim_count + 1 ))
-  fi
 done < <(tmux list-panes -F '#{pane_current_command} #{pane_id}')
 
-if (( neovim_count > 1 )); then
-  tmux display "More than one neovim instance detected. Bye."
-  exit 0
-fi
-
-if (( neovim_count < 1 )); then
-  tmux display "You don't have a neovim instance running. Bye."
-  exit 0
-fi
-
-~/.local/scripts/bin/tmux_matrix.sh 1 || exit 0
-
-index=0
-while read -r pane; do
-  cmd=$(awk '{print $1}' <<< "$pane")
-  id=$(awk '{print $2}' <<< "$pane")
-
-  [ "$cmd" = nvim ] && continue
-
-  tmux send-keys -t "$id" C-l
-
-  case "$index" in
-    0)
-      tmux send-keys -t "$id" cava Enter
-      ;;
-    1)
-      tmux send-keys -t "$id" ~/.local/scripts/bin/rain.sh Enter
-      ;;
-    2)
-      tmux send-keys -t "$id" luna Space -pet Space cat Space -animation Space sleeping Enter
-      ;;
-    3)
-      tmux send-keys -t "$id" ~/.local/scripts/bin/amogus.sh Enter
-      ;;
-  esac
-
-  index=$(( index + 1 ))
-done < <(tmux list-panes -F '#{pane_current_command} #{pane_id}')
+tmux split-window -c '#{pane_current_path}' -h -l 25% fish -C 'rain.sh || cmatrix'
+tmux split-window -c '#{pane_current_path}' -v -l 30% vibe
+tmux select-pane -t 0
+tmux split-window -c '#{pane_current_path}' -v -l 20% cava
+tmux select-pane -t 0
+sleep 0.3
+tmux send-keys -t 0 nvim Enter
