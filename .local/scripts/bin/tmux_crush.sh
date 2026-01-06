@@ -3,11 +3,15 @@
 source ~/.local/scripts/bin/tmux_util.sh || exit
 
 TSESSION=crush
+CRUSH_DIR="$HOME/.local/crush"
+if [ ! -d "$CRUSH_DIR" ]; then
+  mkdir "$CRUSH_DIR" || exit
+fi
 
 current_session=$(tmux display -p '#{session_name}') || exit
 
 if ! tmux switch-client -t "$TSESSION"; then
-  tmux new-session -d -c ~ -n "$TSESSION" -s "$TSESSION"
+  tmux new-session -d -c "$CRUSH_DIR" -n "$TSESSION" -s "$TSESSION"
   tmux switch-client -t "$TSESSION"
   tmux send-keys -t "$pane" crush Enter
   exit 0
