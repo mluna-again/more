@@ -34,7 +34,7 @@ while read -r pane; do
   fi
 done < <(tmux list-panes -F '#{pane_current_command} #{pane_id}')
 
-tmux split-window -c '#{pane_current_path}' -h -l 25% fish -C 'rain.sh || cmatrix'
+tmux split-window -c '#{pane_current_path}' -h -l 25% fish -C cmatrix
 tmux split-window -c '#{pane_current_path}' -v -l 30% vibe
 tmux select-pane -t 0
 tmux split-window -c '#{pane_current_path}' -v -l 20% cava
