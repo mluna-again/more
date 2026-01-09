@@ -17,11 +17,13 @@ function mksess
   echo "session_name: $argv[1]" | tee "$name"
   echo "windows:" | tee -a "$name"
   echo "  - window_name: starter" | tee -a "$name"
+  echo "    focus: true" | tee -a "$name"
   echo "    layout: tiled" | tee -a "$name"
   echo "    start_directory: ~/" | tee -a "$name"
   echo "    panes:" | tee -a "$name"
   echo "      - shell_command:" | tee -a "$name"
   echo "        - pwd" | tee -a "$name"
+  echo "        focus: true" | tee -a "$name"
   echo "        start_directory: ~/" | tee -a "$name"
   echo
   echo "Saved in $name"

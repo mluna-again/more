@@ -1,9 +1,8 @@
-set -U fish_greeting
+set -g fish_greeting
 set -g fish_key_bindings fish_vi_key_bindings
 set -g fish_color_valid_path
 
-set -e fish_user_paths
-set -U fish_user_paths /usr/local/bin \
+set -g fish_user_paths /usr/local/bin \
     /opt/homebrew/bin \
     /opt/homebrew/sbin \
     "$HOME/.local/go/bin" \
