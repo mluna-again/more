@@ -146,6 +146,7 @@ for cmd in "${commands[@]}"; do
     # shellcheck disable=SC2086
     tmux split-window -c '#{pane_current_path}' $shell "$cmd"
   fi
+  tmux select-layout tiled
 done
 
 if [ "$kill_pane" -eq 1 ]; then
