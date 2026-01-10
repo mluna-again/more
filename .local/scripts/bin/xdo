@@ -4,18 +4,39 @@
 
 usage() {
   cat << EOF
-Usage:
-$ cat urls.txt
-https://...
-https://...
-https://...
-$ cat urls.txt | xpanes ping {} # creates 3 panes running ping
+Synopsis:
+  xdo [options] <cmd>
 
-$ cat urls_with_names.txt
-file1 https://...
-file2 https://...
-file3 https://...
-$ cat urls.txt | xpanes curl {2} -o {1} # using line elements separately
+Description:
+  Reads every line of STDIN and runs <cmd> doing param substitution in a new TMUX pane.
+
+Options:
+  -s <shell> | --shell <shell>    shell command. SEE NOTES. (default: fish -C <cmd>)
+  -F <sep> | --sep <sep>          line separator (default: " ")
+  -P | --private                  use fish's private mode. this overrides --shell (default: no)
+  -x | --killp                    kill original pane after running all commands (default: no)
+  -h | --help                     show this message
+All options should be at the beginning, and the <cmd> starts after the first non-recognized option.
+
+Usage:
+  $ cat urls.txt
+  https://...
+  https://...
+  https://...
+  $ cat urls.txt | xdo ping {} # creates 3 panes running ping
+
+  $ cat urls_with_names.txt
+  file1 https://...
+  file2 https://...
+  file3 https://...
+  $ cat urls.txt | xdo curl {2} -o {1} # using line elements separately
+
+Special notes:
+  * If you want to use bash, you can't just do 'xdo -s bash ...', you need 'xdo -s "bash -c" ...'
+  * If you are using bash, and remain-on-exit is off, if you just do 'xdo -s "bash -c" ...' all panes will close as soon as the command is done running (no matter the exit code).
+  You probably don't want this (that's why fish -C is the default, it doesn't have this problem). You can do something like this 'xdo -s "bash -c" <command> \; bash'
+  * Honestly just don't use the --shell option, use something like 'xdo "bash -c ..."' instead, or run your command in a script with a shebang ¯\_(ツ)_/¯.
+  * Should I remove the --shell option? I think it is still useful to know the default value is 'fish -C'... I'll leave it.
 
 You need to run this script inside TMUX.
 EOF
@@ -26,7 +47,44 @@ EOF
 [ -z "$*" ] && usage
 
 separator=" "
+shell="fish -C"
+private=0
+kill_pane=0
+while true; do
+  [ -z "$1" ] && break
+
+  case "$1" in
+    -s|--shell)
+      shift
+      shell="$1"
+      ;;
+
+    -P|--private)
+      private=1
+      ;;
+
+    -x|--killp)
+      kill_pane=1
+      ;;
+
+    -F|--sep)
+      shift
+      separator="$1"
+      ;;
+
+    --help|-h|help)
+      usage
+      ;;
+
+    *)
+      break
+      ;;
+  esac
+
+  shift
+done
 command="$*"
+
 commands=()
 warnings=()
 
@@ -65,7 +123,16 @@ fi
 
 original_pane=$(tmux display -p '#{pane_id}') || exit
 for cmd in "${commands[@]}"; do
-  tmux split-window -c '#{pane_current_path}' fish -C "$cmd"
+  if [ "$private" -eq 1 ]; then
+    tmux split-window -c '#{pane_current_path}' fish -P -C "$cmd"
+  else
+    # shellcheck disable=SC2086
+    tmux split-window -c '#{pane_current_path}' $shell "$cmd"
+  fi
 done
 
-tmux select-pane -t "$original_pane" \; select-layout tiled
+if [ "$kill_pane" -eq 1 ]; then
+  tmux kill-pane -t "$original_pane" \; select-layout tiled
+else
+  tmux select-pane -t "$original_pane" \; select-layout tiled
+fi
