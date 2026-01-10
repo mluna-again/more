@@ -29,6 +29,7 @@ bind -M insert \cb edit_command_buffer
 bind -M insert \cw backward-kill-path-component
 bind -M insert \cr history-pager
 bind -M insert \co edit_command_buffer
+bind -M insert \cc cancel-commandline
 bind --mode insert --sets-mode default jj backward-char repaint
 
 set -gx CURL_HOME "$HOME/.config/curl"
