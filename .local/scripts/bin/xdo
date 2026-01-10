@@ -15,6 +15,7 @@ Options:
   -F <sep> | --sep <sep>          line separator (default: " ")
   -P | --private                  use fish's private mode. this overrides --shell (default: no)
   -x | --killp                    kill original pane after running all commands (default: no)
+  -l <name> | --layout <name>     tmux layout (default: tiled)
   -y | --yes                      don't ask for confirmation (default: no)
   -h | --help                     show this message
 All options should be at the beginning, and the <cmd> starts after the first non-recognized option.
@@ -47,11 +48,22 @@ EOF
 [ -z "$TMUX" ] && usage
 [ -z "$*" ] && usage
 
+valid_layout() {
+  [ even-horizontal = "$1" ] || \
+  [ even-vertical = "$1" ] || \
+  [ main-horizontal = "$1" ] || \
+  [ main-horizontal-mirrored = "$1" ] || \
+  [ main-vertical = "$1" ] || \
+  [ main-vertical-mirrored = "$1" ] || \
+  [ tiled = "$1" ]
+}
+
 separator=" "
 shell="fish -C"
 private=0
 kill_pane=0
 skip_confirmation=0
+layout=tiled
 while true; do
   [ -z "$1" ] && break
 
@@ -63,6 +75,15 @@ while true; do
     -s|--shell)
       shift
       shell="$1"
+      ;;
+
+    -l|--layout)
+      shift
+      layout="$1"
+      if ! valid_layout "$layout"; then
+        echo Invalid layout >&2
+        exit 1
+      fi
       ;;
 
     -P|--private)
@@ -146,11 +167,11 @@ for cmd in "${commands[@]}"; do
     # shellcheck disable=SC2086
     tmux split-window -c '#{pane_current_path}' $shell "$cmd"
   fi
-  tmux select-layout tiled
+  tmux select-layout "$layout"
 done
 
 if [ "$kill_pane" -eq 1 ]; then
-  tmux kill-pane -t "$original_pane" \; select-layout tiled
+  tmux kill-pane -t "$original_pane" \; select-layout "$layout"
 else
-  tmux select-pane -t "$original_pane" \; select-layout tiled
+  tmux select-pane -t "$original_pane" \; select-layout "$layout"
 fi
