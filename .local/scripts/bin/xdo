@@ -15,6 +15,7 @@ Options:
   -F <sep> | --sep <sep>          line separator (default: " ")
   -P | --private                  use fish's private mode. this overrides --shell (default: no)
   -x | --killp                    kill original pane after running all commands (default: no)
+  -y | --yes                      don't ask for confirmation (default: no)
   -h | --help                     show this message
 All options should be at the beginning, and the <cmd> starts after the first non-recognized option.
 
@@ -50,10 +51,15 @@ separator=" "
 shell="fish -C"
 private=0
 kill_pane=0
+skip_confirmation=0
 while true; do
   [ -z "$1" ] && break
 
   case "$1" in
+    -y|--yes)
+      skip_confirmation=1
+      ;;
+
     -s|--shell)
       shift
       shell="$1"
@@ -114,11 +120,13 @@ for warning in "${warnings[@]}"; do
   echo "[WARNING] $warning" >&2
 done
 
-echo
-printf "Continue? [N/y] "
-read -r response < /dev/tty
-if [ "${response,,}" != y ]; then
-  exit 1
+if [ "$skip_confirmation" -eq 0 ]; then
+  echo
+  printf "Continue? [N/y] "
+  read -r response < /dev/tty
+  if [ "${response,,}" != y ]; then
+    exit 1
+  fi
 fi
 
 original_pane=$(tmux display -p '#{pane_id}') || exit
