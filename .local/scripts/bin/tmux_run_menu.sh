@@ -8,7 +8,6 @@ CLEAR_PANE="TMUX: clear scrollback buffer"
 SAVE_SESSION="Sessions: save current"
 KILL_SESSION="Sessions: kill session"
 SAVER="Utilities: screen saver"
-CRUSH="Utilities: crush"
 START_APPS="Automation: start applications"
 STOP_APPS="Automation: Stop applications"
 CLEAR_PANES="Automation: clear panes"
@@ -28,7 +27,6 @@ $CLEAR_PANE
 $SAVE_SESSION
 $KILL_SESSION
 $SAVER
-$CRUSH
 $START_APPS
 $STOP_APPS
 $CLEAR_PANES
@@ -54,7 +52,6 @@ case "$response" in
   "$SAVE_SESSION") ~/.local/scripts/bin/tmux_session_save.sh;;
   "$KILL_SESSION") ~/.local/scripts/bin/tmux_session_kill.sh;;
   "$SAVER") ~/.local/scripts/bin/tmux_samurai.sh ;;
-  "$CRUSH") ~/.local/scripts/bin/tmux_crush.sh ;;
   "$START_APPS") ~/.local/scripts/bin/tmux_start_apps.sh ;;
   "$STOP_APPS") ~/.local/scripts/bin/tmux_stop_apps.sh ;;
   "$CLEAR_PANES") ~/.local/scripts/bin/tmux_clear_everypane.sh ;;
