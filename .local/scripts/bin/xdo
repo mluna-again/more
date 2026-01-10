@@ -1,0 +1,71 @@
+#! /usr/bin/env bash
+
+# vim:set filetype=sh:
+
+usage() {
+  cat << EOF
+Usage:
+$ cat urls.txt
+https://...
+https://...
+https://...
+$ cat urls.txt | xpanes ping {} # creates 3 panes running ping
+
+$ cat urls_with_names.txt
+file1 https://...
+file2 https://...
+file3 https://...
+$ cat urls.txt | xpanes curl {2} -o {1} # using line elements separately
+
+You need to run this script inside TMUX.
+EOF
+  exit 1
+}
+
+[ -z "$TMUX" ] && usage
+[ -z "$*" ] && usage
+
+separator=" "
+command="$*"
+commands=()
+warnings=()
+
+while read -r line; do
+  fields_num=$(awk -F"$separator" '{print NF}' <<< "$line") || exit
+  _command="$command"
+  index=0
+  for (( i=0 ; i < fields_num ; i++ )); do
+    index=$(( index + 1 ))
+    value=$(awk -F"$separator" "{print \$$index}" <<< "$line") || exit
+    _command=$(sed "s|{$index}|$value|g" <<< "$_command") || exit
+  done
+  _command=$(sed "s|{}|$line|g" <<< "$_command") || exit
+
+  commands+=("$_command")
+  if grep -q '{[0-9]*}' <<< "$_command"; then
+    warnings+=("$_command has placeholders without a value")
+  fi
+done
+
+for cmd in "${commands[@]}"; do
+  echo "$cmd"
+done
+
+[ -n "${warnings[*]}" ] && echo
+for warning in "${warnings[@]}"; do
+  echo "[WARNING] $warning" >&2
+done
+
+echo
+printf "Continue? [N/y] "
+read -r response < /dev/tty
+if [ "${response,,}" != y ]; then
+  exit 1
+fi
+
+original_pane=$(tmux display -p '#{pane_id}') || exit
+for cmd in "${commands[@]}"; do
+  tmux split-window -c '#{pane_current_path}' fish -C "$cmd"
+done
+
+tmux select-pane -t "$original_pane" \; select-layout tiled
