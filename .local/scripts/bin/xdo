@@ -95,6 +95,10 @@ commands=()
 warnings=()
 
 while read -r line; do
+  if grep -q '^\s*$' <<< "$line"; then
+    continue
+  fi
+
   fields_num=$(awk -F"$separator" '{print NF}' <<< "$line") || exit
   _command="$command"
   index=0
@@ -110,6 +114,11 @@ while read -r line; do
     warnings+=("$_command has placeholders without a value")
   fi
 done
+
+if [ "${#commands[@]}" -lt 1 ]; then
+  echo No lines read. >&2
+  exit 1
+fi
 
 for cmd in "${commands[@]}"; do
   echo "$cmd"
