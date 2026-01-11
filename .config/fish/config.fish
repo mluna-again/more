@@ -95,6 +95,7 @@ abbr --add gv nvim --listen /tmp/godot.pipe
 abbr --add r bin/rails
 abbr --add rd bin/dev
 abbr --add rc bin/rails console
+abbr --add kp keepassxc-cli
 
 set fish_cursor_default block
 set fish_cursor_insert block
