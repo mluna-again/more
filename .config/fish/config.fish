@@ -31,6 +31,16 @@ bind -M insert \cr history-pager
 bind -M insert \co edit_command_buffer
 bind -M insert \cc cancel-commandline
 bind --mode insert --sets-mode default jj backward-char repaint
+bind -M insert f1 true
+bind -M insert f2 true
+bind -M insert f3 true
+bind -M insert f4 true
+bind -M insert f5 true
+bind -M insert f6 true
+bind -M insert f7 true
+bind -M insert f8 true
+bind -M insert f9 true
+bind -M insert f10 true
 
 set -gx CURL_HOME "$HOME/.config/curl"
 set -gx HOMEBREW_NO_AUTO_UPDATE 1
