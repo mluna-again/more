@@ -8,7 +8,7 @@ $ ffmpeg_vr_to_flat.sh <video>
 Options
   -h, --help                  show this message
   -o FILE, --output FILE      specify output file
-  -h HEIGHT, --height HEIGHT  output height
+  -H HEIGHT, --height HEIGHT  output height
   -w WIDTH, --width WIDTH     output width
   --fish                      use fisheye mode instead of equirect
 EOF
@@ -30,7 +30,7 @@ while true; do
       output="$1"
       ;;
 
-    -h|--height)
+    -H|--height)
       shift
       height="$1"
       ;;
