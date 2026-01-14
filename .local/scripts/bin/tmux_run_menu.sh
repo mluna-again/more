@@ -5,6 +5,7 @@ source ~/.local/scripts/bin/tmux_util.sh || exit
 KILL_SERVER="TMUX: kill server"
 SWITCH_PREFIX="TMUX: switch prefix"
 CLEAR_PANE="TMUX: clear scrollback buffer"
+CLEAR_TAG="TMUX: remove tag"
 SAVE_SESSION="Sessions: save current"
 KILL_SESSION="Sessions: kill session"
 SAVER="Utilities: screen saver"
@@ -24,6 +25,7 @@ items=$(cat - <<EOF | sort -h
 $KILL_SERVER
 $SWITCH_PREFIX
 $CLEAR_PANE
+$CLEAR_TAG
 $SAVE_SESSION
 $KILL_SESSION
 $SAVER
@@ -47,6 +49,7 @@ response=$(tmux_fzf "Command palette" "$items")
 
 case "$response" in
   "$CLEAR_PANE") tmux clear-history -t .;;
+  "$CLEAR_TAG") ~/.local/scripts/bin/tmux_tag_clear.sh;;
   "$SWITCH_PREFIX") ~/.local/scripts/bin/tmux_toggle_prefix.sh;;
   "$KILL_SERVER") ~/.local/scripts/bin/tmux_kill_server.sh;;
   "$SAVE_SESSION") ~/.local/scripts/bin/tmux_session_save.sh;;

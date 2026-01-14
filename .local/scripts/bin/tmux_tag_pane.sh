@@ -10,4 +10,4 @@ session=$(awk -F@@@ '{print $1}' <<< "$info") || exit
 window=$(awk -F@@@ '{print $2}' <<< "$info") || exit
 pane=$(awk -F@@@ '{print $3}' <<< "$info") || exit
 
-tmux bind -Troot "$key" switch-client -t "$session" \\\; select-window -t "$window" \\\; select-pane -t "$pane"
+tmux bind -Troot "$key" switch-client -t "$session" \\\; select-window -t "$window" \\\; select-pane -t "$pane" \; display 'Pane tagged.'
