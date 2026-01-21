@@ -12,13 +12,14 @@ black_dark = "#282727"
 white = "#c5c9c5"
 red = "#c4746e"
 violet = "#8992a7"
+orange = "#b6927b"
 
 [status]
 format = "[ $status ](bg:black_dark fg:red)"
 disabled = false
 
 [cmd_duration]
-format = "[ $duration ](bg:violet fg:black)"
+format = "[ $duration ](bg:orange fg:black)"
 disabled = false
 min_time = 3000
 
