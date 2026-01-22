@@ -20,6 +20,17 @@
       "die() {\n\techo \"\\$*\" 1>&2\n\texit 1\n}"
     ]
   },
+  "yes_or": {
+    "prefix": "yes_or",
+    "description": "Ask the user to confirm or exit the program",
+    "body": [
+      "printf \"Continue? [N/y] \"",
+      "read -r response",
+      "if [[ ! \"\\${response,,}\" =~ ^y(es)?\\$ ]]; then",
+      "\texit 1",
+      "fi"
+    ]
+  },
   "opt_parser": {
     "prefix": "opts",
     "description": "Basic opt parsing",
