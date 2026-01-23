@@ -26,6 +26,7 @@ return {
       "php",
       "rust",
       "qmljs",
+      "kotlin",
     },
     auto_install = false,
     highlight = {
