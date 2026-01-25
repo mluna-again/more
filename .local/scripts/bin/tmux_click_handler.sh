@@ -4,13 +4,17 @@ prefix=$(tmux show-options -gv prefix)
 
 case "$1" in
   banner)
-    tmux display-menu -MO hi h 'display hi'
+    tmux switch-client -l
     ;;
 
   session_name)
-    # Scrollable session list
-    tmux send-keys -K "$prefix" o
+    tmux select-window -l &>/dev/null
+    true
     ;;
+
+ZOOM)
+  tmux resize-pane -Z
+  ;;
 
   *)
     ;;
