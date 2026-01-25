@@ -1,4 +1,11 @@
 {
+  "vimft": {
+    "prefix": "vimft",
+    "description": "Add a hint for the filetype to VIM",
+    "body": [
+      "# vim:set filetype=something:"
+    ]
+  },
   "uuid": {
     "prefix": "uuid",
     "description": "Insert a random UUID",
