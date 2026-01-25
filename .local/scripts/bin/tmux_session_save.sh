@@ -2,18 +2,17 @@
 
 source ~/.local/scripts/bin/tmux_util.sh || exit
 
-name=$(tmux_ask "Session name") || exit
+name=$(tmux display -p '#{session_name}') || exit
 [ -z "$name" ] && exit
 
-sessions=$(get_sessions)
-
-if grep -iq "$name" <<< "$sessions"; then
-  tmux_alert "Session already exists."
-
-  exit 0
+path="$HOME/.local/tmuxp/${name}.yaml"
+if [ -f "$path" ]; then
+  response=$(tmux_prompt "Session already exists. Overwrite?")
+  if [[ ! "${response,,}" =~ ^y(es)?$ ]]; then
+    exit 0
+  fi
 fi
 
-path="$HOME/.local/tmuxp/${name}.yaml"
 output=$(tmuxp freeze "$(tmux display -p '#{session_name}')" --yes --save-to "$path" --workspace-format yaml 2>&1)
 if [ "$?" -ne 0 ]; then
   tmux display-popup "$output"
