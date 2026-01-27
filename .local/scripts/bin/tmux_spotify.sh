@@ -3,11 +3,11 @@
 source ~/.local/scripts/bin/tmux_util.sh || exit
 
 _TSESSION=music
-_TMUSICPLAYER=spotify_player
+_TMUSICPLAYER=rmpc
 
 # cargo install spotify_player --locked --features image,fzf
 if ! command -v "$_TMUSICPLAYER" &>/dev/null; then
-  tmux display-message "$_TMUSICPLAYER is not installed. Remember to run $_TMUSICPLAYER authenticate afterwards."
+  tmux display-message "$_TMUSICPLAYER is not installed."
   exit 0
 fi
 
