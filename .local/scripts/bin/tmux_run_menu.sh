@@ -15,7 +15,9 @@ CLEAR_PANES="Automation: clear panes"
 TODO="Utilities: TODOs"
 MATRIX="Random: matrix"
 CLOSE_EMPTY_PANELS="Automation: close empty panels"
-TOGGLE_BORDERS="Utilities: toggle panel borders"
+TOGGLE_BORDERS="Borders: toggle"
+CMD_BORDERS="Borders: display running command"
+PATH_BORDERS="Borders: display current path"
 PRIV_MODE="Utilities: private mode"
 FORWARD_PREFIX="Utilities: fordward prefix"
 RELOAD_CONFIG="TMUX: reload config"
@@ -37,6 +39,8 @@ $MATRIX
 $CLEAR_MARKS
 $CLOSE_EMPTY_PANELS
 $TOGGLE_BORDERS
+$CMD_BORDERS
+$PATH_BORDERS
 $PRIV_MODE
 $FORWARD_PREFIX
 $RELOAD_CONFIG
@@ -48,6 +52,9 @@ response=$(tmux_fzf "Command palette" "$items")
 [ -z "$response" ] && exit 0
 
 case "$response" in
+  "$TOGGLE_BORDERS") ~/.local/scripts/bin/tmux_toggle_panel_borders.sh ;;
+  "$CMD_BORDERS") ~/.local/scripts/bin/tmux_panel_cmd.sh ;;
+  "$PATH_BORDERS") ~/.local/scripts/bin/tmux_panel_path.sh ;;
   "$CLEAR_PANE") tmux clear-history -t .;;
   "$CLEAR_TAG") ~/.local/scripts/bin/tmux_tag_clear.sh;;
   "$SWITCH_PREFIX") ~/.local/scripts/bin/tmux_toggle_prefix.sh;;
@@ -61,7 +68,6 @@ case "$response" in
   "$TODO") ~/.local/scripts/bin/tmux_goto_todo.sh ;;
   "$MATRIX") ~/.local/scripts/bin/tmux_matrix.sh ;;
   "$CLOSE_EMPTY_PANELS") ~/.local/scripts/bin/tmux_close_empty_panels.sh ;;
-  "$TOGGLE_BORDERS") ~/.local/scripts/bin/tmux_toggle_panel_borders.sh ;;
   "$PRIV_MODE") ~/.local/scripts/bin/tmux_priv.sh ;;
   "$FORWARD_PREFIX") ~/.local/scripts/bin/tmux_toggle_prefix.sh ;;
   "$RELOAD_CONFIG") ~/.local/scripts/bin/tmux_reload.sh ;;

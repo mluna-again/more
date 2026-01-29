@@ -26,4 +26,4 @@ case "$current" in
     ;;
 esac
 
-tmux set-option -s pane-border-status "$next"
+tmux set-option pane-border-status "$next"
