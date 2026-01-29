@@ -26,7 +26,7 @@ function fish_title
     set title fish
   end
 
-  echo "$title"
+  echo "$(date +'%I:%M %p') @ $title"
 end
 
 bind -M insert \ce end-of-line
