@@ -161,7 +161,7 @@
                             direction: Vertical,
                             panes: [
                                 (
-                                    size: "100%",
+                                    size: "60%",
                                     pane: Pane(AlbumArt)
                                 ),
                                 (
