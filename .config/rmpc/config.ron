@@ -3,8 +3,9 @@
 #![enable(unwrap_variant_newtypes)]
 (
     address: "127.0.0.1:6600",
+    lyrics_dir: "~/Music",
     password: None,
-    theme: None,
+    theme: Some("kanagawa"),
     cache_dir: None,
     on_song_change: None,
     volume_step: 5,
@@ -160,12 +161,12 @@
                             direction: Vertical,
                             panes: [
                                 (
-                                    size: "3",
-                                    pane: Pane(Lyrics)
-                                ),
-                                (
                                     size: "100%",
                                     pane: Pane(AlbumArt)
+                                ),
+                                (
+                                    size: "5",
+                                    pane: Pane(Lyrics)
                                 ),
                             ],
                         ),
