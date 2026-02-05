@@ -131,6 +131,7 @@ vim.keymap.set("n", "gn", "<cmd>tabnew<cr>", { desc = "New tab" })
 vim.keymap.set("n", "gr", "<cmd>tabprev<cr>", { desc = "Next tab" })
 vim.keymap.set("n", "gt", "<cmd>tabnext<cr>", { desc = "Previous tab" })
 vim.keymap.set("n", "gd", "<cmd>tabclose<cr>", { desc = "Close current tab" })
+vim.keymap.set("n", "<leader>G", "<cmd>Gitsigns setqflist all<cr>", { desc = "Send GIT hunks to qflist" })
 
 -- PLUGINS
 local is_windows = vim.fn.has "win32" ~= 0
