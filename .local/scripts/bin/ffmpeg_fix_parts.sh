@@ -78,13 +78,16 @@ for cmd in "${commands[@]}"; do
   eval "$cmd" || exit
 done
 
-printf "Remove .part files? [N/y] "
+for file in "${old_files[@]}"; do
+  echo rm "$file"
+done
+
+printf "\nRemove .part files? [N/y] "
 read -r response
 if [[ ! "${response,,}" =~ ^y(es)?$ ]]; then
   exit 1
 fi
 
 for file in "${old_files[@]}"; do
-  echo rm "$file"
   rm "$file" || exit
 done
