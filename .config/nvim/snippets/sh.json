@@ -39,11 +39,12 @@
       "\tcat - <<EOF",
       "Usage:\n\\$ $TM_FILENAME",
       "EOF",
+      "\texit 1",
       "}\n",
       "while true; do",
       "\t[ -z \"\\$1\" ] && break\n",
       "\tcase \"\\$1\" in",
-      "\t\t--help|-h|help)\n\t\t\tusage\n\t\t\texit 1\n\t\t\t;;$0",
+      "\t\t--help|-h|help)\n\t\t\tusage\n\t\t\t;;$0",
       "\tesac\n",
       "\tshift",
       "done"
