@@ -8,6 +8,9 @@ $ flac_to_opus.sh ~/Music ~/Opus # default values
 
 Converts your library of FLACs to Opus.
 
+Flags:
+  --today    only look up files whose mtime is less than 24hrs. faster but may miss some files.
+
 Dependencies:
   * opusenc
 EOF
@@ -16,12 +19,17 @@ EOF
 
 src=~/Music
 dest=~/Opus
+today=0
 while true; do
   [ -z "$1" ] && break
 
   case "$1" in
     --help|-h|help)
       usage
+      ;;
+
+    --today)
+      today=1
       ;;
 
     *)
@@ -50,7 +58,12 @@ replicate_dirs() {
 copy_files() {
   local src="$1" dest="$2"
 
-  total="$(find "$src" -type f -iname '*.flac' | wc -l)"
+  cmd="find \"$src\" -type f -printf \"%P\n\""
+  if [ "$today" -eq 1 ]; then
+    cmd="find \"$src\" -type f -mtime -1 -printf \"%P\n\""
+  fi
+
+  total="$(eval "$cmd" | grep -E '\.flac$' | wc -l)"
   count=0
 
   while read -r file; do
@@ -83,7 +96,7 @@ copy_files() {
         touch --reference "$srcpath" "$destpath" || return 1
         ;;
     esac
-  done < <(find "$src" -type f -printf "%P\n")
+  done < <(eval "$cmd")
 }
 
 replicate_dirs "$src" "$dest"
