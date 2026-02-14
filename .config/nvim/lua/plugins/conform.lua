@@ -10,6 +10,7 @@ return {
   event = { "BufWritePre" },
   opts = {
     notify_on_error = true,
+    timeout_ms = 5000, -- rubocop is slow
     format_on_save = false,
     formatters_by_ft = {
       typescript = { "prettier" },
