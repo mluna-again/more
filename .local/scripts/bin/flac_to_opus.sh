@@ -10,6 +10,7 @@ Converts your library of FLACs to Opus.
 
 Flags:
   --today    only look up files whose mtime is less than 24hrs. faster but may miss some files.
+  --force    re-encode files even if they already exist
 
 Dependencies:
   * opusenc
@@ -20,6 +21,7 @@ EOF
 src=~/Music
 dest=~/Opus
 today=0
+force=0
 while true; do
   [ -z "$1" ] && break
 
@@ -30,6 +32,9 @@ while true; do
 
     --today)
       today=1
+      ;;
+    --force)
+      force=1
       ;;
 
     *)
@@ -78,7 +83,7 @@ copy_files() {
         tput el
         echo -e "\e[1A\e[K[${count}/${total}] $destpath"
 
-        if [ -f "$destpath" ]; then
+        if [ -f "$destpath" ] && [ "$force" -ne 1 ]; then
           count=$(( count + 1 ))
           continue
         fi
