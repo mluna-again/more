@@ -18,7 +18,8 @@ set -g fish_user_paths /usr/local/bin \
     "$HOME/.local/odin" \
     "$HOME/.local/bin/nvim/bin" \
     "$HOME/.bun/bin" \
-    "$HOME/.config/composer/vendor/bin"
+    "$HOME/.config/composer/vendor/bin" \
+    "$HOME/.local/bin/spotless"
 
 function fish_title
   set -l title "$argv[1]"

@@ -63,15 +63,15 @@ if [ "$something_wrong" -ne 0 ]; then
   exit 1
 fi
 
-metaflac --add-replay-gain "${album}"/*.flac || exit
+metaflac --remove-replay-gain --add-replay-gain "${album}"/*.flac || exit
 
-if [ -f "${album}/cover.jpg" ]; then
-  metaflac --import-picture-from="${album}/cover.jpg" "${album}"/*.flac || exit
-elif [ -f "${album}/cover.png" ]; then
-  metaflac --import-picture-from="${album}/cover.png" "${album}"/*.flac || exit
-else
-  cover="$(ffprobe "$file" 2>&1 | grep 'Cover (front)')"
-  if [ -z "$cover" ]; then
+cover="$(ffprobe "$file" 2>&1 | grep 'Cover (front)')"
+if [ -z "$cover" ]; then
+  if [ -f "${album}/cover.jpg" ]; then
+    metaflac --import-picture-from="${album}/cover.jpg" "${album}"/*.flac || exit
+  elif [ -f "${album}/cover.png" ]; then
+    metaflac --import-picture-from="${album}/cover.png" "${album}"/*.flac || exit
+  else
     echo "unknown/missing cover: $album" >&2
     exit 1
   fi
