@@ -7,6 +7,7 @@ $ slsk_cleanup.sh [<path to album>]
 
 Cleans up album.
   - checks missing metadata
+  - checks naming conventions
   - adds replaygain values
   - embeds cover (if present)
 EOF
@@ -37,10 +38,18 @@ if [ ! -d "$album" ]; then
 fi
 
 something_wrong=0
+album_regex='^.+ - .+$'
+if [[ ! "$album" =~ $album_regex ]]; then
+  echo "album doesn't match naming convention: $album" >&2
+  something_wrong=1
+fi
+
 while read -r file; do
   album_name="$(metaflac --show-tag=album "$file")" || break
   album_artist="$(metaflac --show-tag=albumartist "$file")" || break
-  [ -z "$album_artist" ] && album_artist="$(metaflac --show-tag=album_artist "$file")" || break
+  if [ -z "$album_artist" ]; then
+    album_artist="$(metaflac --show-tag=album_artist "$file")" || break
+  fi
   title="$(metaflac --show-tag=title "$file")" || break
 
   if [ -z "$album_name" ]; then
@@ -57,6 +66,28 @@ while read -r file; do
     echo "missing track title: $file" >&2
     something_wrong=1
   fi
+
+  title_regex='^[0-9]+ [0-9A-Za-z].+\.flac$'
+  file_title="$(basename "$file")"
+  if [[ ! "$file_title" =~ $title_regex ]]; then
+    echo "filename doesn't match naming convention: $file_title" >&2
+    something_wrong=1
+  fi
+
+  cover="$(ffprobe "$file" 2>&1 | grep 'Cover (front)')"
+  if [ -z "$cover" ]; then
+    if [ -f "${album}/cover.jpg" ]; then
+      metaflac --import-picture-from="${album}/cover.jpg" "$file" || exit
+      echo "cover added: $file"
+    elif [ -f "${album}/cover.png" ]; then
+      metaflac --import-picture-from="${album}/cover.png" "$file" || exit
+      echo "cover added: $file"
+    else
+      echo "unknown/missing cover: $album" >&2
+      exit 1
+    fi
+  fi
+
 done < <(find "$album" -type f -iname "*.flac")
 
 if [ "$something_wrong" -ne 0 ]; then
@@ -64,17 +95,6 @@ if [ "$something_wrong" -ne 0 ]; then
 fi
 
 metaflac --remove-replay-gain --add-replay-gain "${album}"/*.flac || exit
+echo replaygain added
 
-cover="$(ffprobe "$file" 2>&1 | grep 'Cover (front)')"
-if [ -z "$cover" ]; then
-  if [ -f "${album}/cover.jpg" ]; then
-    metaflac --import-picture-from="${album}/cover.jpg" "${album}"/*.flac || exit
-  elif [ -f "${album}/cover.png" ]; then
-    metaflac --import-picture-from="${album}/cover.png" "${album}"/*.flac || exit
-  else
-    echo "unknown/missing cover: $album" >&2
-    exit 1
-  fi
-fi
-
-echo done
+echo "done"
