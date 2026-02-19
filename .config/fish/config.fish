@@ -22,12 +22,14 @@ set -g fish_user_paths /usr/local/bin \
     "$HOME/.local/bin/spotless"
 
 function fish_title
-  set -l title "$argv[1]"
-  if test -z "$title"
-    set title fish
+  set -l cmd "$argv[1]"
+  if test -z "$cmd"
+    set cmd fish
   end
 
-  echo "$(date +'%I:%M %p') @ $title"
+  set cmd (string trim "$cmd")
+
+  echo "[$(date +'%I:%M %p')] $cmd @ $PWD"
 end
 
 bind -M insert \ce end-of-line
