@@ -97,7 +97,7 @@ abbr --add emacs "emacsclient -a '' -c --tty"
 abbr --add doom '~/.config/emacs/bin/doom'
 abbr --add setup-idf source "$HOME/esp/esp-idf/export.fish"
 abbr --add esp idf.py
-abbr --add rsync rsync -avh --info=progress2
+abbr --add rsync rsync -avhbu --info=progress2
 abbr --add p fish -P
 abbr --add un podman unshare
 abbr --add work SHELL=/usr/bin/fish toolbox enter work
