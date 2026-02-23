@@ -11,6 +11,7 @@ Options
   -h, --help                   show this message
   -o FORMAT, --format FORMAT   specify output format (default: mp4)
   -f FILTER, --filter FILTER   find's filter (default: '*.part')
+  -d DEPTH, --filter DEPTH     find's depth (default: 10)
 EOF
   exit 1
 }
@@ -20,6 +21,7 @@ EOF
 format="mp4"
 dir=
 filter="*.part"
+depth="10"
 while true; do
   [ -z "$1" ] && break
 
@@ -38,6 +40,11 @@ while true; do
       filter="$1"
       ;;
 
+    -d|--depth)
+      shift
+      depth="$1"
+      ;;
+
     *)
       dir="$1"
       ;;
@@ -50,10 +57,12 @@ done
 
 commands=()
 old_files=()
+files_already_fixed=()
 while read -r file; do
   fixed_file="$(sed "s|\(.*\)\..*\.part|\1\.${format}|" <<< "$file")" || exit
   if [ -f "$fixed_file" ]; then
     echo "$fixed_file already exists." >&2
+    files_already_fixed+=("$file")
     continue
   fi
 
@@ -61,7 +70,7 @@ while read -r file; do
   commands+=("$cmd")
   old_files+=("$file")
   echo "$cmd"
-done < <(find "$dir" -type f -iname "$filter")
+done < <(find "$dir" -maxdepth "$depth" -type f -iname "$filter")
 
 if [ "${#old_files[@]}" -lt 1 ]; then
   echo "No files matched" >&2
@@ -74,20 +83,47 @@ if [[ ! "${response,,}" =~ ^y(es)?$ ]]; then
   exit 1
 fi
 
+files_with_errs=()
+files_to_delete=()
 for cmd in "${commands[@]}"; do
-  eval "$cmd" || exit
+  if ! eval "$cmd"; then
+    files_with_errs+=("$cmd")
+    continue
+  fi
+  files_to_delete+=("$cmd")
 done
 
-for file in "${old_files[@]}"; do
-  echo rm "$file"
-done
+if [[ "${#files_to_delete[@]}" -gt 0 ]]; then
+  for file in "${files_to_delete[@]}"; do
+    echo rm "$file"
+  done
 
-printf "\nRemove .part files? [N/y] "
-read -r response
-if [[ ! "${response,,}" =~ ^y(es)?$ ]]; then
-  exit 1
+  printf "\nRemove .part files? [N/y] "
+  read -r response
+  if [[ "${response,,}" =~ ^y(es)?$ ]]; then
+    for file in "${files_to_delete[@]}"; do
+      rm "$file" || exit
+    done
+  fi
 fi
 
-for file in "${old_files[@]}"; do
-  rm "$file" || exit
-done
+if [[ "${#files_already_fixed[@]}" -gt 0 ]]; then
+  for file in "${files_already_fixed[@]}"; do
+    echo rm "$file"
+  done
+  printf "\nRemove (probably) already fixed .part files? [N/y] "
+
+  read -r response
+  if [[ "${response,,}" =~ ^y(es)?$ ]]; then
+    for file in "${files_already_fixed[@]}"; do
+      rm "$file" || exit
+    done
+  fi
+fi
+
+if [[ "${#files_with_errs[@]}" -gt 0 ]]; then
+  echo "Files with errors:"
+  for file in "${files_with_errs[@]}"; do
+    echo "$file"
+  done
+fi
