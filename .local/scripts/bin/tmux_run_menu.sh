@@ -4,6 +4,7 @@ source ~/.local/scripts/bin/tmux_util.sh || exit
 
 KILL_SERVER="TMUX: kill server"
 SWITCH_PREFIX="TMUX: switch prefix"
+DUMP_CMDS="TMUX: dump current window commands"
 CLEAR_PANE="TMUX: clear scrollback buffer"
 CLEAR_TAG="TMUX: remove tag"
 SAVE_SESSION="Sessions: save current"
@@ -25,6 +26,7 @@ AUTISM="Random: autism"
 
 items=$(cat - <<EOF | sort -h
 $KILL_SERVER
+$DUMP_CMDS
 $SWITCH_PREFIX
 $CLEAR_PANE
 $CLEAR_TAG
@@ -54,6 +56,7 @@ response=$(tmux_fzf "Command palette" "$items")
 case "$response" in
   "$TOGGLE_BORDERS") ~/.local/scripts/bin/tmux_toggle_panel_borders.sh ;;
   "$CMD_BORDERS") ~/.local/scripts/bin/tmux_panel_cmd.sh ;;
+  "$DUMP_CMDS") ~/.local/scripts/bin/tmux_dump_cmds.sh ;;
   "$PATH_BORDERS") ~/.local/scripts/bin/tmux_panel_path.sh ;;
   "$CLEAR_PANE") tmux clear-history -t .;;
   "$CLEAR_TAG") ~/.local/scripts/bin/tmux_tag_clear.sh;;
