@@ -24,11 +24,29 @@ path=$(tmux_ask 'Destination dir' "$path")
 path="$path/cmds.xdo"
 
 if [ -f "$path" ]; then
-  tmux_alert "File $(basename "$path") already exists (appending)."
-  echo "----" >> "$path"
-fi
+  response=$(tmux_prompt "File $(basename "$path") already exists. What do I do? [r(eplace), n(nothing), a(ppend)] ")
+  [ -z "$response" ] && exit 0
 
-if ! echo "$cmds" >> "$path"; then
-  tmux_alert "Something went wrong"
-  exit 0
+  if grep -Eiq "^r(replace)?$" <<< "$response"; then
+    if ! echo "$cmds" > "$path"; then
+      tmux_alert "Something went wrong"
+      exit 0
+    fi
+  elif grep -Eiq "^n(othing)?$" <<< "$response"; then
+    exit 0
+  elif grep -Eiq "^a(ppend)?$" <<< "$response"; then
+    echo "-----" >> "$path"
+    if ! echo "$cmds" >> "$path"; then
+      tmux_alert "Something went wrong"
+      exit 0
+    fi
+  else
+    tmux_alert "Invalid response."
+    exit 0
+  fi
+else
+  if ! echo "$cmds" > "$path"; then
+    tmux_alert "Something went wrong"
+    exit 0
+  fi
 fi
