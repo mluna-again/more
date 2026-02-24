@@ -10,7 +10,7 @@ source ~/.local/scripts/bin/tmux_util.sh || exit
 cmds=$(
   tmux list-panes -F '#{pane_title}' | \
     sed 's|\[.*\]||' | \
-    awk -F@ '{ gsub(/^ */, "", $1); gsub(/ *$/, "", $1); printf "%s@%s\n", $2, $1 }'
+    awk -F@ '{ gsub(/^ */, "", $1); gsub(/ *$/, "", $1); gsub(/^ */, "", $2); gsub(/ *$/, "", $2); printf "%s@%s\n", $2, $1 }'
 )
 
 if [ -z "$cmds" ]; then
