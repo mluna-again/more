@@ -24,7 +24,7 @@ path=$(tmux_ask 'Destination dir' "$path")
 path="$path/cmds.xdo"
 
 if [ -f "$path" ]; then
-  response=$(tmux_prompt "File $(basename "$path") already exists. What do I do? [r(eplace), n(nothing), a(ppend)] ")
+  response=$(tmux_prompt "File $(basename "$path") already exists. What do I do? [r(eplace), n(nothing), a(ppend)] " "[N/r/a]")
   [ -z "$response" ] && exit 0
 
   if grep -Eiq "^r(replace)?$" <<< "$response"; then

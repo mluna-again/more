@@ -125,7 +125,8 @@ tmux_ask() {
 }
 
 tmux_prompt() {
-  tmux display-popup -h 1 -w 100% -B -y 0 -EE sh -c "mina --title=\"$1\" --height 1 --mode confirm --onekey >~/.cache/mina_response"
+  local placeholder="${2:-[N/y]}"
+  tmux display-popup -h 1 -w 100% -B -y 0 -EE sh -c "mina --title=\"$1\" --height 1 --mode confirm --onekey --ghost=\"$placeholder\" >~/.cache/mina_response"
   cat ~/.cache/mina_response
 }
 
