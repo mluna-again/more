@@ -1,6 +1,6 @@
 add_newline = true
 format = "$jobs${custom.fish_private}${custom.icon}$hostname$directory$cmd_duration$status "
-right_format = "$git_status$git_branch"
+right_format = "$time$git_status$git_branch"
 palette = "kanagawa-dragon"
 command_timeout = 2000
 
@@ -9,10 +9,17 @@ grey = "#a6a69c"
 yellow = "#c4b28a"
 black = "#393836"
 black_dark = "#282727"
+black_light = "#625e5a"
 white = "#c5c9c5"
 red = "#c4746e"
 violet = "#8992a7"
 orange = "#b6927b"
+
+[time]
+format = "[ $time ](fg:white)"
+use_12hr = true
+time_format = '%l:%M %P'
+disabled = false
 
 [status]
 format = "[ $status ](bg:black_dark fg:red)"
