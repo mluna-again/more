@@ -3,9 +3,10 @@ function vmssh
   if test -z $user
     set user user
   end
+  set -l vm $argv[2]
 
   if echo $argv | grep -iq help
-    printf "Usage:\n\$ vmssh [<user>]\n"
+    printf "Usage:\n\$ vmssh [<user>] [<VM name>] \n"
     return 1
   end
 
@@ -19,7 +20,7 @@ function vmssh
     echo "No config files detected." 1>&2
     return 1
   end
-  set -l selected (echo "$config_files" | fzf)
+  set -l selected (echo "$config_files" | fzf -1 -q "$vm")
   if test -z "$selected"
     return 1
   end
@@ -27,11 +28,5 @@ function vmssh
   quickemu --vm ~/VMs/$selected --display none --ssh-port 22220 ; or return 1
   echo "Connecting..."
 
-  if test -n "$KITTY_WINDOW_ID"
-    echo kitten ssh -p22220 $user@localhost
-    kitten ssh -p22220 $user@localhost
-  else
-    echo ssh -p22220 $user@localhost
-    ssh -p22220 $user@localhost
-  end
+  TERM=xterm-256color ssh -p22220 $user@localhost
 end
