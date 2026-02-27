@@ -16,9 +16,9 @@ violet = "#8992a7"
 orange = "#b6927b"
 
 [time]
-format = "[ $time ](fg:white)"
+format = "[ $time ](bg:black_dark fg:white)"
 use_12hr = true
-time_format = '%l:%M %P'
+time_format = '%I:%M %P'
 disabled = false
 
 [status]
@@ -42,22 +42,22 @@ show_always = true
 format = "$user"
 
 [git_branch]
-format = "[ $branch ](bg:black fg:white)[ $symbol ](bg:black_dark fg:white)"
+format = "[ $branch ](bg:black fg:white)"
 symbol = "GIT"
 
 [git_status]
-conflicted = " * "
-ahead = " * "
-behind = " * "
-diverged = " * "
+conflicted = " *"
+ahead = " *"
+behind = " *"
+diverged = " *"
 up_to_date = ""
-untracked = " * "
-stashed = " ◯ "
-modified = " * "
-staged = " * "
-renamed = " * "
-deleted = " * "
-format = "[$all_status](bg:black_dark fg:red)"
+untracked = " *"
+stashed = " ◯"
+modified = " *"
+staged = " *"
+renamed = " *"
+deleted = " *"
+format = "[$all_status](bg:black fg:red)"
 
 [jobs]
 format = "[ $symbol $number ](bg:violet fg:black)"
