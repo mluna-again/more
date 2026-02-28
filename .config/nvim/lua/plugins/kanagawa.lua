@@ -170,6 +170,8 @@ return {
           TabLineSel = { bg = theme.ui.bg_p1, fg = theme.ui.fg },
           TabLineFill = { bg = theme.ui.bg },
 
+          IblIndent = { fg = theme.ui.bg_p1 },
+
           ["@string.special.url"] = { undercurl = false },
         }
       end,
