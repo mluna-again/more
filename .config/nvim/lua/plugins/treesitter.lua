@@ -12,6 +12,7 @@ return {
       "lua",
       "go",
       "elixir",
+      "heex",
       "bash",
       "gdscript",
       "typescript",
