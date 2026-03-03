@@ -120,7 +120,7 @@ abbr --add rc bin/rails console
 abbr --add kp keepassxc-cli
 
 set fish_cursor_default block
-set fish_cursor_insert block
+set fish_cursor_insert block blink
 set fish_cursor_replace_one underscore
 set fish_cursor_replace underscore
 set fish_cursor_external line

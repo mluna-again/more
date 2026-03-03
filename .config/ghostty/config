@@ -17,6 +17,8 @@ palette = 15=#c5c9c5
 
 app-notifications = false
 
+auto-update = off
+
 background = 181616
 foreground = c5c9c5
 cursor-color = c8c093
@@ -34,7 +36,7 @@ cursor-style = block
 cursor-style-blink = true
 mouse-hide-while-typing = true
 
-shell-integration-features = no-cursor,ssh-terminfo,ssh-env
+shell-integration-features = cursor,ssh-terminfo,ssh-env
 
 background-opacity = 1
 background-blur = true
@@ -50,7 +52,14 @@ clipboard-read = ask
 clipboard-write = allow
 clipboard-trim-trailing-spaces = true
 clipboard-paste-protection = true
-clipboard-paste-bracketed-safe = false
+clipboard-paste-bracketed-safe = true
+copy-on-select = true
+
+right-click-action = ignore
+
+bell-features = system,no-audio,attention,no-title,no-border
+
+gtk-titlebar = false
 
 quit-after-last-window-closed = true
 
