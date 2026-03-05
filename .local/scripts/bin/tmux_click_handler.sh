@@ -3,14 +3,13 @@
 prefix=$(tmux show-options -gv prefix)
 
 case "$1" in
-  # banner)
-  #   tmux switch-client -l
-  #   ;;
+  banner)
+    tmux switch-client -l
+    ;;
 
-  # session_name)
-  #   tmux select-window -l &>/dev/null
-  #   true
-  #   ;;
+  session_name)
+    ~/.local/scripts/bin/tmux_session_menu.sh
+    ;;
 
   ZOOM)
     tmux resize-pane -Z
