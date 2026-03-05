@@ -4,7 +4,7 @@ prefix=$(tmux show-options -gv prefix)
 
 case "$1" in
   banner)
-    tmux switch-client -l
+    ~/.local/scripts/bin/tmux_toggle_prefix.sh
     ;;
 
   session_name)

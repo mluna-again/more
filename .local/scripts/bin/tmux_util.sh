@@ -138,3 +138,40 @@ looks_empty() {
 
   return 1
 }
+
+# Switches TMUX sessions (supports tmuxp sessions (lazy))
+tmux_switch() {
+  local session="$1"
+  session_created=0
+  if ! tmux has-session -t "$session" &>/dev/null; then
+    if ! command -v tmuxp &>/dev/null; then
+      tmux_alert "No tmuxp installed, and session is lazy loaded!"
+      return 1
+    fi
+    session_created=1
+    tmuxp load -d "$session" || exit
+  fi
+
+  if [ "$session_created" -eq 1 ]; then
+    retries=0
+    while (( retries < 10 )); do
+      output=$(tmux switch-client -t "$session" \; select-window -t "$window" 2>&1)
+      res="$?"
+      [ "$res" -eq 0 ] && break
+
+      if [ "$res" -ne 0 ] && (( retries >= 9 )); then
+        echo "$output"
+        break
+      fi
+
+      retries=$(( retries + 1 ))
+      sleep 0.1
+    done
+  else
+    output=$(tmux switch-client -t "$session" \; select-window -t "$window" 2>&1)
+    res="$?"
+    if [ "$res" -ne 0 ]; then
+      tmux_alert "$output"
+    fi
+  fi
+}
