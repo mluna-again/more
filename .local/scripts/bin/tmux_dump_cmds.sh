@@ -18,13 +18,16 @@ if [ -z "$cmds" ]; then
   exit 0
 fi
 
-path=$(tmux display -p '#{pane_current_path}')
-path=$(tmux_ask 'Destination dir' "$path")
+cwd=$(tmux display -p '#{pane_current_path}')
+path=$(tmux_ask 'Destination dir' "$cwd")
 [ -z "$path" ] && exit
-path="$path/cmds.xdo"
+
+if [ -d "$path" ]; then
+  path="$path/cmds.xdo"
+fi
 
 if [ -f "$path" ]; then
-  response=$(tmux_prompt "File $(basename "$path") already exists. What do I do? [r(eplace), n(nothing), a(ppend)] " "[N/r/a]")
+  response=$(tmux_prompt "File $(basename "$path") already exists. What do I do? [r(eplace), n(nothing), a(ppend), c(hoose different name)] " "[N/r/a/c]")
   [ -z "$response" ] && exit 0
 
   if grep -Eiq "^r(replace)?$" <<< "$response"; then
@@ -34,6 +37,21 @@ if [ -f "$path" ]; then
     fi
   elif grep -Eiq "^n(othing)?$" <<< "$response"; then
     exit 0
+  elif grep -Eiq "^c(hoose different name)?$" <<< "$response"; then
+    res=$(tmux_ask "New name")
+    if [ -z "$res" ]; then
+      tmux_alert "Invalid path"
+      exit 0
+    fi
+    path="${cwd}/${res}"
+    if [ -f "$path" ]; then
+      tmux_alert "$path also exists already. Bye."
+      exit 0
+    fi
+    if ! echo "$cmds" > "$path"; then
+      tmux_alert "Something went wrong"
+      exit 0
+    fi
   elif grep -Eiq "^a(ppend)?$" <<< "$response"; then
     echo "-----" >> "$path"
     if ! echo "$cmds" >> "$path"; then
