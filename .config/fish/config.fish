@@ -27,6 +27,11 @@ function fish_title
     set cmd fish
   end
 
+  if test -z "$TMUX"
+    echo "$cmd"
+    return
+  end
+
   set cmd (string trim "$cmd")
 
   echo "[$(date +'%I:%M %p')] $cmd @ $PWD"
