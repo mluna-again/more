@@ -12,6 +12,14 @@ return {
     notify_on_error = true,
     timeout_ms = 5000, -- rubocop is slow
     format_on_save = false,
+    formatters = {
+      sqlfluff = {
+        args = { "fix", "$FILENAME" },
+        stdin = false,
+        exit_codes = { 0, 1 },
+        cwd = function(_config, _ctx) return vim.fs.root(vim.env.PWD, { ".sqlfluff" }) end,
+      }
+    },
     formatters_by_ft = {
       typescript = { "prettier" },
       typescriptreact = { "prettier" },
