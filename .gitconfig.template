@@ -1,0 +1,26 @@
+# [user]
+#   email =
+#   name =
+
+[core]
+  excludesFile = ~/.gitignore
+  pager = "command -v delta >/dev/null 2>&1 && exec delta || exec less -FX"
+
+[push]
+  autoSetupRemote = true
+
+[merge]
+  conflictStyle = diff3
+
+[diff]
+  colorMoved = default
+
+[interactive]
+  diffFilter = delta --color-only
+
+[delta]
+  side-by-side = true
+  navigate = true    # use n and N to move between diff sections
+  light = false
+  dark = true
+  line-numbers = true
