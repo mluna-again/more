@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-_WORKTREES="$HOME/Worktrees"
+_WORKTREES="$HOME/Trees"
 
 stderr() {
   echo "$*" 1>&2
@@ -36,7 +36,11 @@ while true; do
       ;;
 
     *)
-      action="$1"
+      if [ -z "$action" ]; then
+        action="$1"
+      elif [ -z "$action_arg" ]; then
+        action_arg="$1"
+      fi
       ;;
   esac
 
@@ -54,7 +58,13 @@ case "$action" in
       exit 0
     fi
 
-    git worktree list | fzf | awk '{print $1}'
+    response=$(git worktree list | fzf -1 -q "$action_arg" | awk '{print $1}')
+    if [ -z "$response" ]; then
+      pwd
+      exit 0
+    fi
+
+    echo "$response"
     ;;
   list|l|ls)
     check_git
@@ -69,15 +79,18 @@ case "$action" in
   create|c)
     check_git
     base=$(basename "$(pwd)") || exit
-    printf "Name: "
-    read -r response || exit
+    tree_name="${action_arg}"
+    if [ -z "$tree_name" ]; then
+      printf "Name: "
+      read -r response || exit
+    fi
     tree_name=$(sed 's| |_|g' <<< "$response")
     if [ -z "$tree_name" ]; then
       stderr "Name required. Bye."
       exit 1
     fi
 
-    printf "Git branch [Name|branch|fzf]: "
+    printf "Git branch [$tree_name|fzf|<other>]: "
     read -r response || exit
     if [ "$response" = fzf ]; then
       branch=$(git branch --sort=-committerdate -a --format='%(refname:short)' | fzf)
@@ -101,21 +114,45 @@ case "$action" in
       git worktree add "${_WORKTREES}/$base/$tree_name" -b "$branch" || exit
     fi
 
-    echo cd "${_WORKTREES}/$base/$tree_name"
+    echo "${_WORKTREES}/$base/$tree_name"
     ;;
 
   remove|rm)
+    if [ -f .git ]; then
+      repo=$(awk -F': ' '{print $2}' .git | sed 's|\.git.*||') || exit
+      stderr "Inside Worktree. Go back to the original repo and try again."
+      echo "$repo"
+      exit 1
+    fi
     trees=$(find "$_WORKTREES" -maxdepth 2 -mindepth 2 -type d | sed "s|${_WORKTREES}/||")
     if [ -z "$trees" ]; then
       stderr "No worktrees found."
       exit 1
     fi
 
-    tree=$(echo "$trees" | fzf)
+    tree=$(echo "$trees" | fzf -1 -q "$action_arg")
     [ -z "$tree" ] && exit 1
+
+    branch=$(git -C "${_WORKTREES}/$tree" branch --show-current) || exit
+    if [ -z "$branch" ]; then
+      stderr "Could not fetch branch."
+      exit 1
+    fi
+
     printf "Deleting %s\nContinue? [N/y] " "$tree"
     read -r response || exit
     [ "${response,,}" != y ] && exit 1
-    git worktree remove "$tree"
+    git worktree remove "$tree" || exit
+
+    printf "Remove branch ($branch)? [N/y] "
+    read -r response
+    if [[ ! "${response,,}" =~ ^y(es)?$ ]]; then
+      exit 1
+    fi
+    git branch -d "$branch"
+    ;;
+
+  *)
+    echo "Invalid action: $action" >&2
     ;;
 esac

@@ -116,7 +116,6 @@ abbr --add --set-cursor oilssh nvim oil-ssh://%/
 abbr --add nv NVIM_APPNAME=bare_nvim nvim
 abbr --add pager $MANPAGER
 abbr --add ss ss -nlput
-abbr --add dtrees cd '(trees.sh dir)'
 abbr --add ympv mpv --script-opts=ytdl_hook-ytdl_path=yt-dlp
 abbr --add gv nvim --listen /tmp/godot.pipe
 abbr --add r bin/rails
