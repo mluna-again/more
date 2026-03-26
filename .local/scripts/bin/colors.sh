@@ -1,8 +1,19 @@
 #! /usr/bin/env bash
 
+print_centered() {
+  local num len
+  num="$1"
+  len=${#num}
+  case "$len" in
+    1) echo -n "  $num  " ;;
+    2) echo -n "  $num " ;;
+    3) echo -n " $num " ;;
+  esac
+}
+
 count=0
 for c in {0..255}; do
-  color=$(printf "%-5s" "$c")
+  color=$(print_centered "$c")
   tput setab "$c"
   if (( count >= 15 )); then
     echo -n "$color"
