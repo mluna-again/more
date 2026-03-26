@@ -3,14 +3,24 @@
     "prefix": "success",
     "description": "prints a green message",
     "body": [
-      "success() {\n\ttput setab 2\n\ttput setaf 0\n\techo \" \\$* \"\n}\n"
+      "success() {",
+      "  tput setab 2",
+      "  tput setaf 0",
+      "  echo \" \\$* \"",
+      "  tput sgr0",
+      "}\n"
     ]
   },
   "fail": {
     "prefix": "fail",
     "description": "prints a red message",
     "body": [
-      "fail() {\n\ttput setab 1\n\ttput setaf 0\n\techo \" \\$* \"\n}\n"
+      "fail() {",
+      "  tput setab 1",
+      "  tput setaf 0",
+      "  echo \" \\$* \"",
+      "  tput sgr0",
+      "}\n"
     ]
   },
   "bash_shebang": {
