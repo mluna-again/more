@@ -71,6 +71,10 @@ if [ -f "$output" ]; then
   die "$output already exists."
 fi
 
+if ! [[ "$output" =~ ^.*\.pdf$ ]]; then
+  die "$output: not a pdf"
+fi
+
 tmpdir=$(mktemp --directory) || exit
 cleanup() {
   rm -rf "$tmpdir"
@@ -81,6 +85,10 @@ if [ "${#images[@]}" -eq 0 ]; then
   while read -r file; do
     add_image_if_exist "$file" || exit
   done
+fi
+
+if [ "${#images[@]}" -eq 0 ]; then
+  die "no images found"
 fi
 
 count=1
