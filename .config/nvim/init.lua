@@ -90,6 +90,11 @@ vim.api.nvim_create_user_command("ShellCheck", function()
   vim.api.nvim_win_set_cursor(win, cursor)
 end, {})
 
+-- :help difforig
+vim.cmd([[
+command DiffOrig vert new | set buftype=nofile | read ++edit # | 0d_ | diffthis | wincmd p | diffthis
+]])
+
 -- KEYMAPS
 vim.keymap.del({"n", "v"}, "gra")
 vim.keymap.del({"n"}, "gri")
