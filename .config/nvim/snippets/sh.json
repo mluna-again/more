@@ -1,4 +1,18 @@
 {
+  "success": {
+    "prefix": "success",
+    "description": "prints a green message",
+    "body": [
+      "success() {\n\ttput setab 2\n\ttput setaf 0\n\techo \" \\$* \"\n}\n"
+    ]
+  },
+  "fail": {
+    "prefix": "fail",
+    "description": "prints a red message",
+    "body": [
+      "fail() {\n\ttput setab 1\n\ttput setaf 0\n\techo \" \\$* \"\n}\n"
+    ]
+  },
   "bash_shebang": {
     "prefix": "bash",
     "description": "Insert bash shebang",
