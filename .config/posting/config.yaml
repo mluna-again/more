@@ -1,5 +1,6 @@
 spacing: compact
 layout: horizontal
+animation: full
 theme: kanagawa-dragon
 watch_themes: false
 watch_collection_files: false
@@ -13,7 +14,7 @@ collection_browser:
 text_input:
   blinking_cursor: false
 
-pager_json: nvim
+pager_json: jnv
 pager: nvim
 editor: nvim
 
@@ -32,7 +33,7 @@ keymap:
   new-request: ctrl+n
   commands: ctrl+p
   help: f1
-  quit: none
+  quit: ctrl+q
   jump: ctrl+o
   open-in-pager: ctrl+e
   open-in-editor: ctrl+e
