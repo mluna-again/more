@@ -3,7 +3,7 @@
   "autoupdate": "notify",
   "default_agent": "plan",
   "share": "manual",
-  "commands": {},
+  "command": {},
   "permission": {
     "external_directory": "deny",
     "*": "ask",
