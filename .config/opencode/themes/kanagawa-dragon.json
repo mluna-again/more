@@ -1,0 +1,223 @@
+{
+  "$schema": "https://opencode.ai/theme.json",
+  "defs": {
+    "dragon0": "#181616",
+    "dragon1": "#0d0c0c",
+    "dragon2": "#2d4f67",
+    "dragon3": "#a6a69c",
+    "dragon4": "#7fb4ca",
+    "dragon5": "#c5c9c5",
+    "dragon6": "#938aa9",
+    "dragon7": "#c5c9c5",
+    "dragon8": "#c4746e",
+    "dragon9": "#e46876",
+    "dragon10": "#c4b28a",
+    "dragon11": "#8a9a7b",
+    "dragon12": "#8ea4a2",
+    "dragon13": "#8ba4b0",
+    "dragon14": "#a292a3",
+    "dragon15": "#7aa89f"
+  },
+  "theme": {
+    "primary": {
+      "dark": "dragon8",
+      "light": "dragon10"
+    },
+    "secondary": {
+      "dark": "dragon9",
+      "light": "dragon9"
+    },
+    "accent": {
+      "dark": "dragon7",
+      "light": "dragon7"
+    },
+    "error": {
+      "dark": "dragon11",
+      "light": "dragon11"
+    },
+    "warning": {
+      "dark": "dragon12",
+      "light": "dragon12"
+    },
+    "success": {
+      "dark": "dragon14",
+      "light": "dragon14"
+    },
+    "info": {
+      "dark": "dragon8",
+      "light": "dragon10"
+    },
+    "text": {
+      "dark": "dragon4",
+      "light": "dragon0"
+    },
+    "textMuted": {
+      "dark": "dragon3",
+      "light": "dragon1"
+    },
+    "background": {
+      "dark": "dragon0",
+      "light": "dragon6"
+    },
+    "backgroundPanel": {
+      "dark": "dragon1",
+      "light": "dragon5"
+    },
+    "backgroundElement": {
+      "dark": "dragon1",
+      "light": "dragon4"
+    },
+    "border": {
+      "dark": "dragon2",
+      "light": "dragon3"
+    },
+    "borderActive": {
+      "dark": "dragon3",
+      "light": "dragon2"
+    },
+    "borderSubtle": {
+      "dark": "dragon2",
+      "light": "dragon3"
+    },
+    "diffAdded": {
+      "dark": "dragon14",
+      "light": "dragon14"
+    },
+    "diffRemoved": {
+      "dark": "dragon11",
+      "light": "dragon11"
+    },
+    "diffContext": {
+      "dark": "dragon3",
+      "light": "dragon3"
+    },
+    "diffHunkHeader": {
+      "dark": "dragon3",
+      "light": "dragon3"
+    },
+    "diffHighlightAdded": {
+      "dark": "dragon14",
+      "light": "dragon14"
+    },
+    "diffHighlightRemoved": {
+      "dark": "dragon11",
+      "light": "dragon11"
+    },
+    "diffAddedBg": {
+      "dark": "#3B4252",
+      "light": "#E5E9F0"
+    },
+    "diffRemovedBg": {
+      "dark": "#3B4252",
+      "light": "#E5E9F0"
+    },
+    "diffContextBg": {
+      "dark": "dragon1",
+      "light": "dragon5"
+    },
+    "diffLineNumber": {
+      "dark": "dragon2",
+      "light": "dragon4"
+    },
+    "diffAddedLineNumberBg": {
+      "dark": "#3B4252",
+      "light": "#E5E9F0"
+    },
+    "diffRemovedLineNumberBg": {
+      "dark": "#3B4252",
+      "light": "#E5E9F0"
+    },
+    "markdownText": {
+      "dark": "dragon4",
+      "light": "dragon0"
+    },
+    "markdownHeading": {
+      "dark": "dragon8",
+      "light": "dragon10"
+    },
+    "markdownLink": {
+      "dark": "dragon9",
+      "light": "dragon9"
+    },
+    "markdownLinkText": {
+      "dark": "dragon7",
+      "light": "dragon7"
+    },
+    "markdownCode": {
+      "dark": "dragon14",
+      "light": "dragon14"
+    },
+    "markdownBlockQuote": {
+      "dark": "dragon3",
+      "light": "dragon3"
+    },
+    "markdownEmph": {
+      "dark": "dragon12",
+      "light": "dragon12"
+    },
+    "markdownStrong": {
+      "dark": "dragon13",
+      "light": "dragon13"
+    },
+    "markdownHorizontalRule": {
+      "dark": "dragon3",
+      "light": "dragon3"
+    },
+    "markdownListItem": {
+      "dark": "dragon8",
+      "light": "dragon10"
+    },
+    "markdownListEnumeration": {
+      "dark": "dragon7",
+      "light": "dragon7"
+    },
+    "markdownImage": {
+      "dark": "dragon9",
+      "light": "dragon9"
+    },
+    "markdownImageText": {
+      "dark": "dragon7",
+      "light": "dragon7"
+    },
+    "markdownCodeBlock": {
+      "dark": "dragon4",
+      "light": "dragon0"
+    },
+    "syntaxComment": {
+      "dark": "dragon3",
+      "light": "dragon3"
+    },
+    "syntaxKeyword": {
+      "dark": "dragon9",
+      "light": "dragon9"
+    },
+    "syntaxFunction": {
+      "dark": "dragon8",
+      "light": "dragon8"
+    },
+    "syntaxVariable": {
+      "dark": "dragon7",
+      "light": "dragon7"
+    },
+    "syntaxString": {
+      "dark": "dragon14",
+      "light": "dragon14"
+    },
+    "syntaxNumber": {
+      "dark": "dragon15",
+      "light": "dragon15"
+    },
+    "syntaxType": {
+      "dark": "dragon7",
+      "light": "dragon7"
+    },
+    "syntaxOperator": {
+      "dark": "dragon9",
+      "light": "dragon9"
+    },
+    "syntaxPunctuation": {
+      "dark": "dragon4",
+      "light": "dragon0"
+    }
+  }
+}
