@@ -133,7 +133,7 @@ tmux_prompt() {
 looks_empty() {
   local shell
   for shell in "${_SHELLS[@]}"; do
-    [[  "$shell" =~ ${1,,} ]] && return 0
+    [[  "$shell" = ${1,,} ]] && return 0
   done
 
   return 1
