@@ -1,0 +1,13 @@
+#! /bin/sh
+
+# vim:set filetype=sh:
+
+if ! command -v shellcheck; then
+  echo "ShellCheck is not installed. No checks ran!" >&2
+  exit 0
+fi
+
+if ! shellcheck ~/.local/scripts/bin/*.sh; then
+  echo "Please fix the errors before commiting." >&2
+  exit 1
+fi
