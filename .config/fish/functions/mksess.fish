@@ -10,8 +10,9 @@ function mksess
   end
 
   if test -f "$name"
-    echo "File already exists"
-    return 1
+    echo "File already exists, opening it."
+    nvim "$name"
+    return
   end
 
   echo "session_name: $argv[1]" | tee "$name"
