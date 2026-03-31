@@ -27,4 +27,5 @@ function mksess
   echo "        start_directory: ~/" | tee -a "$name"
   echo
   echo "Saved in $name"
+  nvim "$name"
 end
