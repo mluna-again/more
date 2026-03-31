@@ -1,5 +1,7 @@
 #! /usr/bin/env bash
 
+source ~/.local/scripts/bin/tmux_util.sh || exit
+
 missing_deps=""
 
 command -v chafa &>/dev/null || missing_deps="chafa ${missing_deps}"
@@ -9,21 +11,6 @@ if [ -n "$missing_deps" ]; then
   tmux display "Missing deps: ${missing_deps}"
   exit 0
 fi
-
-_SHELLS=(
-  fish
-  bash
-  sh
-  zsh
-)
-
-looks_empty() {
-  for shell in "${_SHELLS[@]}"; do
-    grep -iq "$shell" <<< "$1" && return 0
-  done
-
-  return 1
-}
 
 while read -r pane; do
   cmd=$(awk '{print $1}' <<< "$pane")

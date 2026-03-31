@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-_SHELLS="bash fish sh zsh"
+source ~/.local/scripts/bin/tmux_util.sh || exit
 
 apps_ran=0
 
@@ -9,7 +9,7 @@ while read -r pane; do
   shell="$(awk '{print $2}' <<< "$pane")"
   cwd="$(awk '{print $3}' <<< "$pane")"
 
-  if grep -qiv "$shell" <<< "$_SHELLS"; then
+  if ! looks_empty "$shell"; then
     continue
   fi
 
