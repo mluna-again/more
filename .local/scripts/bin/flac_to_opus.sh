@@ -68,7 +68,7 @@ copy_files() {
     cmd="find \"$src\" -type f -mtime -1 -printf \"%P\n\""
   fi
 
-  total="$(eval "$cmd" | grep -E '\.flac$' | wc -l)"
+  total="$(eval "$cmd" | grep -c -E '\.flac$')"
   count=0
 
   while read -r file; do

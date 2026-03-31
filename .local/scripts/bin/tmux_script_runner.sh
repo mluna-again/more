@@ -4,7 +4,7 @@ source ~/.local/scripts/bin/tmux_util.sh || exit
 
 SCRIPTS_DIR="$HOME/.local/bin/scripts"
 
-scripts=$(find "$SCRIPTS_DIR" -executable -iname "*_tmux.sh" | xargs -I{} basename {})
+scripts=$(find "$SCRIPTS_DIR" -executable -iname "*_tmux.sh" -print0 | xargs -0 -I{} basename {})
 scripts_count=$(find "$SCRIPTS_DIR" -executable -iname "*_tmux.sh" | wc -l)
 if (( scripts_count <= 0 )); then
   tmux_alert "No executable files ending in \`_tmux.sh\` found in ~/.local/bin/scripts"

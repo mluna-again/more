@@ -17,7 +17,7 @@ get_sessions() {
 
 # MARKS
 switch_to_session_window_and_pane() {
-  local session window pane_index name has_session has_window has_pane
+  local session window pane_index name has_pane
   session="$1"
   window="$2"
   pane="$3"
@@ -86,7 +86,7 @@ tmux_fzf_nth() {
   (( (h - 10) >= termh )) && h=$(( termh - 8 ))
   (( h < 8 )) && h=8
 
-  tmux display-popup -h "$h" -w 40 -y S -EE sh -c "printf \"%s\n\" \"$*\" | mina -nth "$nth" -title \"$title\" -mode fzf -icon="" >~/.cache/mina_response"
+  tmux display-popup -h "$h" -w 40 -y S -EE sh -c "printf \"%s\n\" \"$*\" | mina -nth \"$nth\" -title \"$title\" -mode fzf -icon="" >~/.cache/mina_response"
   cat ~/.cache/mina_response
 }
 
@@ -133,7 +133,7 @@ tmux_prompt() {
 looks_empty() {
   local shell
   for shell in "${_SHELLS[@]}"; do
-    [[  "$shell" = ${1,,} ]] && return 0
+    [[  "$shell" = "${1,,}" ]] && return 0
   done
 
   return 1

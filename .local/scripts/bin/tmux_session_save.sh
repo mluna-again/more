@@ -14,6 +14,7 @@ if [ -f "$path" ]; then
 fi
 
 output=$(tmuxp freeze "$(tmux display -p '#{session_name}')" --yes --save-to "$path" --workspace-format yaml 2>&1)
+# shellcheck disable=SC2181
 if [ "$?" -ne 0 ]; then
   tmux display-popup "$output"
   exit 0

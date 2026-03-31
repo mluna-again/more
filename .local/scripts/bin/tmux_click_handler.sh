@@ -1,7 +1,5 @@
 #! /usr/bin/env bash
 
-prefix=$(tmux show-options -gv prefix)
-
 case "$1" in
   banner)
     ~/.local/scripts/bin/tmux_tmux_menu.sh

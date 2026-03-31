@@ -14,7 +14,6 @@ fi
 
 while read -r pane; do
   cmd=$(awk '{print $1}' <<< "$pane")
-  id=$(awk '{print $2}' <<< "$pane")
   if ! looks_empty "$cmd"; then
     tmux display "Not all panes are empty. Bye."
     exit 0

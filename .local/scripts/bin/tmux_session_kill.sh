@@ -7,6 +7,7 @@ name=$(tmux_fzf "Kill session" "$sessions") || exit
 [ -z "$name" ] && exit 0
 
 output=$(tmux kill-session -t "$name" 2>&1)
+# shellcheck disable=SC2181
 if [ "$?" -ne 0 ]; then
   tmux_alert "$output"
   exit

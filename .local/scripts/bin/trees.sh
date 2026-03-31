@@ -90,7 +90,7 @@ case "$action" in
       exit 1
     fi
 
-    printf "Git branch [$tree_name|fzf|<other>]: "
+    printf "Git branch [%s|fzf|<other>]: " "$tree_name"
     read -r response || exit
     if [ "$response" = fzf ]; then
       branch=$(git branch --sort=-committerdate -a --format='%(refname:short)' | fzf)
@@ -144,7 +144,7 @@ case "$action" in
     [ "${response,,}" != y ] && exit 1
     git worktree remove "$tree" || exit
 
-    printf "Remove branch ($branch)? [N/y] "
+    printf "Remove branch (%s)? [N/y] " "$branch"
     read -r response
     if [[ ! "${response,,}" =~ ^y(es)?$ ]]; then
       exit 1

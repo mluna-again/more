@@ -2,12 +2,13 @@
 
 OPT_NAME="@forward_prefix"
 
+prefix=$(tmux show-options -gv prefix)
 is_on() {
   tmux show-option "$OPT_NAME" &>/dev/null
 }
 
 enable() {
-  tmux set-option "$OPT_NAME" "#[bg=#{@red},fg=#{@black1}] FORWARDING C-x #[bg=default,fg=default]" || return
+  tmux set-option "$OPT_NAME" "#[bg=#{@red},fg=#{@black1}] FORWARDING ${prefix} #[bg=default,fg=default]" || return
   tmux set prefix C-b || return
   tmux set status-position bottom
 }

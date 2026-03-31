@@ -100,7 +100,7 @@ done
 if [[ "${#old_files[@]}" -gt 0 ]]; then
   files_to_delete=()
   for file in "${old_files[@]}"; do
-    if echo "$files_with_errs" | grep "$file"; then
+    if echo "${files_with_errs[@]}" | grep "$file"; then
       continue
     fi
     echo rm "$file"
