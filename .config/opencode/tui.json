@@ -7,7 +7,10 @@
   "diff_style": "auto",
   "theme": "kanagawa-dragon",
   "keybinds": {
-    "leader": "ctrl+m",
-    "agent_list": "tab"
+    "leader": "ctrl+k",
+    "agent_list": "tab",
+    "command_list": "<leader>p",
+    "history_previous": "ctrl+p",
+    "history_next": "ctrl+n"
   }
 }
