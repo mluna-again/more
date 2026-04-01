@@ -6,5 +6,7 @@
   },
   "diff_style": "auto",
   "theme": "kanagawa-dragon",
-  "keybinds": {}
+  "keybinds": {
+    "agent_list": "tab"
+  }
 }

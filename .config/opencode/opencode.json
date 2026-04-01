@@ -4,6 +4,11 @@
   "default_agent": "plan",
   "share": "manual",
   "command": {},
+  "agent": {
+    "plan": {
+      "model": "opencode/big-pickle"
+    }
+  },
   "permission": {
     "external_directory": "deny",
     "*": "ask",
