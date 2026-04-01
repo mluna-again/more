@@ -6,7 +6,12 @@
   "command": {},
   "agent": {
     "plan": {
-      "model": "opencode/big-pickle"
+      "model": "opencode/big-pickle",
+      "permission": {
+        "websearch": "allow",
+        "webfetch": "allow",
+        "question": "allow"
+      }
     }
   },
   "permission": {
