@@ -1,5 +1,10 @@
 #! /usr/bin/env bash
 
+die() {
+  echo "$*" 1>&2
+  exit 1
+}
+
 usage() {
   cat - <<EOF
 Just a convenience script.
@@ -48,7 +53,8 @@ fi
 
 quickemu --vm "$vm" "${opts[@]}"
 
+vm_basename=$(basename "$vm")
 dir="${vm/.conf/}"
 echo
 echo "PORTS"
-awk -F, '{printf "%s: %s\n", $1, $2}' "${dir}/${dir}.ports"
+awk -F, '{printf "%s: %s\n", $1, $2}' "${dir}/${vm_basename/.conf/}.ports"
