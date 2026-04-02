@@ -57,4 +57,4 @@ if [ -z "$port" ]; then
   die "Could not find port!"
 fi
 
-ssh -p "$port" "$user"@localhost
+TERM=xterm-256color ssh -p "$port" "$user"@localhost
