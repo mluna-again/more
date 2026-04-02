@@ -11,6 +11,10 @@ SSH into a quickemu VM.
 Auto starts VM.
 Searches for .conf files in ~/VMs.
 
+You can create a \`users\` file in ~/VMs to specify which VMs use which users, like this:
+box_one,mina
+box_two,lash
+
 Usage:
 $ vm_ssh.sh [<fzf-able vm name>]
 
@@ -33,6 +37,7 @@ while true; do
     --user|-u)
       shift
       user="$1"
+      user_specified=1
       ;;
 
     *)
@@ -55,6 +60,14 @@ vm_basename="${vm_basename/.conf/}"
 port=$(awk -F, '$1 == "ssh" {print $2}' "${dir}/${vm_basename}/${vm_basename}.ports" | head -n 1)
 if [ -z "$port" ]; then
   die "Could not find port!"
+fi
+
+if [ -z "$user_specified" ] && [ -f ~/VMs/users ]; then
+  _user=$(awk -F, "\$1 == \"$vm_basename\" { print \$2 }" ~/VMs/users)
+  if [ -n "$_user" ]; then
+    echo "Using $_user as user (~/VMs/users)"
+    user="$_user"
+  fi
 fi
 
 TERM=xterm-256color ssh -p "$port" "$user"@localhost
