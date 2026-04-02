@@ -12,8 +12,9 @@ Auto starts VM.
 Searches for .conf files in ~/VMs.
 
 You can create a \`users\` file in ~/VMs to specify which VMs use which users, like this:
-box_one,mina
-box_two,lash
+box_one,mina,[<ssh port>],[<spice port>]
+box_two,lash,[<ssh port>],[<spice port>]
+You probably should specify both ssh and spice ports if you start multiple VMs at once, otherwise you'll get binding and ssh keyprint errors.
 
 Usage:
 $ vm_ssh.sh [<fzf-able vm name>]
@@ -52,21 +53,34 @@ vms=$(find ~/VMs -maxdepth 1 -type f -iname "*.conf") || exit
 selected=$(echo "$vms" | fzf -1 -q "$name" | head -n 1) || exit
 [ -z "$selected" ] && exit 1
 
-~/.local/scripts/bin/vm_start.sh "$selected" || exit
-
 dir=$(dirname "$selected") || exit
 vm_basename=$(basename "$selected") || exit
 vm_basename="${vm_basename/.conf/}"
-port=$(awk -F, '$1 == "ssh" {print $2}' "${dir}/${vm_basename}/${vm_basename}.ports" | head -n 1)
-if [ -z "$port" ]; then
-  die "Could not find port!"
-fi
 
+opts=()
 if [ -z "$user_specified" ] && [ -f ~/VMs/users ]; then
   _user=$(awk -F, "\$1 == \"$vm_basename\" { print \$2 }" ~/VMs/users)
+  _port=$(awk -F, "\$1 == \"$vm_basename\" { print \$3 }" ~/VMs/users)
+  _spice_port=$(awk -F, "\$1 == \"$vm_basename\" { print \$4 }" ~/VMs/users)
   if [ -n "$_user" ]; then
     echo "Using $_user as user (~/VMs/users)"
     user="$_user"
+  fi
+  if [ -n "$_port" ]; then
+    opts+=( --port "$_port" )
+    port="$_port"
+  fi
+  if [ -n "$_spice_port" ]; then
+    opts+=( --spice-port "$_spice_port" )
+  fi
+fi
+
+~/.local/scripts/bin/vm_start.sh "$selected" "${opts[@]}" || exit
+
+if [ -z "$port" ]; then
+  port=$(awk -F, '$1 == "ssh" {print $2}' "${dir}/${vm_basename}/${vm_basename}.ports" | head -n 1)
+  if [ -z "$port" ]; then
+    die "Could not find port!"
   fi
 fi
 
