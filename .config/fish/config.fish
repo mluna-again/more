@@ -73,6 +73,7 @@ set -gx MANPAGER "nvim -c 'set cmdheight=1' '+Man!'"
 set -gx AUTOSSH_PORT 0
 set -gx POSTING_THEME_DIRECTORY "$HOME/.config/posting/themes"
 set -gx TMUXP_CONFIGDIR "$HOME/.local/tmuxp"
+set -gx PYTHONSTARTUP "$HOME/.pythonrc"
 
 abbr --add pg pgcli -h 127.0.0.1 -u postgres
 abbr --add dots yadm
