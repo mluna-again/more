@@ -149,7 +149,8 @@ tmux_switch() {
       return 1
     fi
     session_created=1
-    tmuxp load -d "$session" || exit
+    socket=$(tmux display -p '#{socket_path}')
+    tmuxp load -S "$socket" -d "$session" || exit
   fi
 
   if [ "$session_created" -eq 1 ]; then
