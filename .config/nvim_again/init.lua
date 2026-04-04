@@ -107,6 +107,7 @@ vim.pack.add({
   { src = "https://github.com/hrsh7th/cmp-path", version = "c642487" },
   { src = "https://github.com/L3MON4D3/LuaSnip", version = "642b0c5" },
   { src = "https://github.com/saadparwaiz1/cmp_luasnip", version = "98d9cb5" },
+  { src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "4916d65" },
 })
 
 require("oil").setup({
@@ -453,3 +454,22 @@ enable_lsp_server("typescript-language-server")
 enable_lsp_server("tailwind-language-server")
 
 vim.cmd.colorscheme "kanagawa-dragon"
+
+local treesitter_langs = {
+  "ruby",
+  "python",
+  "javascript",
+  "typescript",
+  "elixir",
+  "rust",
+}
+require('nvim-treesitter').install(treesitter_langs)
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = treesitter_langs,
+  callback = function()
+    vim.treesitter.start()
+    vim.wo[0][0].foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+    vim.wo[0][0].foldmethod = 'expr'
+    vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+  end,
+})
