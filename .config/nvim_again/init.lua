@@ -99,6 +99,14 @@ vim.pack.add({
   { src = "https://github.com/chaoren/vim-wordmotion", version = "81d9bd2" },
   { src = "https://github.com/nvim-lua/plenary.nvim", version = "b9fd522" },
   { src = "https://github.com/nvim-telescope/telescope.nvim", version = "cfb85dc" },
+  { src = "https://github.com/neovim/nvim-lspconfig", version = "9ccd58a" },
+  { src = "https://github.com/hrsh7th/nvim-cmp", version = "a1d5048" },
+  { src = "https://github.com/hrsh7th/cmp-cmdline", version = "d126061" },
+  { src = "https://github.com/hrsh7th/cmp-buffer", version = "b74fab3" },
+  { src = "https://github.com/hrsh7th/cmp-nvim-lsp", version = "cbc7b02" },
+  { src = "https://github.com/hrsh7th/cmp-path", version = "c642487" },
+  { src = "https://github.com/L3MON4D3/LuaSnip", version = "642b0c5" },
+  { src = "https://github.com/saadparwaiz1/cmp_luasnip", version = "98d9cb5" },
 })
 
 require("oil").setup({
@@ -373,5 +381,75 @@ require("kanagawa").setup({
   },
 })
 
-vim.cmd.colorscheme "kanagawa-dragon"
+require("luasnip.loaders.from_vscode").load({ paths = {"./snippets"} })
+local cmp = require("cmp")
+require("cmp").setup({
+  snippet = {
+    expand = function(args)
+      require('luasnip').lsp_expand(args.body)
+    end,
+  },
+  window = {
+    -- completion = cmp.config.window.bordered(),
+    -- documentation = cmp.config.window.bordered(),
+  },
+  mapping = cmp.mapping.preset.insert({
+    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.abort(),
+    ['<C-k>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+    ["<Tab>"] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      elseif luasnip.locally_jumpable(1) then
+        luasnip.jump(1)
+      else
+        fallback()
+      end
+    end, { "i", "s" }),
 
+    ["<S-Tab>"] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      elseif luasnip.locally_jumpable(-1) then
+        luasnip.jump(-1)
+      else
+        fallback()
+      end
+    end, { "i", "s" }),
+  }),
+  sources = cmp.config.sources({
+    { name = 'nvim_lsp' },
+    { name = 'luasnip' },
+  }, {
+    { name = 'buffer' },
+  })
+})
+
+-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+require("cmp").setup.cmdline(':', {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources({
+    { name = 'path' }
+  }, {
+    { name = 'cmdline' }
+  }),
+  matching = { disallow_symbol_nonprefix_matching = false }
+})
+
+function enable_lsp_server(server)
+  local cmp_caps = require('cmp_nvim_lsp').default_capabilities()
+  vim.lsp.config(server, {capabilities = cmp_caps})
+  vim.lsp.enable(server)
+end
+
+enable_lsp_server("pyright")
+enable_lsp_server("solargraph")
+enable_lsp_server("gopls")
+enable_lsp_server("elixir-ls")
+enable_lsp_server("rust-analyzer")
+enable_lsp_server("typescript-language-server")
+enable_lsp_server("tailwind-language-server")
+
+vim.cmd.colorscheme "kanagawa-dragon"
