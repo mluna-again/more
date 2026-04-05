@@ -68,6 +68,39 @@ vim.keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "Find o
 
 vim.cmd.packadd "cfilter"
 
+vim.api.nvim_create_user_command("W", function()
+  local ft = vim.bo.filetype
+  local p = vim.api.nvim_buf_get_name(0)
+  
+  vim.cmd("write")
+
+  local cmd = nil
+  if ft == "ruby" then
+    cmd = {"rubocop", "--autocorrect-all", "--format", "quiet", "--fail-level", "error", "--stderr", p}
+  end
+
+  if ft == "python" then
+    cmd = {"black", p}
+  end
+
+  if ft == "go" then
+    cmd = {"go", "fmt", p}
+  end
+
+  if cmd == nil then
+    vim.notify(string.format("No formatted configured for %s.", ft), vim.log.levels.ERROR)
+    return
+  end
+
+  local res = vim.system(cmd, { text = true }):wait()
+  vim.cmd("edit")
+  if res.code == 0 then
+    return
+  end
+
+  vim.notify(res.stderr, vim.log.levels.ERROR)
+end, {})
+
 vim.api.nvim_create_user_command("SessionSave", function()
   vim.cmd("mksession! session.vim")
 end, {})
@@ -463,6 +496,7 @@ local treesitter_langs = {
   "elixir",
   "rust",
   "bash",
+  "go"
 }
 require('nvim-treesitter').install(treesitter_langs)
 vim.api.nvim_create_autocmd('FileType', {
