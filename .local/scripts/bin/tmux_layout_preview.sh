@@ -4,7 +4,7 @@ padd=$(tput cols) || exit
 padd=$(( padd / 2 ))
 
 case "$1" in
-  "Even Vertical")
+  "Even Horizontal")
     cat - <<EOF | ruby -ne "puts \$_.rjust($padd + \$_.size/2, ' ')"
 ┏━━━━━━┳━━━━━━┓
 ┃      ┃      ┃
@@ -15,7 +15,7 @@ case "$1" in
 ┗━━━━━━┻━━━━━━┛
 EOF
     ;;
-  "Even Horizontal")
+  "Even Vertical")
     cat - <<EOF | ruby -ne "puts \$_.rjust($padd + \$_.size/2, ' ')"
 ┏━━━━━━━━━━━━━┓
 ┃             ┃
@@ -26,7 +26,7 @@ EOF
 ┗━━━━━━━━━━━━━┛
 EOF
     ;;
-  "Main Horizontal")
+  "Main Vertical")
     cat - <<EOF | ruby -ne "puts \$_.rjust($padd + \$_.size/2, ' ')"
 ┏━━━━━━━━━━━━━┓
 ┃             ┃
@@ -37,7 +37,7 @@ EOF
 ┗━━━━━━┻━━━━━━┛
 EOF
     ;;
-  "Main Horizontal Mirrored")
+  "Main Vertical Mirrored")
     cat - <<EOF | ruby -ne "puts \$_.rjust($padd + \$_.size/2, ' ')"
 ┏━━━━━━┳━━━━━━┓
 ┃      ┃      ┃
@@ -48,7 +48,7 @@ EOF
 ┗━━━━━━━━━━━━━┛
 EOF
     ;;
-  "Main Vertical")
+  "Main Horizontal")
     cat - <<EOF | ruby -ne "puts \$_.rjust($padd + \$_.size/2, ' ')"
 ┏━━━━━━┳━━━━━━┓
 ┃      ┃      ┃
@@ -59,7 +59,7 @@ EOF
 ┗━━━━━━┻━━━━━━┛
 EOF
     ;;
-  "Main Vertical Mirrored")
+  "Main Horizontal Mirrored")
     cat - <<EOF | ruby -ne "puts \$_.rjust($padd + \$_.size/2, ' ')"
 ┏━━━━━━┳━━━━━━┓
 ┃      ┃      ┃

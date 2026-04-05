@@ -13,18 +13,7 @@ EOF
 
 [ -z "$layout" ] && exit 0
 
-# swap even horizontal/vertical because default is too confusing
-case "$layout" in
-  "Even Horizontal")
-    layout="Even Vertical"
-    ;;
-
-  "Even Vertical")
-    layout="Even Horizontal"
-    ;;
-esac
 layout="$(sed 's/ /-/g' <<< "$layout" | tr '[:upper:]' '[:lower:]')"
-
 
 tmux select-layout "$layout" && \
   tmux swap-pane -s . -t 0 && \
