@@ -462,12 +462,23 @@ local treesitter_langs = {
   "typescript",
   "elixir",
   "rust",
+  "bash",
 }
 require('nvim-treesitter').install(treesitter_langs)
 vim.api.nvim_create_autocmd('FileType', {
   pattern = treesitter_langs,
-  callback = function()
+  callback = function(c)
     vim.treesitter.start()
+    vim.wo[0][0].foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+    vim.wo[0][0].foldmethod = 'expr'
+    vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+  end,
+})
+-- Special case: i want *.sh files to be treated as bash
+vim.api.nvim_create_autocmd('BufRead', {
+  pattern = { "*.bash", "*.sh" },
+  callback = function(c)
+    vim.treesitter.start(c.buf, "bash")
     vim.wo[0][0].foldexpr = 'v:lua.vim.treesitter.foldexpr()'
     vim.wo[0][0].foldmethod = 'expr'
     vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
