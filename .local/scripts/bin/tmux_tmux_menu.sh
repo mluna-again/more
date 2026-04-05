@@ -5,7 +5,7 @@ lsess_pref=""
 [ -z "$lsess" ] && lsess_pref="-"
 
 tmux display-menu -x 0 -y S -M -O -- \
-  "${lsess_pref}Last session ($lsess)" "" "switch-client -l" \
+  "${lsess_pref}Last session (${lsess:-<empty>})" "" "switch-client -l" \
   "-------" "" "" \
   "Change prefix" "" "run-shell ~/.local/scripts/bin/tmux_toggle_prefix.sh" \
   "Toggle zoom" "" "resize-pane -Z" \
