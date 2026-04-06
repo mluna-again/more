@@ -57,6 +57,10 @@ while true; do
 done
 
 [ -z "$vm" ] && usage
+if [ ! -f "$vm" ]; then
+  echo "No config file named $vm found"
+  exit 1
+fi
 
 opts=()
 if [ "$gui" -eq 1 ]; then
