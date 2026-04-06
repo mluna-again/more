@@ -62,6 +62,7 @@ trap cleanup EXIT
 
 cd "$download_dir" || exit
 download_cmd="quickget --download \"$os\" \"$release\" \"$version\""
+echo "Dest: $cwd"
 echo "Tmp dir: $download_dir"
 echo "$download_cmd"
 printf "Continue? [N/y] "
