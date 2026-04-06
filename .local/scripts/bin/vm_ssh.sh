@@ -27,6 +27,7 @@ EOF
 
 name=
 user="$USER"
+opts=()
 while true; do
   [ -z "$1" ] && break
 
@@ -39,6 +40,10 @@ while true; do
       shift
       user="$1"
       user_specified=1
+      ;;
+
+    --gui)
+      opts+=( --gui )
       ;;
 
     *)
@@ -57,7 +62,6 @@ dir=$(dirname "$selected") || exit
 vm_basename=$(basename "$selected") || exit
 vm_basename="${vm_basename/.conf/}"
 
-opts=()
 if [ -z "$user_specified" ] && [ -f ~/VMs/users ]; then
   _user=$(awk -F, "\$1 == \"$vm_basename\" { print \$2 }" ~/VMs/users)
   _port=$(awk -F, "\$1 == \"$vm_basename\" { print \$3 }" ~/VMs/users)
