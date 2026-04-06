@@ -54,6 +54,12 @@ version="${version:-Workstation}"
 [ -z "$name" ] && usage
 
 cwd="$PWD"
+
+if [ -f "${name}.conf" ] || [ -d "$name" ]; then
+  echo "VM with the name $name already exists."
+  exit 1
+fi
+
 download_dir=$(mktemp --directory) || exit
 cleanup() {
   rm -rf "$download_dir"
