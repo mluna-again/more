@@ -38,17 +38,16 @@ if [ -f "$path" ]; then
   elif grep -Eiq "^n(othing)?$" <<< "$response"; then
     exit 0
   elif grep -Eiq "^c(hoose different name)?$" <<< "$response"; then
-    res=$(tmux_ask "New name")
+    res=$(tmux_ask "New name" "$path")
     if [ -z "$res" ]; then
-      tmux_alert "Invalid path"
+      tmux_alert "Aborted."
       exit 0
     fi
-    path="${cwd}/${res}"
-    if [ -f "$path" ]; then
-      tmux_alert "$path also exists already. Bye."
+    if [ -e "$res" ]; then
+      tmux_alert "$res also exists already. Bye."
       exit 0
     fi
-    if ! echo "$cmds" > "$path"; then
+    if ! echo "$cmds" > "$res"; then
       tmux_alert "Something went wrong"
       exit 0
     fi
