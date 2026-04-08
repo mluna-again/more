@@ -38,7 +38,7 @@ if [ -f "$path" ]; then
   elif grep -Eiq "^n(othing)?$" <<< "$response"; then
     exit 0
   elif grep -Eiq "^c(hoose different name)?$" <<< "$response"; then
-    res=$(tmux_ask "New name" "$path")
+    res=$(tmux_ask "New name" "$(readlink -m "$path")")
     if [ -z "$res" ]; then
       tmux_alert "Aborted."
       exit 0
