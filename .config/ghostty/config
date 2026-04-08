@@ -65,6 +65,8 @@ gtk-titlebar = false
 
 quit-after-last-window-closed = true
 
+maximize = true
+
 custom-shader = ~/.config/ghostty/shaders/cursor_trail.glsl
 # custom-shader = ~/.config/ghostty/shaders/crt.glsl
 # custom-shader = ~/.config/ghostty/shaders/drunk.glsl
