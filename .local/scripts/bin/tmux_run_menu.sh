@@ -2,11 +2,18 @@
 
 source ~/.local/scripts/bin/tmux_util.sh || exit
 
+marked_pane=$(tmux list-panes -a -f '#{pane_marked}' -F '(#{session_name}.#{pane_current_command})')
+if [ -z "$marked_pane" ]; then
+  marked_pane="(No pane marked)"
+fi
+
 KILL_SERVER="TMUX: kill server"
 SWITCH_PREFIX="TMUX: switch prefix"
 DUMP_CMDS="TMUX: dump current window commands"
 CLEAR_PANE="TMUX: clear scrollback buffer"
 CLEAR_TAG="TMUX: remove tag"
+BREAK_PANE="Panes: break pane"
+JOIN_PANE="Panes: join pane $marked_pane"
 SAVE_SESSION="Sessions: save current"
 KILL_SESSION="Sessions: kill session"
 SAVER="Utilities: screen saver"
@@ -30,6 +37,8 @@ $DUMP_CMDS
 $SWITCH_PREFIX
 $CLEAR_PANE
 $CLEAR_TAG
+$BREAK_PANE
+$JOIN_PANE
 $SAVE_SESSION
 $KILL_SESSION
 $SAVER
@@ -60,6 +69,8 @@ case "$response" in
   "$PATH_BORDERS") ~/.local/scripts/bin/tmux_panel_path.sh ;;
   "$CLEAR_PANE") tmux clear-history -t .;;
   "$CLEAR_TAG") ~/.local/scripts/bin/tmux_tag_clear.sh;;
+  "$BREAK_PANE") tmux break-pane -a ;;
+  "$JOIN_PANE") tmux join-pane || true ;;
   "$SWITCH_PREFIX") ~/.local/scripts/bin/tmux_toggle_prefix.sh;;
   "$KILL_SERVER") ~/.local/scripts/bin/tmux_kill_server.sh;;
   "$SAVE_SESSION") ~/.local/scripts/bin/tmux_session_save.sh;;
