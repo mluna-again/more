@@ -1,11 +1,10 @@
 #! /usr/bin/env bash
 
-padd=$(tput cols) || exit
-padd=$(( padd / 2 ))
+center_py="import sys, shutil; w,_=shutil.get_terminal_size((80,10)); print('\n'.join([line.strip().center(w) for line in sys.stdin]))"
 
 case "$1" in
   "Even Horizontal")
-    cat - <<EOF | ruby -ne "puts \$_.rjust($padd + \$_.size/2, ' ')"
+    cat - <<EOF | python -c "$center_py"
 ┏━━━━━━┳━━━━━━┓
 ┃      ┃      ┃
 ┃      ┃      ┃
@@ -16,7 +15,7 @@ case "$1" in
 EOF
     ;;
   "Even Vertical")
-    cat - <<EOF | ruby -ne "puts \$_.rjust($padd + \$_.size/2, ' ')"
+    cat - <<EOF | python -c "$center_py"
 ┏━━━━━━━━━━━━━┓
 ┃             ┃
 ┣━━━━━━━━━━━━━┫
@@ -27,7 +26,7 @@ EOF
 EOF
     ;;
   "Main Horizontal")
-    cat - <<EOF | ruby -ne "puts \$_.rjust($padd + \$_.size/2, ' ')"
+    cat - <<EOF | python -c "$center_py"
 ┏━━━━━━━━━━━━━┓
 ┃             ┃
 ┃             ┃
@@ -38,7 +37,7 @@ EOF
 EOF
     ;;
   "Main Horizontal Mirrored")
-    cat - <<EOF | ruby -ne "puts \$_.rjust($padd + \$_.size/2, ' ')"
+    cat - <<EOF | python -c "$center_py"
 ┏━━━━━━┳━━━━━━┓
 ┃      ┃      ┃
 ┃      ┃      ┃
@@ -49,7 +48,7 @@ EOF
 EOF
     ;;
   "Main Vertical")
-    cat - <<EOF | ruby -ne "puts \$_.rjust($padd + \$_.size/2, ' ')"
+    cat - <<EOF | python -c "$center_py"
 ┏━━━━━━┳━━━━━━┓
 ┃      ┃      ┃
 ┃      ┃      ┃
@@ -60,7 +59,7 @@ EOF
 EOF
     ;;
   "Main Vertical Mirrored")
-    cat - <<EOF | ruby -ne "puts \$_.rjust($padd + \$_.size/2, ' ')"
+    cat - <<EOF | python -c "$center_py"
 ┏━━━━━━┳━━━━━━┓
 ┃      ┃      ┃
 ┃      ┃      ┃
@@ -71,7 +70,7 @@ EOF
 EOF
     ;;
   "Tiled")
-    cat - <<EOF | ruby -ne "puts \$_.rjust($padd + \$_.size/2, ' ')"
+    cat - <<EOF | python -c "$center_py"
 ┏━━━━━━┳━━━━━━┓
 ┃      ┃      ┃
 ┃      ┃      ┃
