@@ -7,6 +7,10 @@ _SHELLS=(
   zsh
 )
 
+panes_count() {
+  tmux display -p '#{window_panes}' || exit
+}
+
 get_sessions() {
   files=$(find -L ~/.local/tmuxp -type f -exec awk '/session_name:/ {s=$2; } /window_name:/ {if ($3 == "") {n=$2} else {n=$3} printf "%s: %s\n", s, n}' {} \; 2>/dev/null)
   sessions_without_config=$(tmux list-windows -a -F "#{session_name}: #{window_name}")
