@@ -10,6 +10,8 @@ fi
 KILL_SERVER="TMUX: kill server"
 SWITCH_PREFIX="TMUX: switch prefix"
 DUMP_CMDS="TMUX: dump current window commands"
+REMBER="TMUX: Add sticky note"
+NOTREMBER="TMUX: Remove sticky note"
 CLEAR_PANE="TMUX: clear scrollback buffer"
 CLEAR_TAG="TMUX: remove tag"
 BREAK_PANE="Panes: break pane"
@@ -35,6 +37,8 @@ items=$(cat - <<EOF | sort -h
 $KILL_SERVER
 $DUMP_CMDS
 $SWITCH_PREFIX
+$REMBER
+$NOTREMBER
 $CLEAR_PANE
 $CLEAR_TAG
 $BREAK_PANE
@@ -66,6 +70,8 @@ case "$response" in
   "$TOGGLE_BORDERS") ~/.local/scripts/bin/tmux_toggle_panel_borders.sh ;;
   "$CMD_BORDERS") ~/.local/scripts/bin/tmux_panel_cmd.sh ;;
   "$DUMP_CMDS") ~/.local/scripts/bin/tmux_dump_cmds.sh ;;
+  "$REMBER") ~/.local/scripts/bin/tmux_rember_add.sh ;;
+  "$NOTREMBER") rm ~/.cache/tmux_rember.sh || true ;;
   "$PATH_BORDERS") ~/.local/scripts/bin/tmux_panel_path.sh ;;
   "$CLEAR_PANE") tmux clear-history -t .;;
   "$CLEAR_TAG") ~/.local/scripts/bin/tmux_tag_clear.sh;;
