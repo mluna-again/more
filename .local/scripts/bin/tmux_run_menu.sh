@@ -14,17 +14,19 @@ REMBER="TMUX: Add sticky note"
 NOTREMBER="TMUX: Remove sticky note"
 CLEAR_PANE="TMUX: clear scrollback buffer"
 CLEAR_TAG="TMUX: remove tag"
+REARRANGE_FIRST="Panes: move empty first"
+REARRANGE_LAST="Panes: move empty last"
 BREAK_PANE="Panes: break pane"
 JOIN_PANE="Panes: join pane $marked_pane"
+CLEAR_PANES="Panes: clear panes"
+CLOSE_EMPTY_PANELS="Panes: close empty panels"
 SAVE_SESSION="Sessions: save current"
 KILL_SESSION="Sessions: kill session"
 SAVER="Utilities: screen saver"
 START_APPS="Automation: start applications"
 STOP_APPS="Automation: Stop applications"
-CLEAR_PANES="Automation: clear panes"
 TODO="Utilities: TODOs"
 MATRIX="Random: matrix"
-CLOSE_EMPTY_PANELS="Automation: close empty panels"
 TOGGLE_BORDERS="Borders: toggle"
 CMD_BORDERS="Borders: display running command"
 PATH_BORDERS="Borders: display current path"
@@ -39,6 +41,8 @@ $DUMP_CMDS
 $SWITCH_PREFIX
 $REMBER
 $NOTREMBER
+$REARRANGE_FIRST
+$REARRANGE_LAST
 $CLEAR_PANE
 $CLEAR_TAG
 $BREAK_PANE
@@ -73,6 +77,8 @@ case "$response" in
   "$REMBER") ~/.local/scripts/bin/tmux_rember_add.sh ;;
   "$NOTREMBER") rm ~/.cache/tmux_rember.sh || true ;;
   "$PATH_BORDERS") ~/.local/scripts/bin/tmux_panel_path.sh ;;
+  "$REARRANGE_FIRST") ~/.local/scripts/bin/tmux_rearrange_panes.sh first ;;
+  "$REARRANGE_LAST") ~/.local/scripts/bin/tmux_rearrange_panes.sh last ;;
   "$CLEAR_PANE") tmux clear-history -t .;;
   "$CLEAR_TAG") ~/.local/scripts/bin/tmux_tag_clear.sh;;
   "$BREAK_PANE") tmux break-pane -a ;;
