@@ -17,7 +17,12 @@ sed -e 's|\(.*plugins/tpm/tpm.*\)|# \1|g' \
       msg = sprintf("display-message \"%s not implemented\"\n", $4);
       gsub(/run-shell .*/, msg, $0);
       printf $0;
-    } else {
+    } else if($0 ~ /display-popup/) {
+      msg = sprintf("display-message \"%s not implemented\"\n", $NF);
+      gsub(/display-popup .*/, msg, $0);
+      printf $0;
+    }
+    else {
       print $0;
     }
   }'
