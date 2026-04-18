@@ -24,6 +24,10 @@ case "$layout" in
       tmux_alert "Too many panes for this layout."
       exit 0
     fi
+    if (( pane_count < 2 )); then
+      tmux_alert "Not enough panes for this layout."
+      exit 0
+    fi
     tmux select-layout "f4d4,205x32,0,0{57x32,0,0[57x16,0,0,55,57x15,0,17,62],87x32,58,0,60,59x32,146,0[59x16,146,0,61,59x15,146,17,63]}" && \
       tmux swap-pane -s . -t 2 && \
       tmux select-pane -t 2
