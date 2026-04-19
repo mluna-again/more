@@ -12,6 +12,44 @@ stderr() {
   echo "$*" 1>&2
 }
 
+usage() {
+  cat - <<EOF
+Poor-man's Makefile runner.
+Write your functions in bash (in a selune.sh file) and just called them like this \`selune do_something\`.
+I wrote this just so I didn't have to type ./ in every script, that's it.
+
+Usage:
+  $ selune [<cmd>]
+
+Example:
+  $ cat selune.sh
+  test() { # Some help message here
+    mix test && echo done
+  }
+  $ selune test
+  # ... mix test output ...
+  $ selune # opens up fzf, each entry displays the doc comment like this: \`test # Some help message\`
+EOF
+  exit 1
+}
+
+query=()
+while true; do
+  [ -z "$1" ] && break
+
+  case "$1" in
+    --help|-h|help)
+      usage
+      ;;
+
+    *)
+      query=( -1 -q "$1" )
+      ;;
+  esac
+
+  shift
+done
+
 if ! selune_exists; then
   stderr "$SCRIPT_NAME not found / not executable."
   exit 0
@@ -23,17 +61,11 @@ if [ -z "$selune_functions" ]; then
   exit 0
 fi
 
-query=""
-if [ -n "$1" ]; then
-  query="-1 -q $1"
-  shift
-fi
-
 export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --height=10"
 source "$SCRIPT_PATH" || exit
 
 title="${SELUNE_TITLE:-Run a function}"
-func=$(echo "$selune_functions" | fzf $query --height=10 --nth=1 --ghost="$title" | awk -F'#' '{gsub(/[ \t]*/, "", $1); print $1}') || exit
+func=$(echo "$selune_functions" | fzf "${query[@]}" --height=10 --nth=1 --ghost="$title" | awk -F'#' '{gsub(/[ \t]*/, "", $1); print $1}') || exit
 [ -z "$func" ] && exit 1
 
 "$func" "$@"

@@ -76,6 +76,7 @@ set -gx PYTHONSTARTUP "$HOME/.pythonrc"
 # Temp (probably?)
 set -gx NVIM_APPNAME nvim_again
 
+abbr --add sel selune
 abbr --add pg pgcli -h 127.0.0.1 -u postgres
 abbr --add dots yadm
 abbr --add dotss yadm status
