@@ -20,6 +20,7 @@ BREAK_PANE="Panes: break pane"
 JOIN_PANE="Panes: join pane $marked_pane"
 CLEAR_PANES="Panes: clear panes"
 CLOSE_EMPTY_PANELS="Panes: close empty panels"
+MAKE_PANES="Panes: make panes"
 SAVE_SESSION="Sessions: save current"
 KILL_SESSION="Sessions: kill session"
 SAVER="Utilities: screen saver"
@@ -57,6 +58,7 @@ $TODO
 $MATRIX
 $CLEAR_MARKS
 $CLOSE_EMPTY_PANELS
+$MAKE_PANES
 $TOGGLE_BORDERS
 $CMD_BORDERS
 $PATH_BORDERS
@@ -93,6 +95,7 @@ case "$response" in
   "$CLEAR_PANES") ~/.local/scripts/bin/tmux_clear_everypane.sh ;;
   "$TODO") ~/.local/scripts/bin/tmux_goto_todo.sh ;;
   "$MATRIX") ~/.local/scripts/bin/tmux_matrix.sh ;;
+  "$MAKE_PANES") ~/.local/scripts/bin/tmux_make_panels.sh ;;
   "$CLOSE_EMPTY_PANELS") ~/.local/scripts/bin/tmux_close_empty_panels.sh ;;
   "$PRIV_MODE") ~/.local/scripts/bin/tmux_priv.sh ;;
   "$FORWARD_PREFIX") ~/.local/scripts/bin/tmux_toggle_prefix.sh ;;
