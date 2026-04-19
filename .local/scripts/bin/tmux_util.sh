@@ -7,6 +7,10 @@ _SHELLS=(
   zsh
 )
 
+client_height() {
+  tmux display -p '#{client_height}'
+}
+
 panes_count() {
   tmux display -p '#{window_panes}' || exit
 }
@@ -86,8 +90,8 @@ tmux_fzf_nth() {
 
   h=$(printf '%s\n' "$*" | wc -l)
   h=$(( h + 3 )) # margin + header
-  termh=$(tput lines) || return
-  (( (h - 10) >= termh )) && h=$(( termh - 8 ))
+  termh=$(client_height) || return
+  (( (h + 8) >= termh )) && h=$(( termh - 8 ))
   (( h < 8 )) && h=8
 
   tmux display-popup -h "$h" -w 40 -y S -EE sh -c "printf \"%s\n\" \"$*\" | mina -nth \"$nth\" -title \"$title\" -mode fzf -icon="" >~/.cache/mina_response"
@@ -100,8 +104,8 @@ tmux_fzf() {
   shift
   h=$(printf '%s\n' "$*" | wc -l)
   h=$(( h + 3 )) # margin + header
-  termh=$(tput lines) || return
-  (( (h - 10) >= termh )) && h=$(( termh - 8 ))
+  termh=$(client_height) || return
+  (( (h + 8) >= termh )) && h=$(( termh - 8 ))
   (( h < 8 )) && h=8
 
   tmux display-popup -h "$h" -w 40 -y S -EE sh -c "printf \"%s\n\" \"$*\" | mina -title \"$title\" -mode fzf -icon="" >~/.cache/mina_response"
