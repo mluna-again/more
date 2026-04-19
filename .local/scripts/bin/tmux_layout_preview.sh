@@ -3,7 +3,7 @@
 center_py="import sys, shutil; w,_=shutil.get_terminal_size((80,10)); print('\n'.join([line.strip().center(w) for line in sys.stdin]))"
 
 case "$1" in
-  "Even Horizontal")
+  " Even Horizontal ")
     cat - <<EOF | python -c "$center_py"
 ┏━━━━━━┳━━━━━━┓
 ┃      ┃      ┃
@@ -14,7 +14,7 @@ case "$1" in
 ┗━━━━━━┻━━━━━━┛
 EOF
     ;;
-  "Even Vertical")
+  " Even Vertical ")
     cat - <<EOF | python -c "$center_py"
 ┏━━━━━━━━━━━━━┓
 ┃             ┃
@@ -25,7 +25,7 @@ EOF
 ┗━━━━━━━━━━━━━┛
 EOF
     ;;
-  "Main Horizontal")
+  " Main Horizontal ")
     cat - <<EOF | python -c "$center_py"
 ┏━━━━━━━━━━━━━┓
 ┃             ┃
@@ -36,7 +36,7 @@ EOF
 ┗━━━━━━┻━━━━━━┛
 EOF
     ;;
-  "Main Horizontal Mirrored")
+  " Main Horizontal Mirrored ")
     cat - <<EOF | python -c "$center_py"
 ┏━━━━━━┳━━━━━━┓
 ┃      ┃      ┃
@@ -47,7 +47,7 @@ EOF
 ┗━━━━━━━━━━━━━┛
 EOF
     ;;
-  "Main Vertical")
+  " Main Vertical ")
     cat - <<EOF | python -c "$center_py"
 ┏━━━━━━┳━━━━━━┓
 ┃      ┃      ┃
@@ -58,7 +58,7 @@ EOF
 ┗━━━━━━┻━━━━━━┛
 EOF
     ;;
-  "Main Vertical Mirrored")
+  " Main Vertical Mirrored ")
     cat - <<EOF | python -c "$center_py"
 ┏━━━━━━┳━━━━━━┓
 ┃      ┃      ┃
@@ -69,7 +69,7 @@ EOF
 ┗━━━━━━┻━━━━━━┛
 EOF
     ;;
-  "Tiled")
+  " Tiled ")
     cat - <<EOF | python -c "$center_py"
 ┏━━━━━━┳━━━━━━┓
 ┃      ┃      ┃
@@ -81,7 +81,7 @@ EOF
 EOF
     ;;
 
-  "Centered")
+  " Centered ")
     cat - <<EOF | python -c "$center_py"
 ┏━━━┳━━━━━┳━━━┓
 ┃   ┃     ┃   ┃

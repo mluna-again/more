@@ -3,14 +3,14 @@
 source ~/.local/scripts/bin/tmux_util.sh || exit
 
 layout=$(cat - <<EOF | fzf --ghost="Select Layout" --preview="tmux_layout_preview.sh {}" | xargs
-Even Horizontal
-Even Vertical
-Main Horizontal
-Main Horizontal Mirrored
-Main Vertical
-Main Vertical Mirrored
-Tiled
-Centered
+ Even Horizontal 
+ Even Vertical 
+ Main Horizontal 
+ Main Horizontal Mirrored 
+ Main Vertical 
+ Main Vertical Mirrored 
+ Tiled 
+ Centered 
 EOF
 )
 
