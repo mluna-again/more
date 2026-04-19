@@ -19,7 +19,7 @@ Write your functions in bash (in a selune.sh file) and just called them like thi
 I wrote this just so I didn't have to type ./ in every script, that's it.
 
 Usage:
-  $ selune [<cmd>]
+  $ selune [<cmd>] [...<args for cmd>]
 
 Example:
   $ cat selune.sh
@@ -34,6 +34,7 @@ EOF
 }
 
 query=()
+args=()
 while true; do
   [ -z "$1" ] && break
 
@@ -43,7 +44,11 @@ while true; do
       ;;
 
     *)
-      query=( -1 -q "$1" )
+      if [ "${#query[@]}" -eq 0 ]; then
+        query=( -1 -q "$1" )
+      else
+        args+=( "$1" )
+      fi
       ;;
   esac
 
@@ -68,4 +73,4 @@ title="${SELUNE_TITLE:-Run a function}"
 func=$(echo "$selune_functions" | fzf "${query[@]}" --height=10 --nth=1 --ghost="$title" | awk -F'#' '{gsub(/[ \t]*/, "", $1); print $1}') || exit
 [ -z "$func" ] && exit 1
 
-"$func" "$@"
+"$func" "${args[@]}"
