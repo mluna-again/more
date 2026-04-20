@@ -13,10 +13,8 @@ if [ -z "$TMUX" ]; then
   die running outside of tmux
 fi
 
-current=$(tmux display -p '#{window_id}') || exit
 chosen=$(
   tmux list-windows -a -F '#{window_id} #{session_name}: #{window_name}' | \
-    grep -vE "^$current" | \
     fzf --with-nth=2.. --preview="tmux capture-pane -p -e -t {1}" | \
     awk '{print $1}'
 )
