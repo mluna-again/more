@@ -82,9 +82,9 @@ case "$action" in
     tree_name="${action_arg}"
     if [ -z "$tree_name" ]; then
       printf "Name: "
-      read -r response || exit
+      read -r tree_name || exit
     fi
-    tree_name=$(sed 's| |_|g' <<< "$response")
+    tree_name=$(sed 's| |_|g' <<< "$tree_name")
     if [ -z "$tree_name" ]; then
       stderr "Name required. Bye."
       exit 1
