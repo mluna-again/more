@@ -3,8 +3,8 @@
 # This prints a copy of ~/.tmux.conf
 # to STDOUT but only the config related to keybinds.
 # Removes non-native functionality (just as in mini.sh)
-# Note: also includes prefix config.
+# Note: also includes prefix and mode-keys config.
 
 ~/.config/tmux/mini.sh | \
-  grep -E -e '^bind' -e '^unbind' -e '^set .* prefix2? .*$' | \
+  grep -E -e '^bind' -e '^unbind' -e '^set .* prefix2? .*$' -e '^set .*-keys .*' | \
   grep -v '.* not implemented'
