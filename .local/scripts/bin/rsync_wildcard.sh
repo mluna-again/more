@@ -42,8 +42,12 @@ fi
 
 set -x
 
+cleanup() {
+  rm -f rsync_wildcard_includes
+}
+trap cleaup EXIT
+
 find . -iname "$pattern" | tee rsync_wildcard_includes
 
 rsync -avh --info=progress2 --files-from=rsync_wildcard_includes --exclude='./*' . "$dest"
 
-rm rsync_wildcard_includes
