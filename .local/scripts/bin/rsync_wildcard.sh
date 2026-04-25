@@ -3,13 +3,18 @@
 usage() {
   cat - <<EOF
 Usage:
-$ rsync_wildcard.sh <pattern> <dest>
+$ rsync_wildcard.sh <pattern> [...<pattern>] <dest>
 
-Sends files in current directory that matches <pattern> (find pattern) to <dest> using rsync.
+Sends files in current directory that matches <pattern> (with find's -ipath) to <dest> using rsync.
+
+Example:
+$ rsync_wildcard.sh "*themes/*" somevm:/home/user/.config/nvim                # You almost always want * at the beginning because of how find's -ipath works
+$ rsync_wildcard.sh "*themes/*" "*init.lua*" somevm:/home/user/.config/nvim   # Multiple patterns
 EOF
   exit 1
 }
 
+patterns=()
 while true; do
   [ -z "$1" ] && break
 
@@ -19,10 +24,11 @@ while true; do
       ;;
 
     *)
-      if [ -z "$pattern" ]; then
-        pattern="$1"
-      else
+      next_value="$2"
+      if [ -z "$next_value" ]; then
         dest="$1"
+      else
+        patterns+=( "$1" )
       fi
       ;;
   esac
@@ -30,8 +36,8 @@ while true; do
   shift
 done
 
-if [ -z "$pattern" ]; then
-  echo "pattern empty / no matches (use quotes)" >&2
+if [ "${#patterns}" -lt 1 ]; then
+  echo "at least one pattern required" >&2
   exit 1
 fi
 
@@ -40,14 +46,25 @@ if [ -z "$dest" ]; then
   exit 1
 fi
 
-set -x
-
 cleanup() {
   rm -f rsync_wildcard_includes
 }
-trap cleaup EXIT
+trap cleanup EXIT
 
-find . -iname "$pattern" | tee rsync_wildcard_includes
+echo "∨∨∨∨∨∨∨∨∨ Files matched ∨∨∨∨∨∨∨∨∨"
+echo > rsync_wildcard_includes
+for pattern in "${patterns[@]}"; do
+  find . -ipath "$pattern" | tee -a rsync_wildcard_includes || exit
+done
+echo "∧∧∧∧∧∧∧∧∧ Files matched ∧∧∧∧∧∧∧∧∧"
 
-rsync -avh --info=progress2 --files-from=rsync_wildcard_includes --exclude='./*' . "$dest"
+printf "Running: "
+echo rsync -avhbu --info=progress2 --files-from=rsync_wildcard_includes --exclude='./*' . "$dest"
+printf "Continue? [N/y] "
+read -r response
+if [[ ! "${response,,}" =~ ^y(es)?$ ]]; then
+  exit 1
+fi
+
+rsync -avhbu --info=progress2 --files-from=rsync_wildcard_includes --exclude='./*' . "$dest"
 
