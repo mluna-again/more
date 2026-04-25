@@ -9,6 +9,10 @@ case "$1" in
     ~/.local/scripts/bin/tmux_session_menu.sh
     ;;
 
+  CLOCK)
+    tmux clock-mode
+    ;;
+
   ZOOM)
     tmux resize-pane -Z
     ;;
