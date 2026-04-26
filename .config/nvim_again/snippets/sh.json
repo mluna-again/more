@@ -1,0 +1,85 @@
+{
+  "success": {
+    "prefix": "success",
+    "description": "prints a green message",
+    "body": [
+      "success() {",
+      "  tput setab 2",
+      "  tput setaf 0",
+      "  echo \" \\$* \"",
+      "  tput sgr0",
+      "}\n"
+    ]
+  },
+  "fail": {
+    "prefix": "fail",
+    "description": "prints a red message",
+    "body": [
+      "fail() {",
+      "  tput setab 1",
+      "  tput setaf 0",
+      "  echo \" \\$* \"",
+      "  tput sgr0",
+      "}\n"
+    ]
+  },
+  "bash_shebang": {
+    "prefix": "bash",
+    "description": "Insert bash shebang",
+    "body": [
+      "#! /usr/bin/env bash\n\n"
+    ]
+  },
+  "sh_shebang": {
+    "prefix": "sh",
+    "description": "Insert sh shebang",
+    "body": [
+      "#! /bin/sh\n\n"
+    ]
+  },
+  "die": {
+    "prefix": "die",
+    "description": "A function that writes to STDERR and exits with status code 1",
+    "body": [
+      "die() {\n\techo \"\\$*\" 1>&2\n\texit 1\n}"
+    ]
+  },
+  "yes_or": {
+    "prefix": "yes_or",
+    "description": "Ask the user to confirm or exit the program",
+    "body": [
+      "printf \"Continue? [N/y] \"",
+      "read -r response",
+      "if [[ ! \"\\${response,,}\" =~ ^y(es)?\\$ ]]; then",
+      "\texit 1",
+      "fi"
+    ]
+  },
+  "opt_parser": {
+    "prefix": "opts",
+    "description": "Basic opt parsing",
+    "body": [
+      "usage() {",
+      "\tcat - <<EOF",
+      "Usage:\n\\$ $TM_FILENAME",
+      "EOF",
+      "\tif [ \"\\$#\" -gt 0 ]; then",
+      "\t\techo",
+      "\t\ttput setab 1",
+      "\t\ttput setaf 0",
+      "\t\tprintf \" ERROR \"",
+      "\t\ttput sgr0",
+      "\t\techo \" \\$*\"",
+      "\tfi",
+      "\texit 1",
+      "}\n",
+      "while true; do",
+      "\t[ -z \"\\$1\" ] && break\n",
+      "\tcase \"\\$1\" in",
+      "\t\t--help|-h|help)\n\t\t\tusage\n\t\t\t;;$0",
+      "\tesac\n",
+      "\tshift",
+      "done"
+    ]
+  }
+}
