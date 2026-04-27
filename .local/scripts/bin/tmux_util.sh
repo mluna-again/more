@@ -128,13 +128,15 @@ tmux_menu() {
 }
 
 tmux_ask() {
-  tmux display-popup -h 3 -B -y 5% -EE sh -c "mina --title=\"$1\" --default=\"$2\" --icon=\"$3\" --mode prompt >~/.cache/mina_response"
+  tmux display-popup -h 3 -B -y S -EE sh -c "mina --title=\"$1\" --default=\"$2\" --icon=\"$3\" --mode prompt >~/.cache/mina_response"
   cat ~/.cache/mina_response
 }
 
 tmux_prompt() {
   local placeholder="${2:-[N/y]}"
-  tmux display-popup -h 1 -w 100% -B -y 0 -EE sh -c "mina --title=\"$1\" --height 1 --mode confirm --onekey --ghost=\"$placeholder\" >~/.cache/mina_response"
+  local y=0
+  [ "$(tmux show -v status-position)" = bottom ] && y="$(tmux display -p '#{client_height}')"
+  tmux display-popup -h 1 -w 100% -B -y "$y" -EE sh -c "mina --title=\"$1\" --height 1 --mode confirm --onekey --ghost=\"$placeholder\" >~/.cache/mina_response"
   cat ~/.cache/mina_response
 }
 
