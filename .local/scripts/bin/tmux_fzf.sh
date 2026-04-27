@@ -15,7 +15,7 @@ fi
 
 chosen=$(
   tmux list-windows -a -F '#{window_id} #{session_name}: #{window_name}' | \
-    fzf --with-nth=2.. --preview="tmux capture-pane -p -e -t {1}" | \
+    fzf --with-nth=2.. --border=none --preview="tmux capture-pane -p -e -t {1}" | \
     awk '{print $1}'
 )
 [ -z "$chosen" ] && exit
