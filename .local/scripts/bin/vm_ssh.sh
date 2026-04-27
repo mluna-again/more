@@ -12,8 +12,8 @@ Auto starts VM.
 Searches for .conf files in ~/VMs.
 
 You can create a \`users\` file in ~/VMs to specify which VMs use which users, like this:
-box_one,mina,[<ssh port>],[<spice port>]
-box_two,lash,[<ssh port>],[<spice port>]
+box_one,mina,[<ssh port>],[<spice port>],[<initial program>]
+box_two,lash,[<ssh port>],[<spice port>],[<initial program>]
 You probably should specify both ssh and spice ports if you start multiple VMs at once, otherwise you'll get binding and ssh keyprint errors.
 
 Usage:
@@ -66,6 +66,7 @@ if [ -z "$user_specified" ] && [ -f ~/VMs/users ]; then
   _user=$(awk -F, "\$1 == \"$vm_basename\" { print \$2 }" ~/VMs/users)
   _port=$(awk -F, "\$1 == \"$vm_basename\" { print \$3 }" ~/VMs/users)
   _spice_port=$(awk -F, "\$1 == \"$vm_basename\" { print \$4 }" ~/VMs/users)
+  _initial_program=$(awk -F, "\$1 == \"$vm_basename\" { print \$5 }" ~/VMs/users)
   if [ -n "$_user" ]; then
     echo "Using $_user as user (~/VMs/users)"
     user="$_user"
@@ -88,4 +89,4 @@ if [ -z "$port" ]; then
   fi
 fi
 
-TERM=xterm-256color ssh -p "$port" "$user"@localhost
+TERM=xterm-256color ssh -t -p "$port" "$user"@localhost "${_initial_program:-bash}"
