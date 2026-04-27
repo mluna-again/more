@@ -204,6 +204,7 @@ require("oil").setup({
 
 require("telescope").setup({
   defaults = {
+    borderchars = { " ", " ", " ", " ", " ", " ", " ", " ", },
     layout_strategy = "horizontal",
     layout_config = {
       mirror = false,
