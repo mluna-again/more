@@ -12,7 +12,7 @@ output=$(
     echo "$files" | \
     grep -v quake | \
     sort -h | \
-    mina -title="Search a TMUX session" -icon=""
+    mina -title="Search TMUX session" -icon=""
 )
 
 [ -z "$output" ] && exit
