@@ -27,6 +27,9 @@ Env variables:
   \$BACKUP_MUSIC_REMOTE  Where the remote (ssh-able address) OPUS copy of the music goes.  aztlan:/tank/root
 
 WARNING: Be careful with the trailing slashes!!! rsync stuff.
+
+NOTES:
+  1. To disable remote backup set \$BACKUP_MUSIC_REMOTE to a space (and ONLY ONE) (eg. BACKUP_MUSIC_REMOTE=" " music_backup.sh). An empty string is not enough.
 EOF
   if [ "$#" -gt 0 ]; then
     echo
@@ -73,7 +76,7 @@ opus_backup_cmd=( rsync -avhbu --info=progress2 "$BACKUP_MUSIC_OPUS" "$BACKUP_MU
 echo "================ About to run ================"
 echo "${opus_cmd[@]}"
 echo "${backup_cmd[@]}"
-echo "${opus_backup_cmd[@]}"
+[ "$BACKUP_MUSIC_REMOTE" != " " ] && echo "${opus_backup_cmd[@]}"
 echo "================ About to run ================"
 printf "Continue? [N/y] "
 read -r response
@@ -83,7 +86,9 @@ fi
 
 "${opus_cmd[@]}" || exit
 "${backup_cmd[@]}" || exit
-"${opus_backup_cmd[@]}" || exit
+if [ "$BACKUP_MUSIC_REMOTE" != " " ]; then
+  "${opus_backup_cmd[@]}" || exit
+fi
 
 echo
 echo "Done :D"
