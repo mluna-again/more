@@ -79,9 +79,7 @@ copy_files() {
 
     case "$file" in
       *.flac)
-        tput cuu 1
-        tput el
-        echo -e "\e[1A\e[K[${count}/${total}] $destpath"
+        echo -e "[${count}/${total}] $destpath"
 
         if [ -f "$destpath" ] && [ "$force" -ne 1 ]; then
           count=$(( count + 1 ))
