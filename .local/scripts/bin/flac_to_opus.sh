@@ -10,6 +10,7 @@ Converts your library of FLACs to Opus.
 
 Flags:
   --today    only look up files whose mtime is less than 24hrs. faster but may miss some files.
+  --all      always look up all files (ignores --today flag).
   --force    re-encode files even if they already exist
 
 Dependencies:
@@ -20,6 +21,7 @@ EOF
 
 src=~/Music
 dest=~/Opus
+all=0
 today=0
 force=0
 while true; do
@@ -33,6 +35,11 @@ while true; do
     --today)
       today=1
       ;;
+
+    --all)
+      all=1
+      ;;
+
     --force)
       force=1
       ;;
@@ -64,7 +71,7 @@ copy_files() {
   local src="$1" dest="$2"
 
   cmd="find \"$src\" -type f -printf \"%P\n\""
-  if [ "$today" -eq 1 ]; then
+  if [ "$today" -eq 1 ] && [ "$all" -ne 1 ]; then
     cmd="find \"$src\" -type f -mtime -1 -printf \"%P\n\""
   fi
 

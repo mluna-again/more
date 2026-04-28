@@ -16,7 +16,8 @@ Usage:
 $ music_backup.sh
 
 Flags:
-  --all    omit --today flag when running \`flac_to_opus.sh\`.
+  --all    add --all flag when running \`flac_to_opus.sh\`.
+  --force  add --force flag when running \`flac_to_opus.sh\`.
 
 Env variables:
   Name                  Description                                                       Default
@@ -38,7 +39,8 @@ EOF
   exit 1
 }
 
-opus_cmd=( flac_to_opus.sh --today )
+flac_to_opus_flags=()
+all_flag_added=0
 while true; do
   [ -z "$1" ] && break
 
@@ -48,13 +50,23 @@ while true; do
       ;;
 
     --all)
-      opus_cmd=( flac_to_opus.sh )
+      flac_to_opus_flags+=( --all )
+      all_flag_added=1
+      ;;
+
+    --force)
+      flac_to_opus_flags+=( --force )
       ;;
   esac
 
   shift
 done
 
+if [ "$all_flag_added" -eq 0 ]; then
+  flac_to_opus_flags+=( --today )
+fi
+
+opus_cmd=( flac_to_opus.sh "${flac_to_opus_flags[@]}" )
 backup_cmd=( rsync -avhbu --info=progress2 "$BACKUP_MUSIC_DIR" "$BACKUP_MUSIC_DEST" )
 opus_backup_cmd=( rsync -avhbu --info=progress2 "$BACKUP_MUSIC_OPUS" "$BACKUP_MUSIC_REMOTE" )
 
