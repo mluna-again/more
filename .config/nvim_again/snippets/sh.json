@@ -59,6 +59,7 @@
     "prefix": "opts",
     "description": "Basic opt parsing",
     "body": [
+      "# shellcheck disable=SC2120",
       "usage() {",
       "\tcat - <<EOF",
       "Usage:\n\\$ $TM_FILENAME",
