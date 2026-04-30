@@ -83,11 +83,11 @@ track_or_disc_num() {
     echo "$num"
     return
   fi
-  if [[ "$num" =~ ^[0-9]+\/[0-9+]$ ]]; then
+  if [[ "$num" =~ ^[0-9]+\/[0-9]+$ ]]; then
     awk -F'/' '{print $1}'
     return
   fi
-  if [[ "$num" =~ ^[0-9]+-[0-9+]$ ]]; then
+  if [[ "$num" =~ ^[0-9]+-[0-9]+$ ]]; then
     awk -F'-' '{print $1}'
     return
   fi
