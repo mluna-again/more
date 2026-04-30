@@ -84,36 +84,36 @@ check_tag() {
 set_tag() {
   local track="$1" tag="$2" value="$3" append="${4:-0}"
   if [ "$append" -ne 1 ]; then
-    remove_tag "$track" "$tag" || return
+    remove_tag "$track" "$tag" || return 1
   fi
 
-  metaflac --set-tag="${tag}=${value}" "$track"
+  metaflac --set-tag="${tag}=${value}" "$track" || return 1
 }
 
 set_tag_all() {
   local tag="$1" value="$2" append="${4:-0}"
   if [ "$append" -ne 1 ]; then
-    metaflac --remove-tag="$tag" ./*.flac || return
+    metaflac --remove-tag="$tag" ./*.flac || return 1
   fi
 
-  metaflac --set-tag="${tag}=${value}" ./*.flac
+  metaflac --set-tag="${tag}=${value}" ./*.flac || return 1
 }
 
 remove_tag() {
   local track="$1" tag="$2"
-  metaflac --remove-tag="$tag" "$track"
+  metaflac --remove-tag="$tag" "$track" || return 1
 }
 
 remove_tag_all() {
   local tag="$1"
   printf "Removing SUBTITLE tag... "
-  metaflac --remove-tag="$tag" ./*.flac
+  metaflac --remove-tag="$tag" ./*.flac || return 1
   echo "Done."
 }
 
 add_replaygain() {
   printf "Adding replagain data... "
-  metaflac --add-replay-gain ./*.flac
+  metaflac --add-replay-gain ./*.flac || return 1
   echo "Done."
 }
 
@@ -147,6 +147,7 @@ format_titles() {
     num="$(metaflac --show-tag=TRACK "$track" | awk -F= '{print $2}')"
     [ -z "$num" ] && num="$(metaflac --show-tag=TRACKNUMBER "$track" | awk -F= '{print $2}')"
     [ -z "$num" ] && die "[format_titles] $track has no number, but it should, something is wrong"
+    num="$(sed 's|^0*||' <<< "$num")" # padding causes printf to freak out
     num="$(printf '%02d' "$num")"
 
     title="$(metaflac --show-tag=TITLE "$track" | awk -F= '{print $2}')"
