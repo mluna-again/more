@@ -140,7 +140,7 @@ list_tracks() {
 }
 
 format_titles() {
-  local num title cmds cmd track new_name
+  local num title cmds cmd track new_name disc
   declare -A names
   cmds=()
   while read -r track; do
@@ -154,10 +154,17 @@ format_titles() {
     [ -z "$title" ] && die "[format_titles] $track has no title, but it should, something is wrong"
 
     new_name="${num}. ${title}.flac"
+
+    disc="$(metaflac --show-tag=DISCNUMBER "$track" | awk -F= '{print $2}')"
+    [ -z "$disc" ] && disc="$(metaflac --show-tag=DISC "$track" | awk -F= '{print $2}')"
+    if [ -n "$disc" ]; then
+      new_name="${disc} - $new_name"
+    fi
+
     [ "$(basename "$track")" = "$new_name" ] && continue
 
     names["$track"]="$new_name"
-    cmds+=( "mv -i \"$track\" \"${num}. ${title}.flac\" " )
+    cmds+=( "mv -i \"$track\" \"$new_name\" " )
   done < <(list_tracks)
 
   if [ "${#cmds[@]}" -gt 0 ]; then
