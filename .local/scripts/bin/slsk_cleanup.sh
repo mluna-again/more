@@ -150,7 +150,7 @@ format_titles() {
     num="$(sed 's|^0*||' <<< "$num")" # padding causes printf to freak out
     num="$(printf '%02d' "$num")"
 
-    title="$(metaflac --show-tag=TITLE "$track" | awk -F= '{print $2}')"
+    title="$(metaflac --show-tag=TITLE "$track" | awk -F= '{print $2}' | sed 's|/|-|g')"
     [ -z "$title" ] && die "[format_titles] $track has no title, but it should, something is wrong"
 
     new_name="${num}. ${title}.flac"
