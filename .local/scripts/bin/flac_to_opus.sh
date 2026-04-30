@@ -76,7 +76,7 @@ copy_files() {
   fi
 
   total="$(eval "$cmd" | grep -c -E '\.flac$')"
-  count=0
+  count=1
 
   while read -r file; do
     [ "$file" = spotless.db ] && continue
