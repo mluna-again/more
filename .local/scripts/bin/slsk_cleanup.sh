@@ -75,6 +75,25 @@ validate_flacs() {
   fi
 }
 
+# handles track/disc numbers that use the full format like this: 1/12 instead of just 1
+track_or_disc_num() {
+  local num="$1"
+  [ -z "$num" ] && return
+  if [[ "$num" =~ ^[0-9]+$ ]]; then
+    echo "$num"
+    return
+  fi
+  if [[ "$num" =~ ^[0-9]+\/[0-9+]$ ]]; then
+    awk -F'/' '{print $1}'
+    return
+  fi
+  if [[ "$num" =~ ^[0-9]+-[0-9+]$ ]]; then
+    awk -F'-' '{print $1}'
+    return
+  fi
+  stderr "[track_or_disc_num] i dont know what to do with: $num"
+}
+
 # check if track ($1) has tag ($2)
 check_tag() {
   local track="$1" tag="$2"
@@ -146,6 +165,7 @@ format_titles() {
   while read -r track; do
     num="$(metaflac --show-tag=TRACK "$track" | awk -F= '{print $2}')"
     [ -z "$num" ] && num="$(metaflac --show-tag=TRACKNUMBER "$track" | awk -F= '{print $2}')"
+    num="$(track_or_disc_num "$num")"
     [ -z "$num" ] && die "[format_titles] $track has no number, but it should, something is wrong"
     num="$(sed 's|^0*||' <<< "$num")" # padding causes printf to freak out
     num="$(printf '%02d' "$num")"
@@ -157,6 +177,7 @@ format_titles() {
 
     disc="$(metaflac --show-tag=DISCNUMBER "$track" | awk -F= '{print $2}')"
     [ -z "$disc" ] && disc="$(metaflac --show-tag=DISC "$track" | awk -F= '{print $2}')"
+    disc="$(track_or_disc_num "$disc")"
     if [ -n "$disc" ]; then
       new_name="${disc} - $new_name"
     fi
