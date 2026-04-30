@@ -9,6 +9,13 @@ stderr() {
   echo "$*" 1>&2
 }
 
+ok() {
+  tput setab 2
+  tput setaf 0
+  echo "$*"
+  tput sgr0
+}
+
 if ! command -v metaflac &>/dev/null; then
   die metaflac required
 fi
@@ -127,13 +134,13 @@ remove_tag_all() {
   local tag="$1"
   printf "Removing SUBTITLE tag... "
   metaflac --remove-tag="$tag" ./*.flac || return 1
-  echo "Done."
+  ok " Done. "
 }
 
 add_replaygain() {
   printf "Adding replagain data... "
   metaflac --add-replay-gain ./*.flac || return 1
-  echo "Done."
+  ok " Done. "
 }
 
 add_cover() {
@@ -146,12 +153,12 @@ add_cover() {
   fi
   printf "Downloading cover... "
   curl -sS "$url" -o cover.jpg || return 1
-  echo "Done."
+  ok " Done. "
 
   printf "Setting cover... "
   metaflac --remove --block-type=PICTURE --dont-use-padding ./*.flac || return 1
   metaflac --import-picture-from=cover.jpg ./*.flac || return 1
-  echo "Done."
+  ok " Done. "
 }
 
 list_tracks() {
