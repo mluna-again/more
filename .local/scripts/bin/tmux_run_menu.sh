@@ -22,6 +22,7 @@ CLEAR_PANES="Panes: clear panes"
 CLOSE_EMPTY_PANELS="Panes: close empty panels"
 MAKE_PANES="Panes: make panes"
 SAVE_SESSION="Sessions: save current"
+EDIT_SESSION="Sessions: edit current"
 KILL_SESSION="Sessions: kill session"
 SAVER="Utilities: screen saver"
 START_APPS="Automation: start applications"
@@ -49,6 +50,7 @@ $CLEAR_TAG
 $BREAK_PANE
 $JOIN_PANE
 $SAVE_SESSION
+$EDIT_SESSION
 $KILL_SESSION
 $SAVER
 $START_APPS
@@ -88,6 +90,7 @@ case "$response" in
   "$SWITCH_PREFIX") ~/.local/scripts/bin/tmux_toggle_prefix.sh;;
   "$KILL_SERVER") ~/.local/scripts/bin/tmux_kill_server.sh;;
   "$SAVE_SESSION") ~/.local/scripts/bin/tmux_session_save.sh;;
+  "$EDIT_SESSION") ~/.local/scripts/bin/tmux_session_edit.sh;;
   "$KILL_SESSION") ~/.local/scripts/bin/tmux_session_kill.sh;;
   "$SAVER") ~/.local/scripts/bin/tmux_samurai.sh ;;
   "$START_APPS") ~/.local/scripts/bin/tmux_start_apps.sh ;;

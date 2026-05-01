@@ -7,10 +7,8 @@ name=$(tmux display -p '#{session_name}') || exit
 
 path="$HOME/.local/tmuxp/${name}.yaml"
 if [ -f "$path" ]; then
-  response=$(tmux_prompt "Session already exists. Overwrite?")
-  if [[ ! "${response,,}" =~ ^y(es)?$ ]]; then
-    exit 0
-  fi
+  ~/.local/scripts/bin/tmux_session_edit.sh
+  exit
 fi
 
 output=$(tmuxp freeze "$(tmux display -p '#{session_name}')" --yes --save-to "$path" --workspace-format yaml 2>&1)

@@ -7,6 +7,12 @@ _SHELLS=(
   zsh
 )
 
+client_height_no_bar() {
+  local tm h="${1:-1}"
+  tm=$(tmux display -p '#{client_height}')
+  echo "$(( tm - h ))"
+}
+
 client_height() {
   tmux display -p '#{client_height}'
 }
