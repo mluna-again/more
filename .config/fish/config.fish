@@ -127,6 +127,7 @@ abbr --add rc bin/rails console
 abbr --add kp keepassxc-cli
 abbr --add sql nvim -c DBUI
 abbr --add op opencode
+abbr --add entrr --set-cursor "find . -type f -iname '*.%' | entr -rp /_"
 
 set fish_cursor_default block
 set fish_cursor_insert block blink
