@@ -184,10 +184,9 @@ format_titles() {
 
     disc="$(metaflac --show-tag=DISCNUMBER "$track" | awk -F= '{print $2}')"
     [ -z "$disc" ] && disc="$(metaflac --show-tag=DISC "$track" | awk -F= '{print $2}')"
+    [ -z "$disc" ] && disc=1
     disc="$(track_or_disc_num "$disc")"
-    if [ -n "$disc" ]; then
-      new_name="${disc} - $new_name"
-    fi
+    new_name="${disc} - $new_name"
 
     [ "$(basename "$track")" = "$new_name" ] && continue
 
@@ -259,8 +258,8 @@ while read -r track; do
 done < <(list_tracks)
 
 # Destructive stuff
+set_default_albumartist || exit
 add_cover || exit
 add_replaygain || exit
-set_default_albumartist || exit
 remove_tag_all SUBTITLE || exit
 format_titles || exit
