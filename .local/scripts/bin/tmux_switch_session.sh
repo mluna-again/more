@@ -10,7 +10,6 @@ fi
 
 output=$(
     echo "$files" | \
-    grep -v quake | \
     sort -h | \
     mina -title="Search TMUX session" -icon=""
 )

@@ -24,6 +24,7 @@ MAKE_PANES="Panes: make panes"
 SAVE_SESSION="Sessions: save current"
 EDIT_SESSION="Sessions: edit current"
 KILL_SESSION="Sessions: kill session"
+DELETE_SESSION="Sessions: delete session"
 SAVER="Utilities: screen saver"
 START_APPS="Automation: start applications"
 STOP_APPS="Automation: Stop applications"
@@ -52,6 +53,7 @@ $JOIN_PANE
 $SAVE_SESSION
 $EDIT_SESSION
 $KILL_SESSION
+$DELETE_SESSION
 $SAVER
 $START_APPS
 $STOP_APPS
@@ -92,6 +94,7 @@ case "$response" in
   "$SAVE_SESSION") ~/.local/scripts/bin/tmux_session_save.sh;;
   "$EDIT_SESSION") ~/.local/scripts/bin/tmux_session_edit.sh;;
   "$KILL_SESSION") ~/.local/scripts/bin/tmux_session_kill.sh;;
+  "$DELETE_SESSION") ~/.local/scripts/bin/tmux_session_delete.sh;;
   "$SAVER") ~/.local/scripts/bin/tmux_samurai.sh ;;
   "$START_APPS") ~/.local/scripts/bin/tmux_start_apps.sh ;;
   "$STOP_APPS") ~/.local/scripts/bin/tmux_stop_apps.sh ;;
