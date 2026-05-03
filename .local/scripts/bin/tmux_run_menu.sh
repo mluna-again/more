@@ -34,7 +34,6 @@ TOGGLE_BORDERS="Borders: toggle"
 CMD_BORDERS="Borders: display running command"
 PATH_BORDERS="Borders: display current path"
 PRIV_MODE="Utilities: private mode"
-FORWARD_PREFIX="Utilities: fordward prefix"
 RELOAD_CONFIG="TMUX: reload config"
 AUTISM="Random: autism"
 
@@ -67,7 +66,6 @@ $TOGGLE_BORDERS
 $CMD_BORDERS
 $PATH_BORDERS
 $PRIV_MODE
-$FORWARD_PREFIX
 $RELOAD_CONFIG
 $AUTISM
 EOF
@@ -104,7 +102,6 @@ case "$response" in
   "$MAKE_PANES") ~/.local/scripts/bin/tmux_make_panels.sh ;;
   "$CLOSE_EMPTY_PANELS") ~/.local/scripts/bin/tmux_close_empty_panels.sh ;;
   "$PRIV_MODE") ~/.local/scripts/bin/tmux_priv.sh ;;
-  "$FORWARD_PREFIX") ~/.local/scripts/bin/tmux_toggle_prefix.sh ;;
   "$RELOAD_CONFIG") ~/.local/scripts/bin/tmux_reload.sh ;;
   "$AUTISM") ~/.local/scripts/bin/tmux_hacktheworld.sh ;;
 esac
