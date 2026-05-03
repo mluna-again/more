@@ -50,7 +50,7 @@ get_sessions() {
     files="${files}\n"
   fi
 
-  echo "${files}${sessions_without_config}"
+  echo -e "${files}${sessions_without_config}"
 }
 
 # MARKS
