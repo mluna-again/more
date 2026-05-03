@@ -2,15 +2,4 @@
 
 source ~/.local/scripts/bin/tmux_util.sh || exit
 
-sessions=$(tmux list-sessions -F '#{session_name}' -f '#{!=:#{session_name},quake}')
-name=$(tmux_fzf "Kill session" "$sessions") || exit
-[ -z "$name" ] && exit 0
-
-output=$(tmux kill-session -t "$name" 2>&1)
-# shellcheck disable=SC2181
-if [ "$?" -ne 0 ]; then
-  tmux_alert "$output"
-  exit
-fi
-
-tmux_success "Session killed."
+tmux kill-session \; switch-client -t "$(get_last_session_or_default)"

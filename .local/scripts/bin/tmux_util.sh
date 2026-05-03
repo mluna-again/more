@@ -21,8 +21,18 @@ panes_count() {
   tmux display -p '#{window_panes}' || exit
 }
 
+get_last_session_or_default() {
+  local current
+  current="$(tmux display -p '#{client_last_session}')"
+  if [ -z "$current" ]; then
+    current="$(get_live_sessions | head -n 1 | awk -F: '{print $1}')"
+  fi
+
+  echo "$current"
+}
+
 get_saved_sessions() {
-  local dir="${1:-~/.local/.tmuxp}"
+  local dir="${1:-$HOME/.local/tmuxp}"
 
   find -L "$dir" -type f \( -iname '*.yml' -o -iname '*.yaml' \) \
     -exec awk '/session_name:/ {s=$2; } /window_name:/ {if ($3 == "") {n=$2} else {n=$3} printf "%s: %s\n", s, n}' {} \; 2>/dev/null
@@ -35,9 +45,12 @@ get_live_sessions() {
 get_sessions() {
   files="$(get_saved_sessions)"
   sessions_without_config="$(get_live_sessions)"
-  [ -n "$files" ] && sessions_without_config="$(grep -v "$files" <<< "$sessions_without_config")"
+  if [ -n "$files" ]; then
+    sessions_without_config="$(grep -v "$files" <<< "$sessions_without_config")"
+    files="${files}\n"
+  fi
 
-  echo -e "${files}\n${sessions_without_config}"
+  echo "${files}${sessions_without_config}"
 }
 
 # MARKS
