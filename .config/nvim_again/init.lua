@@ -487,6 +487,7 @@ enable_lsp_server("elixir-ls")
 enable_lsp_server("rust-analyzer")
 enable_lsp_server("typescript-language-server")
 enable_lsp_server("tailwind-language-server")
+enable_lsp_server("clangd")
 
 vim.cmd.colorscheme "kanagawa-dragon"
 
@@ -498,7 +499,9 @@ local treesitter_langs = {
   "elixir",
   "rust",
   "bash",
-  "go"
+  "go",
+  "c",
+  "cpp",
 }
 require('nvim-treesitter').install(treesitter_langs)
 vim.api.nvim_create_autocmd('FileType', {
@@ -512,7 +515,7 @@ vim.api.nvim_create_autocmd('FileType', {
 })
 -- Special case: i want *.sh files to be treated as bash
 vim.api.nvim_create_autocmd('BufRead', {
-  pattern = { "*.bash", "*.sh" },
+  pattern = { "*.sh" },
   callback = function(c)
     vim.treesitter.start(c.buf, "bash")
     vim.wo[0][0].foldexpr = 'v:lua.vim.treesitter.foldexpr()'

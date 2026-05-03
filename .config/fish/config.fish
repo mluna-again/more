@@ -163,4 +163,5 @@ if status is-interactive
   command -v atuin &>/dev/null; and atuin init fish --disable-up-arrow | source
   command -vq direnv; and direnv hook fish | source
   command -vq starship; and starship init fish | source
+  command -vq zoxide; and zoxide init fish | source
 end
