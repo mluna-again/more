@@ -63,6 +63,7 @@
       "usage() {",
       "\tcat - <<EOF",
       "Usage:\n\\$ $TM_FILENAME",
+      "\nFlags:\n\t--help | -h      show this message",
       "EOF",
       "\tif [ \"\\$#\" -gt 0 ]; then",
       "\t\techo",
