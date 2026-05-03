@@ -11,4 +11,4 @@ if ! [ -f "$session_path" ]; then
   exit 0
 fi
 
-tmux display-popup -EE -y S -x 0 -w 100% -h "$(client_height_no_bar)" "nvim $session_path"
+tmux display-popup -EE -y S -x 0 -w 100% -h 100% "nvim $session_path"
