@@ -20,4 +20,4 @@ if [ "$?" -ne 0 ]; then
   exit 0
 fi
 
-tmux_alert "Session deleted."
+tmux_success "Session deleted."

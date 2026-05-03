@@ -95,7 +95,15 @@ mark_pane_if_not_already() {
 # MARKS
 
 tmux_alert() {
-  tmux display "$*"
+  tmux display "#[bg=red,fg=black,fill=red]$*#[fill=default,bg=default]"
+}
+
+tmux_info() {
+  tmux display "#[bg=yellow,fg=black,fill=yellow]$*#[fill=default,bg=default]"
+}
+
+tmux_success() {
+  tmux display "#[bg=green,fg=black,fill=green]$*#[fill=default,bg=default]"
 }
 
 tmux_fzf_nth() {

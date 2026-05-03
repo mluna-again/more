@@ -13,4 +13,4 @@ if [ "$?" -ne 0 ]; then
   exit
 fi
 
-tmux_alert "Session killed."
+tmux_success "Session killed."

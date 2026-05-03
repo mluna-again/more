@@ -20,4 +20,4 @@ fi
 
 name_updated=$(sed "s/^session_name:.*\$/session_name: $name/" "$path")
 echo "$name_updated" | tee "$path" >/dev/null
-tmux_alert "Session saved."
+tmux_success "Session saved."
