@@ -15,7 +15,7 @@ vim.opt.shiftwidth = 2
 vim.opt.softtabstop = 2
 vim.opt.expandtab = true
 vim.opt.laststatus = 3
-vim.opt.cmdheight = 0
+-- vim.opt.cmdheight = 0
 vim.opt.fillchars = {eob = " "}
 vim.opt.foldenable = false
 vim.wo.foldmethod = "expr"
