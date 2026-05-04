@@ -502,6 +502,7 @@ local treesitter_langs = {
   "go",
   "c",
   "cpp",
+  "json",
 }
 require('nvim-treesitter').install(treesitter_langs)
 vim.api.nvim_create_autocmd('FileType', {
