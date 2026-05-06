@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-center_py="import sys, shutil; w,_=shutil.get_terminal_size((80,10)); print('\n'.join([line.strip().center(w) for line in sys.stdin]))"
+center_py="import sys, shutil; w,h=shutil.get_terminal_size((80,10)); print(('\n' * ((h-7)//2)) + '\n'.join([line.strip().center(w) for line in sys.stdin]))"
 
 case "$1" in
   " Even Horizontal ")
