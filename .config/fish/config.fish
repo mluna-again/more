@@ -63,7 +63,6 @@ set -gx HOMEBREW_NO_AUTO_UPDATE 1
 set -gx COLORTERM truecolor
 set -gx VISUAL nvim
 set -gx EDITOR "$VISUAL"
-set -gx FZF_DEFAULT_COMMAND 'ag -g ""'
 set -gx ELIXIR_ERL_OPTIONS "-kernel shell_history enabled"
 set -gx ERL_AFLAGS "-kernel shell_history enabled -kernel shell_history_file_bytes 1024000"
 set -gx GOPATH "$HOME/.local/go"
@@ -75,6 +74,25 @@ set -gx TMUXP_CONFIGDIR "$HOME/.local/tmuxp"
 set -gx PYTHONSTARTUP "$HOME/.pythonrc"
 # Temp (probably?)
 set -gx NVIM_APPNAME nvim_again
+set -gx FZF_DEFAULT_COMMAND 'ag -g ""'
+set -gx FZF_DEFAULT_OPTS '--ellipsis=...
+  --border=none
+  --padding=1
+  --layout=reverse
+  --prompt=""
+  --height="100%"
+  --preview-window=border-none
+  --marker=""
+  --marker-multi-line=""
+  --info=inline-right
+  --pointer=""
+  --no-bold
+  --no-header-lines-border
+  --color="bg:,border:,label:red,gutter:,pointer:,hl:white,hl+:red,bg+:yellow,fg:white,fg+:,header:white,prompt:white,query:white"
+  --cycle
+  --bind="down:preview-down,up:preview-up"
+  --no-scrollbar'
+
 
 abbr --add sel selune
 abbr --add pg pgcli -h 127.0.0.1 -u postgres
