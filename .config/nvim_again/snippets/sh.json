@@ -62,7 +62,7 @@
       "# shellcheck disable=SC2120",
       "usage() {",
       "\tcat - <<EOF",
-      "Usage:\n\\$ $TM_FILENAME",
+      "Usage:\n\\$ \\${0##*/}",
       "\nFlags:\n\t--help | -h      show this message",
       "EOF",
       "\tif [ \"\\$#\" -gt 0 ]; then",
@@ -78,7 +78,7 @@
       "while true; do",
       "\t[ -z \"\\$1\" ] && break\n",
       "\tcase \"\\$1\" in",
-      "\t\t--help|-h|help)\n\t\t\tusage\n\t\t\t;;$0",
+      "\t\t--help|-h)\n\t\t\tusage\n\t\t\t;;$0",
       "\tesac\n",
       "\tshift",
       "done"
