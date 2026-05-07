@@ -88,7 +88,7 @@ set -gx FZF_DEFAULT_OPTS '--ellipsis=...
   --pointer=""
   --no-bold
   --no-header-lines-border
-  --color="bg:,border:,label:red,gutter:,pointer:,hl:white,hl+:red,bg+:yellow,fg:white,fg+:,header:white,prompt:white,query:white"
+  --color="bg:,border:,label:red,gutter:,pointer:,hl:white,hl+:black,bg+:yellow,fg:white,fg+:black,header:white,prompt:white,query:white"
   --cycle
   --bind="down:preview-down,up:preview-up"
   --no-scrollbar'
