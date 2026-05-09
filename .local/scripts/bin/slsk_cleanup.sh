@@ -12,12 +12,21 @@ stderr() {
 ok() {
   tput setab 2
   tput setaf 0
-  echo "$*"
+  echo -n " $* "
   tput sgr0
+  echo
 }
 
 if ! command -v metaflac &>/dev/null; then
   die metaflac required
+fi
+
+if ! command -v ffprobe &>/dev/null; then
+  die ffprobe required
+fi
+
+if ! command -v jq &>/dev/null; then
+  die jq required
 fi
 
 # shellcheck disable=SC2120
@@ -42,6 +51,7 @@ $ slsk_cleanup.sh # uses \$PWD
 
 Flags:
   -i|--interactive   run interactive mode to fill information if metadata is missing (only useful for fields which are the same for every song: ALBUMARTIST, ALBUM).
+  -C|--no-cover      skip cover
 EOF
   if [ "$#" -gt 0 ]; then
     echo
@@ -56,12 +66,17 @@ EOF
 
 dir="."
 interactive=0
+no_cover=
 while true; do
   [ -z "$1" ] && break
 
   case "$1" in
     --help|-h|help)
       usage
+      ;;
+
+    -C|--no-cover)
+      no_cover=1
       ;;
 
     -i|--interactive)
@@ -134,13 +149,60 @@ remove_tag_all() {
   local tag="$1"
   printf "Removing SUBTITLE tag... "
   metaflac --remove-tag="$tag" ./*.flac || return 1
-  ok " Done. "
+  ok Done.
 }
 
 add_replaygain() {
   printf "Adding replagain data... "
   metaflac --add-replay-gain ./*.flac || return 1
-  ok " Done. "
+  ok Done.
+}
+
+download_lyrics() {
+  local artist title album duration response synced plain
+  echo Downloading lyrics...
+
+  while read -r track; do
+    printf "%s... " "$(basename "$track")"
+    title="$(metaflac --show-tag=TITLE "$track" | awk -F= '{print $2}')" || exit
+    [ -z "$title" ] && die "[download_lyrics] no TITLE in $track"
+    artist="$(metaflac --show-tag=ALBUMARTIST "$track" | awk -F= '{print $2}')" || exit
+    [ -z "$artist" ] && die "[download_lyrics] no ALBUMARTIST in $track"
+    album="$(metaflac --show-tag=ALBUM "$track" | awk -F= '{print $2}')" || exit
+    [ -z "$album" ] && die "[download_lyrics] no ALBUM in $track"
+    duration="$(ffprobe -i "$track" -show_entries format=duration -v quiet -of csv="p=0")" || exit
+    [ -z "$duration" ] && die "[download_lyrics] could not get duration for $track"
+
+    response="$(
+      curl -sLf --get \
+        --data-urlencode artist_name="$artist" \
+        --data-urlencode track_name="$title" \
+        --data-urlencode album_name="$album" \
+        --data-urlencode duration="$duration" \
+        "https://lrclib.net/api/get"
+      )" || {
+      echo "Not found"
+      continue
+    }
+    [ -z "$response" ] && {
+      echo "Not found"
+      continue
+    }
+
+    synced="$(jq -r .syncedLyrics <<< "$response")"
+    plain="$(jq -r .plainLyrics <<< "$response")"
+    if [ -n "$synced" ]; then
+      set_tag "$track" LYRICS "$synced"
+      ok Ok
+    elif [ -n "$plain" ]; then
+      set_tag "$track" LYRICS "$plain"
+      ok Ok
+    else
+      echo "Not found"
+    fi
+
+    sleep 0.3
+  done < <(list_tracks)
 }
 
 add_cover() {
@@ -156,16 +218,16 @@ add_cover() {
   fi
   printf "Downloading cover... "
   curl -sS "$url" -o cover.jpg || return 1
-  ok " Done. "
+  ok Done.
 
   printf "Setting cover... "
   metaflac --remove --block-type=PICTURE --dont-use-padding ./*.flac || return 1
   metaflac --import-picture-from=cover.jpg ./*.flac || return 1
-  ok " Done. "
+  ok Done.
 }
 
 list_tracks() {
-  find "$dir" -type f -iname "*.flac"
+  find "$dir" -type f -iname "*.flac" | sort
 }
 
 format_titles() {
@@ -262,7 +324,10 @@ done < <(list_tracks)
 
 # Destructive stuff
 set_default_albumartist || exit
-add_cover || exit
+if [ -z "$no_cover" ]; then
+  add_cover || exit
+fi
 add_replaygain || exit
 remove_tag_all SUBTITLE || exit
+download_lyrics || exit
 format_titles || exit
