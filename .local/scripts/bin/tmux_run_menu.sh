@@ -33,6 +33,7 @@ MATRIX="Random: matrix"
 TOGGLE_BORDERS="Borders: toggle"
 CMD_BORDERS="Borders: display running command"
 PATH_BORDERS="Borders: display current path"
+MESSAGE_BORDERS="Borders: display current message"
 PRIV_MODE="Utilities: private mode"
 RELOAD_CONFIG="TMUX: reload config"
 AUTISM="Random: autism"
@@ -65,6 +66,7 @@ $MAKE_PANES
 $TOGGLE_BORDERS
 $CMD_BORDERS
 $PATH_BORDERS
+$MESSAGE_BORDERS
 $PRIV_MODE
 $RELOAD_CONFIG
 $AUTISM
@@ -75,12 +77,13 @@ response=$(tmux_fzf "Command palette" "$items")
 [ -z "$response" ] && exit 0
 
 case "$response" in
-  "$TOGGLE_BORDERS") ~/.local/scripts/bin/tmux_toggle_panel_borders.sh ;;
-  "$CMD_BORDERS") ~/.local/scripts/bin/tmux_panel_cmd.sh ;;
   "$DUMP_CMDS") ~/.local/scripts/bin/tmux_dump_cmds.sh ;;
   "$REMBER") ~/.local/scripts/bin/tmux_rember_add.sh ;;
   "$NOTREMBER") rm ~/.cache/tmux_rember.sh || true ;;
+  "$TOGGLE_BORDERS") ~/.local/scripts/bin/tmux_toggle_panel_borders.sh ;;
+  "$CMD_BORDERS") ~/.local/scripts/bin/tmux_panel_cmd.sh ;;
   "$PATH_BORDERS") ~/.local/scripts/bin/tmux_panel_path.sh ;;
+  "$MESSAGE_BORDERS") ~/.local/scripts/bin/tmux_panel_message.sh ;;
   "$REARRANGE_FIRST") ~/.local/scripts/bin/tmux_rearrange_panes.sh first ;;
   "$REARRANGE_LAST") ~/.local/scripts/bin/tmux_rearrange_panes.sh last ;;
   "$CLEAR_PANE") tmux clear-history -t .;;
