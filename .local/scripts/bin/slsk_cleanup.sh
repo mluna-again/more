@@ -145,6 +145,9 @@ add_replaygain() {
 
 add_cover() {
   local url
+
+  find . -type f \( -iname "cover.jpg" -o -iname "cover.png" -o -iname "cover.jpeg" \) -delete
+
   printf "Cover URL: "
   read -r url
   if [ -z "$url" ]; then
