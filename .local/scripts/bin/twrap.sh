@@ -29,17 +29,17 @@ You should ALWAYS use --id when using --on or --off, otherwise they won't work a
 you change panes between runs.
 
 Flags:
-  --help | -h                   show this message
-  --active-style STYLES         set window-active-style to STYLES (focused)
-  --active-border-style STYLES  set pane-active-border-style to STYLES (focused)
-  --style STYLES                set window-style (not focused)
-  --border-style STYLES         set pane-border-style (not focused)
-  --lines LINES                 set pane-border-lines (focused and not focused)
-  --indicators INDICATORS       set pane-border-indicators (focused and not focused)
-  --on                          just set the provided styles.
-  --off                         just unset the styles (all of them).
-  --id PANE                     change specific pane by ID.
-  --message MESSAGE             set @pane_message to MESSAGE before running cmd.
+  --help | -h                      show this message
+  --active-style STYLES            set window-active-style to STYLES (focused)
+  --active-border-style STYLES     set pane-active-border-style to STYLES (focused)
+  --style STYLES                   set window-style (not focused)
+  --border-style STYLES            set pane-border-style (not focused)
+  --lines LINES                    set pane-border-lines (focused and not focused)
+  --indicators INDICATORS          set pane-border-indicators (focused and not focused)
+  --on                             just set the provided styles.
+  --off                            just unset the styles (all of them).
+  --id PANE                        change specific pane by ID.
+  --message MESSAGE | -m MESSAGE   set @pane_message to MESSAGE before running cmd.
 
 Note about border styles:
   Even when setting the option to be local to the running pane, it is still applied to
@@ -146,7 +146,7 @@ while true; do
       fi
       ;;
 
-    --message)
+    --message|-m)
       shift
       message="$1"
       ;;
