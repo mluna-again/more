@@ -25,6 +25,8 @@ Styles are only applied while <cmd> is running (options are local to the target 
 
 You can also use the --on and --off flags to use this inside other scripts, instead of
 wrapping them. Make sure to run \`${0##*/} --off\` in an EXIT trap though.
+You should ALWAYS use --id when using --on or --off, otherwise they won't work as expected if
+you change panes between runs.
 
 Flags:
   --help | -h                   show this message
@@ -36,6 +38,7 @@ Flags:
   --indicators INDICATORS       set pane-border-indicators (focused and not focused)
   --on                          just set the provided styles.
   --off                         just unset the styles (all of them).
+  --id PANE                     change specific pane by ID.
 
 Note about border styles:
   Even when setting the option to be local to the running pane, it is still applied to
@@ -64,6 +67,7 @@ lines=
 indicators=
 on=
 off=
+running_pane=
 prog=()
 while true; do
   [ -z "$1" ] && break
@@ -75,6 +79,11 @@ while true; do
       else
         usage
       fi
+      ;;
+
+    --id)
+      shift
+      running_pane="$1"
       ;;
 
     --active-style)
@@ -153,8 +162,10 @@ if [ "${#prog[@]}" -lt 1 ] && [ -z "$off" ] && [ -z "$on" ]; then
   usage missing command
 fi
 
-running_pane="$(tmux display -p '#{pane_id}')"
-[ -z "$running_pane" ] && die something went wrong while fetching current pane ID
+if [ -z "$running_pane" ]; then
+  running_pane="$(tmux display -p '#{pane_id}')"
+  [ -z "$running_pane" ] && die something went wrong while fetching current pane ID
+fi
 
 cleanup() {
   tmux set-option -pu -t "$running_pane" @cmd_running \; \
