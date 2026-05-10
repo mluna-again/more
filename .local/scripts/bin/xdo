@@ -158,7 +158,7 @@ if [ -n "$file" ]; then
       # the "right" way being using a super complex regex to tried to handle all possible escape scenarios
       cmd="$(sed -E -e 's|%%|__replace__here__you_wouldnt_use_this_would_you|g' -e "s|%|$pane_id|g" -e 's|__replace__here__you_wouldnt_use_this_would_you|%|g' <<< "$cmd")"
     else
-      cmd="$cmd '$pane_id'"
+      cmd="$cmd $pane_id"
     fi
     tmux send-keys -l -t "$pane_id" "$cmd"
     tmux send-keys -t "$pane_id" Enter
