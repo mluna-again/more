@@ -21,9 +21,12 @@ if [ -d ~/.bashrc.d ]; then
 fi
 unset rc
 
+hostc="$(tput setaf 1)"
 gray="$(tput setaf 5)"
 green="$(tput setaf 2)"
-red="$(tput setaf 1)"
 yellow="$(tput setaf 3)"
 reset="$(tput sgr0)"
-export PS1='\[$gray\][\[$green\]\u\[$yellow\]@\[$red\]\H\[$gray\]]\[$reset\] \w $ '
+export PS1='\[$gray\][\[$green\]\u\[$yellow\]@\[$hostc\]\H\[$gray\]]\[$reset\] \w $ '
+
+alias v=nvim
+alias t="tmux attach || tmux"
