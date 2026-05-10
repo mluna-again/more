@@ -45,6 +45,10 @@ Note about border styles:
   the rest of the window, so if you are running multiple instances of ${0##*/} in the same window
   they will overwrite each other.
   Honestly just use --active-style and --style only.
+
+Note about --id:
+  Yeah, it doesn't work when pane_synchronized is 1 (because pane_id will always be the same).
+  You will have to use this script as a wrapper instead.
 EOF
   if [ "$#" -gt 0 ]; then
     echo
