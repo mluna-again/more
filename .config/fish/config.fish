@@ -44,7 +44,6 @@ bind -M insert \cp history-search-backward
 bind -M insert \cn history-search-forward
 bind -M insert \cb edit_command_buffer
 bind -M insert \cw backward-kill-path-component
-bind -M insert \cr history-pager
 bind -M insert \cc cancel-commandline
 bind --mode insert --sets-mode default jj backward-char repaint
 bind -M insert f1 true
@@ -177,7 +176,13 @@ end
 
 if status is-interactive
   # Commands to run in interactive sessions can go here
-  command -v atuin &>/dev/null; and atuin init fish --disable-up-arrow | source
+  if command -vq atuin;
+    atuin init fish --disable-up-arrow | source
+    bind -M insert \cf zi \; repaint
+  else
+    bind -M insert \cr history-pager
+  end
+
   command -vq direnv; and direnv hook fish | source
   command -vq starship; and starship init fish | source
   command -vq zoxide; and zoxide init fish | source
