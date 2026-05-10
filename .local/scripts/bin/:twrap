@@ -39,6 +39,7 @@ Flags:
   --on                          just set the provided styles.
   --off                         just unset the styles (all of them).
   --id PANE                     change specific pane by ID.
+  --message MESSAGE             set @pane_message to MESSAGE before running cmd.
 
 Note about border styles:
   Even when setting the option to be local to the running pane, it is still applied to
@@ -72,6 +73,7 @@ indicators=
 on=
 off=
 running_pane=
+message=
 prog=()
 while true; do
   [ -z "$1" ] && break
@@ -144,6 +146,11 @@ while true; do
       fi
       ;;
 
+    --message)
+      shift
+      message="$1"
+      ;;
+
     --on)
       [ -n "$off" ] && usage "can't use --on and --off together"
       on=1
@@ -178,7 +185,8 @@ cleanup() {
     set-option -pu -t "$running_pane" window-style \; \
     set-option -pu -t "$running_pane" pane-border-style \; \
     set-option -pu -t "$running_pane" pane-border-lines \; \
-    set-option -pu -t "$running_pane" pane-border-indicators
+    set-option -pu -t "$running_pane" pane-border-indicators \; \
+    set-option -pu -t "$running_pane" @pane_message
 }
 [ -z "$on" ] && trap cleanup EXIT
 
@@ -190,6 +198,7 @@ if [ -z "$off" ]; then
   [ -n "$border_style" ] && tmux set-option -p -t "$running_pane" pane-border-style "$border_style"
   [ -n "$lines" ] && tmux set-option -p -t "$running_pane" pane-border-lines "$lines"
   [ -n "$indicators" ] && tmux set-option -p -t "$running_pane" pane-border-indicators "$indicators"
+  [ -n "$message" ] && tmux set-option -p -t "$running_pane" @pane_message "$message"
 fi
 
 if [ -z "$on" ] && [ -z "$off" ]; then
