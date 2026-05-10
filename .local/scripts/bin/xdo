@@ -38,10 +38,13 @@ Usage:
   $HOME/some_dir@nvim
   $HOME/.config/emacs@nvim
   $HOME/.local/bin/scripts@tree
+  $HOME/.local/bin/scripts@echo % && do_something_with_its_pane %
   $ # Splits every line in two by @, then a new pane is cd'ed to col 1, and col 2 is executed.
   $ # Every command receives its pane_id as its first (and only) argument.
   $ # If you are using multiple commands (e.g. somecmd && someothercmd) only the last one will get
   $ # the pane_id, beware. If you need to use it in all of them wrap the commands in a script.
+  $ # Or you can also use the % placeholder to specify where should pane_id be replaced, can be repeated.
+  $ # You can escape % with %%.
   $ # Lines that start with # and ----- are ignored.
   $ xdo -f cmds.xdo
 
@@ -149,7 +152,15 @@ if [ -n "$file" ]; then
       echo something went wrong, pane_id empty >&2
       exit
     fi
-    tmux send-keys -l -t "$pane_id" "$cmd '$pane_id'"
+
+    if [[ "$cmd" =~ % ]]; then
+      # i mean... i tried doing it the "right" way but this just works better
+      # the "right" way being using a super complex regex to tried to handle all possible escape scenarios
+      cmd="$(sed -E -e 's|%%|__replace__here__you_wouldnt_use_this_would_you|g' -e "s|%|$pane_id|g" -e 's|__replace__here__you_wouldnt_use_this_would_you|%|g' <<< "$cmd")"
+    else
+      cmd="$cmd '$pane_id'"
+    fi
+    tmux send-keys -l -t "$pane_id" "$cmd"
     tmux send-keys -t "$pane_id" Enter
     tmux select-layout "$layout"
   done < "$file"
