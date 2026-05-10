@@ -34,6 +34,17 @@ Usage:
   file3 https://...
   $ cat urls.txt | xdo curl {2} -o {1} # using line elements separately
 
+  $ cat cmds.xdo
+  $HOME/some_dir@nvim
+  $HOME/.config/emacs@nvim
+  $HOME/.local/bin/scripts@tree
+  $ # Splits every line in two by @, then a new pane is cd'ed to col 1, and col 2 is executed.
+  $ # Every command receives its pane_id as its first (and only) argument.
+  $ # If you are using multiple commands (e.g. somecmd && someothercmd) only the last one will get
+  $ # the pane_id, beware. If you need to use it in all of them wrap the commands in a script.
+  $ # Lines that start with # and ----- are ignored.
+  $ xdo -f cmds.xdo
+
 Special notes:
   * If you want to use bash, you can't just do 'xdo -s bash ...', you need 'xdo -s "bash -c" ...'
   * If you are using bash, and remain-on-exit is off, if you just do 'xdo -s "bash -c" ...' all panes will close as soon as the command is done running (no matter the exit code).
@@ -126,6 +137,11 @@ command="$*"
 if [ -n "$file" ]; then
   original_pane=$(tmux display -p '#{pane_id}') || exit
   while read -r line; do
+    line="$(echo "$line" | xargs)" # trim
+    if [[ "$line" =~ ^\s*#.*$ ]] || [[ "$line" =~ ^\s*-----.*$ ]]; then
+      continue
+    fi
+
     dir=$(awk -F@ '{print $1}' <<< "$line")
     cmd=$(awk -F@ '{print $2}' <<< "$line")
     pane_id=$(tmux split-window -P -F '#{pane_id}' -c "$dir" fish -P)
@@ -133,10 +149,9 @@ if [ -n "$file" ]; then
       echo something went wrong, pane_id empty >&2
       exit
     fi
-    tmux send-keys -l -t "$pane_id" "$cmd"
+    tmux send-keys -l -t "$pane_id" "$cmd '$pane_id'"
     tmux send-keys -t "$pane_id" Enter
     tmux select-layout "$layout"
-    sleep 0.3
   done < "$file"
   tmux kill-pane -t "$original_pane" \; select-layout "$layout"
   exit
