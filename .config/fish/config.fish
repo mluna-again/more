@@ -82,8 +82,7 @@ set -gx FZF_DEFAULT_OPTS '--ellipsis=...
   --prompt=""
   --height="100%"
   --preview-window=border-none
-  --marker=""
-  --marker-multi-line=""
+  --marker="=>"
   --info=inline-right
   --pointer=""
   --no-bold
@@ -182,4 +181,5 @@ if status is-interactive
   command -vq direnv; and direnv hook fish | source
   command -vq starship; and starship init fish | source
   command -vq zoxide; and zoxide init fish | source
+  command -vq fzf; and fzf --fish | FZF_CTRL_R_COMMAND= FZF_ALT_C_COMMAND= FZF_CTRL_T_COMMAND= source
 end

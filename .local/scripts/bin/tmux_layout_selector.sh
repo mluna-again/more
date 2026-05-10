@@ -2,7 +2,7 @@
 
 source ~/.local/scripts/bin/tmux_util.sh || exit
 
-layout=$(cat - <<EOF | fzf --ghost="Select Layout" --preview="tmux_layout_preview.sh {}" | xargs
+layout=$(cat - <<EOF | fzf +m --marker="" --ghost="Select Layout" --preview="tmux_layout_preview.sh {}" | xargs
  Even Horizontal 
  Even Vertical 
  Main Horizontal 
