@@ -1,0 +1,159 @@
+#! /usr/bin/env bash
+
+# vim:set filetype=bash:
+
+die() {
+  echo "$*" 1>&2
+  exit 1
+}
+
+# shellcheck disable=SC2120
+usage() {
+  cat - <<EOF
+Usage:
+$ ${0##*/} [<flag>...] <cmd> [<args>...]
+
+Run <cmd> and automatically set the pane @cmd_running variable inside TMUX.
+Why is this useful? If you want to determine if an active program (e.g. not a shell)
+is running inside a specific pane you can't do that (or at least I don't know how to)
+if you are running it as a script or using something like \`bash -c ...\` without
+weird hacks with the parent's PID (because pane_current_command always displays bash).
+This program sets the @cmd_running to 1 before running and unsets it after it terminates.
+
+You can also use it to customize the styles of the pane while <cmd> is running.
+Styles are only applied while <cmd> is running (options are local to the target pane).
+
+Flags:
+  --help | -h                   show this message
+  --active-style STYLES         set window-active-style to STYLES (focused)
+  --active-border-style STYLES  set pane-active-border-style to STYLES (focused)
+  --style STYLES                set window-style (not focused)
+  --border-style STYLES         set pane-border-style (not focused)
+  --lines LINES                 set pane-border-lines (focused and not focused)
+  --indicators INDICATORS       set pane-border-indicators (focused and not focused)
+
+Note about border styles:
+  Even when setting the option to be local to the running pane, it is still applied to
+  the rest of the window, so if you are running multiple instances of ${0##*/} in the same window
+  they will overwrite each other.
+  Honestly just use --active-style and --style only.
+EOF
+  if [ "$#" -gt 0 ]; then
+    echo
+    tput setab 1
+    tput setaf 0
+    printf " ERROR "
+    tput sgr0
+    echo " $*"
+  fi
+  exit 1
+}
+
+[ -z "$TMUX" ] && usage no TMUX session detected
+
+active_style=
+active_border_style=
+style=
+border_style=
+lines=
+indicators=
+prog=()
+while true; do
+  [ -z "$1" ] && break
+
+  case "$1" in
+    --help|-h)
+      if [ "${#prog[@]}" -gt 0 ]; then
+        prog+=( "$1" )
+      else
+        usage
+      fi
+      ;;
+
+    --active-style)
+      if [ "${#prog[@]}" -gt 0 ]; then
+        prog+=( "$1" )
+      else
+        shift
+        active_style="$1"
+      fi
+      ;;
+
+    --active-border-style)
+      if [ "${#prog[@]}" -gt 0 ]; then
+        prog+=( "$1" )
+      else
+        shift
+        active_border_style="$1"
+      fi
+      ;;
+
+    --style)
+      if [ "${#prog[@]}" -gt 0 ]; then
+        prog+=( "$1" )
+      else
+        shift
+        style="$1"
+      fi
+      ;;
+
+    --border-style)
+      if [ "${#prog[@]}" -gt 0 ]; then
+        prog+=( "$1" )
+      else
+        shift
+        border_style="$1"
+      fi
+      ;;
+
+    --lines)
+      if [ "${#prog[@]}" -gt 0 ]; then
+        prog+=( "$1" )
+      else
+        shift
+        lines="$1"
+      fi
+      ;;
+
+    --indicators)
+      if [ "${#prog[@]}" -gt 0 ]; then
+        prog+=( "$1" )
+      else
+        shift
+        indicators="$1"
+      fi
+      ;;
+
+    *)
+      prog+=( "$1" )
+      ;;
+  esac
+
+  shift
+done
+
+[ "${#prog[@]}" -lt 1 ] && usage missing command
+
+running_pane="$(tmux display -p '#{pane_id}')"
+[ -z "$running_pane" ] && die something went wrong while fetching current pane ID
+
+cleanup() {
+  tmux set-option -pu -t "$running_pane" @cmd_running \; \
+    set-option -pu -t "$running_pane" window-active-style \; \
+    set-option -pu -t "$running_pane" pane-active-border-style \; \
+    set-option -pu -t "$running_pane" window-style \; \
+    set-option -pu -t "$running_pane" pane-border-style \; \
+    set-option -pu -t "$running_pane" pane-border-lines \; \
+    set-option -pu -t "$running_pane" pane-border-indicators
+}
+trap cleanup EXIT
+
+tmux set-option -p -t "$running_pane" @cmd_running 1
+[ -n "$active_style" ] && tmux set-option -p -t "$running_pane" window-active-style "$active_style"
+[ -n "$active_border_style" ] && tmux set-option -p -t "$running_pane" pane-active-border-style "$active_border_style"
+[ -n "$style" ] && tmux set-option -p -t "$running_pane" window-style "$style"
+[ -n "$border_style" ] && tmux set-option -p -t "$running_pane" pane-border-style "$border_style"
+[ -n "$lines" ] && tmux set-option -p -t "$running_pane" pane-border-lines "$lines"
+[ -n "$indicators" ] && tmux set-option -p -t "$running_pane" pane-border-indicators "$indicators"
+
+"${prog[@]}"
