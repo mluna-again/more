@@ -73,7 +73,7 @@ set -gx TMUXP_CONFIGDIR "$HOME/.local/tmuxp"
 set -gx PYTHONSTARTUP "$HOME/.pythonrc"
 # Temp (probably?)
 set -gx NVIM_APPNAME nvim_again
-set -gx FZF_DEFAULT_COMMAND 'ag -g ""'
+set -gx FZF_DEFAULT_COMMAND 'find . -mindepth 1 -type f -printf "%P\n"'
 set -gx FZF_DEFAULT_OPTS '--ellipsis=...
   --border=none
   --padding=1
