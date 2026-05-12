@@ -9,6 +9,7 @@ fi
 if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]; then
     PATH="$HOME/.local/bin:$HOME/bin:$PATH"
 fi
+PATH="$HOME/go/bin:$PATH"
 export PATH
 
 # User specific aliases and functions
@@ -30,3 +31,8 @@ export PS1='\[$gray\][\[$green\]\u\[$yellow\]@\[$hostc\]\H\[$gray\]]\[$reset\] \
 
 alias v=nvim
 alias t="tmux attach || tmux"
+
+if command -v asdf &>/dev/null; then
+  export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
+  . <(asdf completion bash)
+fi
