@@ -60,7 +60,7 @@ def draw_tab(
     else:
         screen.cursor.bg = INACTIVE_TAB_BG
         screen.cursor.fg = INACTIVE_TAB_FG
-        screen.draw(f" {index}  {title} ")
+        screen.draw(f" {index} {title} ")
 
     # draw right side
     if is_last:
