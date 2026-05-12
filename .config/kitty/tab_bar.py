@@ -37,27 +37,21 @@ def draw_tab(
     if index == 1:
         screen.cursor.x = MARGIN
 
-    # draw left side (tab by tab)
-    accessor = TabAccessor(tab.tab_id)
-
     title = tab.title
     if is_default_title(title):
         title = platform.node()
 
-    bg = opts.inactive_tab_background
-    fg = opts.inactive_tab_foreground
     if tab.is_active:
-        bg = opts.active_tab_background
-        fg = opts.active_tab_foreground
-
-    screen.cursor.bg = as_rgb(color_as_int(bg))
-    screen.cursor.fg = as_rgb(color_as_int(fg))
-
-    # activity_indicator = " "
-    # if tab.has_activity_since_last_focus or tab.needs_attention:
-    #     activity_indicator = "*"
-
-    screen.draw(f" {index} {title} ")
+        screen.cursor.bg = as_rgb(color_as_int("#393836"))
+        screen.cursor.fg = as_rgb(color_as_int(active_tab_foreground))
+        screen.draw(f" {index} ")
+        screen.cursor.bg = as_rgb(color_as_int(opts.active_tab_background))
+        screen.cursor.fg = as_rgb(color_as_int(opts.active_tab_foreground))
+        screen.draw(f" {title} ")
+    else:
+        screen.cursor.bg = as_rgb(color_as_int(opts.inactive_tab_background))
+        screen.cursor.fg = as_rgb(color_as_int(opts.inactive_tab_foreground))
+        screen.draw(f" {title} ")
 
     # draw right side
     if is_last:
@@ -65,8 +59,8 @@ def draw_tab(
         right_side = " KITTY "
         # fill space
         padd = width - screen.cursor.x - len(right_side) - MARGIN
-        screen.cursor.bg = as_rgb(color_as_int(opts.inactive_tab_background))
-        screen.cursor.fg = as_rgb(color_as_int(opts.inactive_tab_background))
+        screen.cursor.bg = as_rgb(color_as_int(opts.background))
+        screen.cursor.fg = as_rgb(color_as_int(opts.background))
         screen.draw(" "*padd)
 
         screen.cursor.bg = as_rgb(color_as_int(opts.active_tab_background))
