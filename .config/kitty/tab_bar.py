@@ -53,11 +53,11 @@ def draw_tab(
     screen.cursor.bg = as_rgb(color_as_int(bg))
     screen.cursor.fg = as_rgb(color_as_int(fg))
 
-    activity_indicator = " "
-    if tab.has_activity_since_last_focus or tab.needs_attention:
-        activity_indicator = "*"
+    # activity_indicator = " "
+    # if tab.has_activity_since_last_focus or tab.needs_attention:
+    #     activity_indicator = "*"
 
-    screen.draw(f"  {index} {title}{activity_indicator} ")
+    screen.draw(f" {index} {title} ")
 
     # draw right side
     if is_last:
