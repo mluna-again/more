@@ -72,7 +72,7 @@ def draw_tab(
         screen.cursor.fg = BG
         screen.draw(" "*padd)
 
-        screen.cursor.bg = ACTIVE_TAB_BG
+        screen.cursor.bg = TAB_INDEX_BG
         screen.cursor.fg = ACTIVE_TAB_FG
         screen.draw(right_side)
 
