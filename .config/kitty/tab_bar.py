@@ -1,4 +1,5 @@
 import platform
+from kitty.rgb import to_color
 from kitty.fast_data_types import Screen, get_options
 from kitty.tab_bar import (
     DrawData,
@@ -19,6 +20,14 @@ SHELLS = {
     "zsh": True,
     "sh": True,
 }
+
+TAB_INDEX_BG = as_rgb(color_as_int(to_color("#393836")))
+ACTIVE_TAB_FG = as_rgb(color_as_int(opts.active_tab_foreground))
+ACTIVE_TAB_BG = as_rgb(color_as_int(opts.active_tab_background))
+INACTIVE_TAB_FG = as_rgb(color_as_int(opts.inactive_tab_foreground))
+INACTIVE_TAB_BG = as_rgb(color_as_int(opts.inactive_tab_background))
+BG = as_rgb(color_as_int(opts.background))
+FG = as_rgb(color_as_int(opts.foreground))
 
 def is_default_title(name: str) -> bool:
     name = name.lower().strip()
@@ -42,15 +51,15 @@ def draw_tab(
         title = platform.node()
 
     if tab.is_active:
-        screen.cursor.bg = as_rgb(color_as_int("#393836"))
-        screen.cursor.fg = as_rgb(color_as_int(active_tab_foreground))
+        screen.cursor.bg = TAB_INDEX_BG
+        screen.cursor.fg = ACTIVE_TAB_FG
         screen.draw(f" {index} ")
-        screen.cursor.bg = as_rgb(color_as_int(opts.active_tab_background))
-        screen.cursor.fg = as_rgb(color_as_int(opts.active_tab_foreground))
+        screen.cursor.bg = ACTIVE_TAB_BG
+        screen.cursor.fg = ACTIVE_TAB_FG
         screen.draw(f" {title} ")
     else:
-        screen.cursor.bg = as_rgb(color_as_int(opts.inactive_tab_background))
-        screen.cursor.fg = as_rgb(color_as_int(opts.inactive_tab_foreground))
+        screen.cursor.bg = INACTIVE_TAB_BG
+        screen.cursor.fg = INACTIVE_TAB_FG
         screen.draw(f" {title} ")
 
     # draw right side
@@ -59,12 +68,12 @@ def draw_tab(
         right_side = " KITTY "
         # fill space
         padd = width - screen.cursor.x - len(right_side) - MARGIN
-        screen.cursor.bg = as_rgb(color_as_int(opts.background))
-        screen.cursor.fg = as_rgb(color_as_int(opts.background))
+        screen.cursor.bg = BG
+        screen.cursor.fg = BG
         screen.draw(" "*padd)
 
-        screen.cursor.bg = as_rgb(color_as_int(opts.active_tab_background))
-        screen.cursor.fg = as_rgb(color_as_int(opts.active_tab_foreground))
+        screen.cursor.bg = ACTIVE_TAB_BG
+        screen.cursor.fg = ACTIVE_TAB_FG
         screen.draw(right_side)
 
     # idk why do we need to return this but whatever
