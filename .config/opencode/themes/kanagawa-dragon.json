@@ -56,7 +56,7 @@
       "light": "dragon1"
     },
     "background": {
-      "dark": "dragon0",
+      "dark": "none",
       "light": "dragon6"
     },
     "backgroundPanel": {
