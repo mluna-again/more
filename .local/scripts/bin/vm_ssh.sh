@@ -21,12 +21,16 @@ $ vm_ssh.sh [<fzf-able vm name>]
 
 Flags:
   --user USER, -u USER    user inside VM (default: $USER)
+  --cmd CMD, -c CMD       initial command (default: bash)
+  -P PORT, --expose PORT  forward PORT (can be provided multiple times) (default: [])
 EOF
   exit 1
 }
 
 name=
-user="$USER"
+user=
+initial_program=
+fports=()
 opts=()
 while true; do
   [ -z "$1" ] && break
@@ -44,6 +48,16 @@ while true; do
 
     --gui)
       opts+=( --gui )
+      ;;
+
+    -c|--cmd)
+      shift
+      initial_program="$1"
+      ;;
+
+    -P|--expose)
+      shift
+      fports+=( "$1" )
       ;;
 
     *)
@@ -67,9 +81,12 @@ if [ -z "$user_specified" ] && [ -f ~/VMs/users ]; then
   _port=$(awk -F, "\$1 == \"$vm_basename\" { print \$3 }" ~/VMs/users)
   _spice_port=$(awk -F, "\$1 == \"$vm_basename\" { print \$4 }" ~/VMs/users)
   _initial_program=$(awk -F, "\$1 == \"$vm_basename\" { print \$5 }" ~/VMs/users)
-  if [ -n "$_user" ]; then
+  if [ -z "$user" ] && [ -n "$_user" ]; then
     echo "Using $_user as user (~/VMs/users)"
     user="$_user"
+  fi
+  if [ -z "$initial_program" ] && [ -n "$_initial_program" ]; then
+    initial_program="$_initial_program"
   fi
   if [ -n "$_port" ]; then
     opts+=( --port "$_port" )
@@ -89,4 +106,9 @@ if [ -z "$port" ]; then
   fi
 fi
 
-TERM=xterm-256color ssh -t -p "$port" "$user"@localhost "${_initial_program:-bash}"
+fportopts=()
+for p in "${fports[@]}"; do
+  fportopts+=( -L "$p":localhost:"$p" )
+done
+
+TERM=xterm-256color ssh -t "${fportopts[@]}" -p "$port" "${user:-$USER}"@localhost "${initial_program:-bash}"
