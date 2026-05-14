@@ -12,6 +12,8 @@ fi
 PATH="$HOME/go/bin:$PATH"
 export PATH
 
+export EDITOR=nvim
+
 # User specific aliases and functions
 if [ -d ~/.bashrc.d ]; then
     for rc in ~/.bashrc.d/*; do
