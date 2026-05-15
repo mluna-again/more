@@ -55,6 +55,22 @@
       "fi"
     ]
   },
+  "installed_or": {
+    "prefix": "installed_or",
+    "description": "Checks if a program is installed or else die",
+    "body": [
+      "installed_or() {",
+      "\tlocal cmd=\"\\$1\"",
+      "\tshift",
+      "\tmsg=\"\\$*\"",
+      "\tif ! command -v \"\\$cmd\" &>/dev/null; then",
+      "\t\tshift",
+      "\t\techo \"\\${msg:-\\$cmd is not installed}\" >&2",
+      "\t\texit 1",
+      "\tfi",
+      "}"
+    ]
+  },
   "opt_parser": {
     "prefix": "opts",
     "description": "Basic opt parsing",

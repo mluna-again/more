@@ -88,7 +88,7 @@ set -gx FZF_DEFAULT_OPTS '--ellipsis=...
   --no-header-lines-border
   --color="bg:,border:,label:red,gutter:,pointer:,hl:white,hl+:black,bg+:yellow,fg:white,fg+:black,header:white,prompt:white,query:white"
   --cycle
-  --bind="down:preview-down,up:preview-up"
+  --bind="down:preview-down,up:preview-up,ctrl-a:select-all"
   --no-scrollbar'
 
 
@@ -143,7 +143,7 @@ abbr --add rc bin/rails console
 abbr --add kp keepassxc-cli
 abbr --add sql nvim -c DBUI
 abbr --add op opencode
-abbr --add entrr --set-cursor "find . -type f -iname '*.%' | entr -rp /_"
+abbr --add doeach "fzf --multi | entr -rp"
 
 set fish_cursor_default block
 set fish_cursor_insert block blink
