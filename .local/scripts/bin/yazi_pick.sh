@@ -27,7 +27,7 @@ EOF
   exit 1
 }
 
-dir=
+dir=()
 print_empty=
 extra_line=
 while true; do
@@ -47,7 +47,7 @@ while true; do
       ;;
 
     *)
-      dir="$1"
+      dir+=( "$1" )
       ;;
   esac
 
@@ -62,7 +62,11 @@ cleanup() {
 }
 trap cleanup EXIT
 
-yazi "${dir:-$HOME}" --chooser-file="$chooser_file" --cwd-file="$cwd_file"
+_dir=( "${dir[@]}" )
+if [ -z "${dir[*]}" ]; then
+  _dir=( "$HOME" )
+fi
+yazi "${_dir[@]}" --chooser-file="$chooser_file" --cwd-file="$cwd_file"
 
 file="$(cat "$chooser_file" | head -n1)"
 if [ -z "$file" ]; then
