@@ -9,7 +9,7 @@ If nothing is selected prints nothing, if something is selected prints two lines
   - current directory
 
 Usage:
-$ ${0##*/} [<path>]
+$ ${0##*/} [...<path>]
 
 Flags:
   --help | -h      show this message
