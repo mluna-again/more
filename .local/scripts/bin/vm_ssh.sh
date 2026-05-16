@@ -68,8 +68,8 @@ while true; do
   shift
 done
 
-vms=$(find ~/VMs -maxdepth 1 -type f -iname "*.conf") || exit
-selected=$(echo "$vms" | fzf -1 -q "$name" | head -n 1) || exit
+vms="$(find ~/VMs -maxdepth 1 -type f -iname "*.conf")" || exit
+selected="$(echo "$vms" | fzf -1 -q "$name" | head -n 1)" || exit
 [ -z "$selected" ] && exit 1
 
 dir=$(dirname "$selected") || exit

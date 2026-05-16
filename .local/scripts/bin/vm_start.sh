@@ -12,7 +12,7 @@ Start a quickemu VM.
 It starts it in headless mode by default.
 
 Usage:
-$ vm_start.sh <.conf file>
+$ vm_start.sh <fzf-able vm name>
 
 Flags:
   --gui                  opens a gtk gui.
@@ -49,7 +49,8 @@ while true; do
       ;;
 
     *)
-      vm="$1"
+      vm="$(find ~/VMs -maxdepth 1 -type f -iname '*.conf' | fzf -1 -q "$1" | head -n 1)"
+      [ -z "$vm" ] && exit 1
       ;;
   esac
 
@@ -77,10 +78,15 @@ if [ -n "$spice_port" ]; then
   opts+=( --spice-port "$spice_port" )
 fi
 
-quickemu --vm "$vm" "${opts[@]}"
+quickemu --vm "$vm" "${opts[@]}" --extra_args --daemonize
 
 vm_basename=$(basename "$vm")
 dir="${vm/.conf/}"
+ports_file="${dir}/${vm_basename/.conf/}.ports"
+if [ ! -f "$ports_file" ]; then
+  echo "looks like $vm didnt't start"
+  exit 1
+fi
 echo
 echo "PORTS"
 awk -F, '{printf "%s: %s\n", $1, $2}' "${dir}/${vm_basename/.conf/}.ports"

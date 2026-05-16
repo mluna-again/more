@@ -4,6 +4,7 @@ usage() {
   cat - <<EOF
 Creates VMs with quickget and quickemu.
 Last time I checked it was a mess to create a VM with a custom name, so I made this script.
+You should run this in ~/VMs.
 
 Usage:
 $ vm_create.sh <vm name> [<os>] [<release>] [<version>]
