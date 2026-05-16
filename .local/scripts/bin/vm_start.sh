@@ -78,15 +78,21 @@ if [ -n "$spice_port" ]; then
   opts+=( --spice-port "$spice_port" )
 fi
 
+vm_name="$(basename "$vm")"
+vm_name="${vm_name/.conf/}"
+if pgrep -fl "qemu-system.*$vm_name" &>/dev/null; then
+  echo "$vm_name already running."
+  exit 0
+fi
+
 quickemu --vm "$vm" "${opts[@]}" --extra_args --daemonize
 
-vm_basename=$(basename "$vm")
 dir="${vm/.conf/}"
-ports_file="${dir}/${vm_basename/.conf/}.ports"
+ports_file="${dir}/${vm_name}.ports"
 if [ ! -f "$ports_file" ]; then
   echo "looks like $vm didnt't start"
   exit 1
 fi
 echo
 echo "PORTS"
-awk -F, '{printf "%s: %s\n", $1, $2}' "${dir}/${vm_basename/.conf/}.ports"
+awk -F, '{printf "%s: %s\n", $1, $2}' "${dir}/${vm_name}.ports"

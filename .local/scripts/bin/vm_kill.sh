@@ -37,4 +37,6 @@ vms=$(find ~/VMs -maxdepth 1 -type f -iname "*.conf") || exit
 selected=$(echo "$vms" | fzf -1 -q "$name" | head -n 1) || exit
 [ -z "$selected" ] && exit 1
 
-quickemu --vm "$selected" --kill
+vm_name="$(basename "$selected")"
+vm_name="${vm_name/.conf/}"
+quickemu --vm "$selected" --kill ; pkill -f "qemu-system.*$vm_name"
