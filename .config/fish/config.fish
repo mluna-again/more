@@ -119,6 +119,8 @@ abbr --add gss git stash list -p
 abbr --add ga git add .
 abbr --add gA git add
 abbr --add gr git reset --soft
+abbr --add gc --set-cursor git commit -m \"%\"
+abbr --add gR git reset --hard
 abbr --add gofmt go fmt ./...
 abbr --add dateiso date +"%Y-%m-%dT%H:%M:%S%z"
 abbr --add emacs "emacsclient -a '' -c --tty"

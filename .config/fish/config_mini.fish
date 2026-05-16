@@ -69,6 +69,8 @@ abbr --add gss git stash list -p
 abbr --add ga git add .
 abbr --add gA git add
 abbr --add gr git reset --soft
+abbr --add gc --set-cursor git commit -m \"%\"
+abbr --add gR git reset --hard
 abbr --add mv mv -i
 abbr --add op opencode
 abbr --add doeach "fzf --multi | entr -rp"
