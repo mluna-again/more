@@ -70,8 +70,8 @@ yazi "${_dir[@]}" --chooser-file="$chooser_file" --cwd-file="$cwd_file"
 
 file="$(cat "$chooser_file" | head -n1)"
 if [ -z "$file" ]; then
-  [ -z "$print_empty" ] && exit 0
   [ -n "$extra_line" ] && echo
+  [ -z "$print_empty" ] && exit 0
   echo
   echo
   exit 0
