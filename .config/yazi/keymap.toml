@@ -1,5 +1,5 @@
 [mgr]
 prepend_keymap = [
-	{ on = "<Enter>", run = "enter", desc = "Enter directory or open file" },
+	{ on = "<Enter>", run = "enter", desc = "Enter directory" },
 	{ on = "?", run = "help", desc = "Show this message" },
 ]
