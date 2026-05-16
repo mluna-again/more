@@ -56,7 +56,7 @@ set -gx FZF_DEFAULT_OPTS '--ellipsis=...
   --no-scrollbar'
 
 abbr --add v nvim
-abbr --add t "tmux attach || tmux"
+abbr --add t tmux new-session -A -n null -s void
 abbr --add gd git diff
 abbr --add gdd git diff --cached
 abbr --add gl "git log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
