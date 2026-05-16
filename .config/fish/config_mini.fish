@@ -55,6 +55,8 @@ set -gx FZF_DEFAULT_OPTS '--ellipsis=...
   --bind="down:preview-down,up:preview-up,ctrl-a:select-all"
   --no-scrollbar'
 
+abbr --add cd.. cd ..
+abbr --add cd- cd -
 abbr --add v nvim
 abbr --add t tmux new-session -A -n null -s void
 abbr --add gd git diff
