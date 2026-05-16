@@ -52,6 +52,8 @@ $ slsk_cleanup.sh # uses \$PWD
 Flags:
   -i|--interactive   run interactive mode to fill information if metadata is missing (only useful for fields which are the same for every song: ALBUMARTIST, ALBUM).
   -C|--no-cover      skip cover
+  -L|--no-lyrics     skip lyrics
+  -R|--no-replay     skip replaygain data
 EOF
   if [ "$#" -gt 0 ]; then
     echo
@@ -67,6 +69,8 @@ EOF
 dir="."
 interactive=0
 no_cover=
+no_lyrics=
+no_replay=
 while true; do
   [ -z "$1" ] && break
 
@@ -81,6 +85,14 @@ while true; do
 
     -i|--interactive)
       interactive=1
+      ;;
+
+    -L|--no-lyrics)
+      no_lyrics=1
+      ;;
+
+    -R|--no-replay)
+      no_replay=1
       ;;
 
     *)
@@ -106,11 +118,11 @@ track_or_disc_num() {
     return
   fi
   if [[ "$num" =~ ^[0-9]+\/[0-9]+$ ]]; then
-    awk -F'/' '{print $1}'
+    awk -F'/' '{print $1}' <<< "$num"
     return
   fi
   if [[ "$num" =~ ^[0-9]+-[0-9]+$ ]]; then
-    awk -F'-' '{print $1}'
+    awk -F'-' '{print $1}' <<< "$num"
     return
   fi
   stderr "[track_or_disc_num] i dont know what to do with: $num"
@@ -327,7 +339,11 @@ set_default_albumartist || exit
 if [ -z "$no_cover" ]; then
   add_cover || exit
 fi
-add_replaygain || exit
+if [ -z "$no_replay" ]; then
+  add_replaygain || exit
+fi
 remove_tag_all SUBTITLE || exit
-download_lyrics || exit
+if [ -z "$no_lyrics" ]; then
+  download_lyrics || exit
+fi
 format_titles || exit
