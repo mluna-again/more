@@ -9,6 +9,7 @@ show_hidden = true
 show_symlink = true
 mouse_events = []
 title_format = "{cwd}"
+scrolloff = 5
 
 [preview]
 max_width = 800
