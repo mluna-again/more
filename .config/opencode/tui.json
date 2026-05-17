@@ -13,6 +13,16 @@
     "history_previous": "ctrl+p",
     "history_next": "ctrl+n",
     "messages_half_page_up": "ctrl+u",
-    "messages_half_page_down": "ctrl+d"
+    "messages_half_page_down": "ctrl+d",
+    "history_previous": "ctrl+p",
+    "history_next": "ctrl+n",
+    "messages_half_page_up": "ctrl+u",
+    "messages_half_page_down": "ctrl+d",
+    "messages_first": "ctrl+g",
+    "messages_last": "ctrl+a",
+    "session_child_first": "<leader>j",
+    "session_child_cycle": "<leader>l",
+    "session_child_cycle_reverse": "<leader>h",
+    "session_parent": "<leader>k"
   }
 }
