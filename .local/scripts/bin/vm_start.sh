@@ -63,6 +63,21 @@ if [ ! -f "$vm" ]; then
   exit 1
 fi
 
+vm_basename=$(basename "$vm") || exit
+vm_basename="${vm_basename/.conf/}"
+if [ -f ~/VMs/users ]; then
+  _port=$(awk -F, "\$1 == \"$vm_basename\" { print \$3 }" ~/VMs/users)
+  _spice_port=$(awk -F, "\$1 == \"$vm_basename\" { print \$4 }" ~/VMs/users)
+
+  if [ -z "$port" ] && [ -n "$_port" ]; then
+    echo "Using $_port as port (~/VMs/users)"
+    port="$_port"
+  fi
+  if [ -n "$_spice_port" ]; then
+    spice_port="$_spice_port"
+  fi
+fi
+
 opts=()
 if [ "$gui" -eq 1 ]; then
   opts+=( --display gtk )
