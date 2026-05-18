@@ -81,8 +81,18 @@ fi
 vm_name="$(basename "$vm")"
 vm_name="${vm_name/.conf/}"
 if pgrep -fl "qemu-system.*$vm_name" &>/dev/null; then
-  echo "$vm_name already running."
-  exit 0
+  if [ "$gui" -eq 1 ]; then
+    # https://github.com/quickemu-project/quickemu/issues/234 virt-manager would have been a good alternative, but oh well
+    printf "%s is already running but you specified --gui, do you want to restart it to enable --gui? [N/y] " "$vm_name"
+    read -r response
+    if [[ ! "${response,,}" =~ ^y(es)?$ ]]; then
+      exit 1
+    fi
+    ~/.local/scripts/bin/vm_kill.sh "${vm_name}.conf"
+  else
+    echo "$vm_name already running."
+    exit 0
+  fi
 fi
 
 quickemu --vm "$vm" "${opts[@]}" --extra_args --daemonize
