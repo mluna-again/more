@@ -483,10 +483,10 @@ end
 enable_lsp_server("pyright")
 enable_lsp_server("solargraph")
 enable_lsp_server("gopls")
-enable_lsp_server("elixir-ls")
-enable_lsp_server("rust-analyzer")
-enable_lsp_server("typescript-language-server")
-enable_lsp_server("tailwind-language-server")
+enable_lsp_server("elixirls")
+enable_lsp_server("rust_analyzer")
+enable_lsp_server("ts_ls")
+enable_lsp_server("tailwindcss")
 enable_lsp_server("clangd")
 
 vim.cmd.colorscheme "kanagawa-dragon"
