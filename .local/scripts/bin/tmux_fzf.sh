@@ -38,7 +38,7 @@ _switch() {
   session_created=0
   if ! tmux has-session -t "$session" &>/dev/null; then
     if ! command -v tmuxp &>/dev/null; then
-      tmux_alert "No tmuxp installed, and session is lazy loaded!"
+      tmux display "No tmuxp installed, and session is lazy loaded!"
       return 1
     fi
     session_created=1
@@ -65,7 +65,7 @@ _switch() {
     output=$(tmux switch-client -t "$session" \; select-window -t "$window" 2>&1)
     res="$?"
     if [ "$res" -ne 0 ]; then
-      tmux_alert "$output"
+      tmux display "$output"
     fi
   fi
 }
