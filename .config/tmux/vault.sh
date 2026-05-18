@@ -1,14 +1,12 @@
 #! /usr/bin/env bash
 
-# what is this? some questions are better unanswered
+# like ugly.sh but inspired by fallout.
 
 # shellcheck disable=SC2120
 usage() {
   cat - <<EOF
 Usage:
-$ ${0##*/} <accent color>
-$ ${0##*/} magenta
-$ ${0##*/} red
+$ ${0##*/}
 
 Flags:
   --help | -h      show this message
@@ -24,7 +22,6 @@ EOF
   exit 1
 }
 
-color=
 while true; do
   [ -z "$1" ] && break
 
@@ -32,16 +29,10 @@ while true; do
     --help|-h)
       usage
       ;;
-
-    *)
-      color="$1"
-      ;;
   esac
 
   shift
 done
-
-[ -z "$color" ] && usage missing color
 
 ~/.config/tmux/just-keys.sh || exit
 echo
@@ -54,14 +45,15 @@ set -g base-index 1
 set -g display-time 0
 set -as terminal-overrides 'xterm*:Tc'
 set -g status-position top
-set -g status-style bg=$color,fg=black
-set -g message-style fg=$color,bg=black
+set -g status-style bg=#040d04,fg=#21bf0f
+set -g message-style fg=#040d04,bg=#21bf0f
+set -g message-command-style bg=#040d04,fg=#21bf0f
 set -g status-left-length 50
 set -g status-right-length 50
-set -g status-left '#[bg=#{?client_prefix,black,$color},fg=#{?client_prefix,white,black}] #H #[bg=default,fg=default]:: #S#{?window_zoomed_flag,*,} '
+set -g status-left '#[bg=#{?client_prefix,#21bf0f,#040d04},fg=#{?client_prefix,#040d04,#21bf0f}] #H #[bg=default,fg=default]:: #S#{?window_zoomed_flag,*,}   '
 set -g status-right '%H:%M @ #{pane_current_path} '
-set -g window-status-format '#[bg=$color,fg=black] #I #W '
-set -g window-status-current-format '#[bg=black,fg=white] #I #W '
+set -g window-status-format '#[bg=#040d04,fg=#21bf0f] #I #W '
+set -g window-status-current-format '#[bg=#21bf0f,fg=#040d04] #I #W '
 set -g window-status-separator ''
-set -g status-justify absolute-centre
+set -g status-justify left
 EOF
