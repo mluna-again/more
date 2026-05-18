@@ -43,6 +43,7 @@ get_live_sessions() {
 }
 
 get_sessions() {
+  local files sessions_without_config
   files="$(get_saved_sessions)"
   sessions_without_config="$(get_live_sessions)"
   if [ -n "$files" ]; then
@@ -189,7 +190,7 @@ looks_empty() {
 
 # Switches TMUX sessions (supports tmuxp sessions (lazy))
 tmux_switch() {
-  local session="$1"
+  local session="$1" window="$2" session_created socket retries output res
   session_created=0
   if ! tmux has-session -t "$session" &>/dev/null; then
     if ! command -v tmuxp &>/dev/null; then

@@ -22,4 +22,4 @@ window=$(awk -F: '{print $2}' <<< "$output" | xargs)
 [ -z "$session" ] && exit
 [ -z "$window" ] && exit
 
-tmux_switch "$session" || exit 0
+tmux_switch "$session" "$window" || exit 0
