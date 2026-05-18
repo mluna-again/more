@@ -33,6 +33,7 @@ bind -M insert f10 true
 set -gx VISUAL nvim
 set -gx EDITOR "$VISUAL"
 set -gx GOPATH "$HOME/.local/go"
+set -gx TMUXP_CONFIGDIR "$HOME/.local/tmuxp"
 if command -vq fd
   set -gx FZF_DEFAULT_COMMAND 'fd'
 else
