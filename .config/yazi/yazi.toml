@@ -17,6 +17,9 @@ image_filter = "triangle"
 image_quality = 50
 
 [opener]
+play = [
+	{ run = "mpv %s", orphan = true },
+]
 
 [open]
 
