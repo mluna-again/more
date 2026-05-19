@@ -59,7 +59,7 @@ set -g message-style fg=$color,bg=black
 set -g status-left-length 50
 set -g status-right-length 50
 set -g status-left '#[bg=#{?client_prefix,black,$color},fg=#{?client_prefix,white,black}] #H #[bg=default,fg=default]:: #S '
-set -g status-right '%H:%M @ #{pane_current_path} '
+set -g status-right '%I:%M %p @ #{pane_current_path} '
 set -g window-status-format '#[bg=$color,fg=black] #I #W #{?window_zoomed_flag,* ,}'
 set -g window-status-current-format '#[bg=black,fg=white] #I #W #{?window_zoomed_flag,* ,}'
 set -g window-status-separator ''
