@@ -2,15 +2,8 @@
 
 source ~/.local/scripts/bin/tmux_util.sh || exit
 
-files=$(get_sessions)
-if [ -z "$files" ]; then
-  tmux_alert "No session files in ~/.local/tmuxp"
-  exit
-fi
-
 output=$(
-    echo "$files" | \
-    sort -h | \
+    get_sessions 1 |
     mina -title="Search TMUX session" -icon=""
 )
 

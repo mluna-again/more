@@ -22,15 +22,17 @@ get_live_sessions() {
 }
 
 get_sessions() {
-  local files sessions_without_config
-  files="$(get_saved_sessions)"
-  sessions_without_config="$(get_live_sessions)"
-  if [ -n "$files" ]; then
-    sessions_without_config="$(grep -v "$files" <<< "$sessions_without_config")"
-    files="${files}\n"
+  local saved live saved_but_not_loaded with_label="${1:-0}"
+
+  saved="$(get_saved_sessions)"
+  live="$(get_live_sessions)"
+  if [ "$with_label" -eq 1 ]; then
+    saved_but_not_loaded="$(grep -v "$live" <<< "$saved" | awk '{printf "%s (lazy)\n", $0}')"
+  else
+    saved_but_not_loaded="$(grep -v "$live" <<< "$saved")"
   fi
 
-  echo -e "${files}${sessions_without_config}"
+  printf "%s\n%s\n" "$live" "$saved_but_not_loaded" | sort -h | grep -Ev '^\s*$'
 }
 
 _switch() {
@@ -70,9 +72,7 @@ _switch() {
   fi
 }
 
-sessions="$(get_sessions)"
-
-output="$(echo "$sessions" | sort -h | fzf +m --border=none)"
+output="$(get_sessions 1 | fzf +m --border=none)"
 [ -z "$output" ] && exit 0
 session="$(awk -F: '{print $1}' <<< "$output" | xargs)"
 window="$(awk -F: '{print $2}' <<< "$output" | xargs)"
