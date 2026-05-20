@@ -7,6 +7,11 @@ if [ -z "$marked_pane" ]; then
   marked_pane="(No pane marked)"
 fi
 
+marked_window=$(tmux list-windows -a -f '#{window_marked_flag}' -F '(#{session_name}.#{window_name})')
+if [ -z "$marked_window" ]; then
+  marked_window="(No window marked)"
+fi
+
 KILL_SERVER="TMUX: kill server"
 SWITCH_PREFIX="TMUX: switch prefix"
 DUMP_CMDS="TMUX: dump current window commands"
@@ -18,6 +23,7 @@ REARRANGE_FIRST="Panes: move empty first"
 REARRANGE_LAST="Panes: move empty last"
 BREAK_PANE="Panes: break pane"
 JOIN_PANE="Panes: join pane $marked_pane"
+JOIN_PANES="Panes: join window $marked_window"
 CLEAR_PANES="Panes: clear panes"
 CLOSE_EMPTY_PANELS="Panes: close empty panels"
 MAKE_PANES="Panes: make panes"
@@ -50,6 +56,7 @@ $CLEAR_PANE
 $CLEAR_TAG
 $BREAK_PANE
 $JOIN_PANE
+$JOIN_PANES
 $SAVE_SESSION
 $EDIT_SESSION
 $KILL_SESSION
@@ -90,6 +97,7 @@ case "$response" in
   "$CLEAR_TAG") ~/.local/scripts/bin/tmux_tag_clear.sh;;
   "$BREAK_PANE") tmux break-pane -a ;;
   "$JOIN_PANE") tmux join-pane || true ;;
+  "$JOIN_PANES") ~/.local/scripts/bin/tmux_merge_windows.sh;;
   "$SWITCH_PREFIX") ~/.local/scripts/bin/tmux_toggle_prefix.sh;;
   "$KILL_SERVER") ~/.local/scripts/bin/tmux_kill_server.sh;;
   "$SAVE_SESSION") ~/.local/scripts/bin/tmux_session_save.sh;;
