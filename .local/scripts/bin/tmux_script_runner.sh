@@ -15,6 +15,7 @@ fi
 selected=$(tmux_fzf " Scripts " "$scripts") || exit
 [ -z "$selected" ] && exit
 
-tmux display-popup -EE "$SCRIPTS_DIR/$selected"
+bg="$(tmux display -p '#{@black2}')"
+tmux display-popup -EE -s bg="${bg:-gray}" "$SCRIPTS_DIR/$selected"
 
 true
