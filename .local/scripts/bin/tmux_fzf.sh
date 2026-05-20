@@ -27,9 +27,9 @@ get_sessions() {
   saved="$(get_saved_sessions)"
   live="$(get_live_sessions)"
   if [ "$with_label" -eq 1 ]; then
-    saved_but_not_loaded="$(grep -v "$live" <<< "$saved" | awk '{printf "%s (lazy)\n", $0}')"
+    saved_but_not_loaded="$(grep -vx "$live" <<< "$saved" | awk '{printf "%s (lazy)\n", $0}')"
   else
-    saved_but_not_loaded="$(grep -v "$live" <<< "$saved")"
+    saved_but_not_loaded="$(grep -vx "$live" <<< "$saved")"
   fi
 
   printf "%s\n%s\n" "$live" "$saved_but_not_loaded" | sort -h | grep -Ev '^\s*$'

@@ -48,9 +48,9 @@ get_sessions() {
   saved="$(get_saved_sessions)"
   live="$(get_live_sessions)"
   if [ "$with_label" -eq 1 ]; then
-    saved_but_not_loaded="$(grep -v "$live" <<< "$saved" | awk '{printf "%s (lazy)\n", $0}')"
+    saved_but_not_loaded="$(grep -vx "$live" <<< "$saved" | awk '{printf "%s (lazy)\n", $0}')"
   else
-    saved_but_not_loaded="$(grep -v "$live" <<< "$saved")"
+    saved_but_not_loaded="$(grep -vx "$live" <<< "$saved")"
   fi
 
   printf "%s\n%s\n" "$live" "$saved_but_not_loaded" | sort -h | grep -Ev '^\s*$'
@@ -192,7 +192,7 @@ looks_empty() {
 
 # Switches TMUX sessions (supports tmuxp sessions (lazy))
 tmux_switch() {
-  local session="$1" window="$2" session_created socket retries output res
+  local session="$1" window="$2" session_created socket retries output res code pid lpid tmp
   session_created=0
   if ! tmux has-session -t "$session" &>/dev/null; then
     if ! command -v tmuxp &>/dev/null; then
@@ -201,7 +201,22 @@ tmux_switch() {
     fi
     session_created=1
     socket=$(tmux display -p '#{socket_path}')
-    tmuxp load -S "$socket" -d "$session" || exit
+    tmp="$(mktemp /tmp/tmux_switch.XXXXXXX)"
+    tmuxp load -S "$socket" -d "$session" &>"$tmp" &
+    pid="$!"
+    ~/.local/scripts/bin/bunny.sh "loading session..." &
+    lpid="$!"
+    wait "$pid"
+    code="$?"
+    kill "$lpid"
+
+    if [ "$code" -ne 0 ]; then
+      cat "$tmp"
+      rm "$tmp"
+      return 1
+    fi
+
+    rm "$tmp"
   fi
 
   if [ "$session_created" -eq 1 ]; then
