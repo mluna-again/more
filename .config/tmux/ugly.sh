@@ -64,4 +64,5 @@ set -g window-status-format '#[bg=$color,fg=black] #I #W #{?window_zoomed_flag,*
 set -g window-status-current-format '#[bg=black,fg=white] #I #W #{?window_zoomed_flag,* ,}'
 set -g window-status-separator ''
 set -g status-justify absolute-centre
+set -ga command-alias kse="kill-session"
 EOF
