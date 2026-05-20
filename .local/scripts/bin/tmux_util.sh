@@ -34,7 +34,7 @@ get_last_session_or_default() {
 get_saved_sessions() {
   local dir="${1:-$HOME/.local/tmuxp}"
 
-  find -L "$dir" -type f \( -iname '*.yml' -o -iname '*.yaml' \) \
+  find -L "$dir" -type f \( -iname '*.yml' -o -iname '*.yaml' \) -a ! -iname '_*' \
     -exec awk '/session_name:/ {s=$2; } /window_name:/ {if ($3 == "") {n=$2} else {n=$3} printf "%s: %s\n", s, n}' {} \; 2>/dev/null
 }
 
