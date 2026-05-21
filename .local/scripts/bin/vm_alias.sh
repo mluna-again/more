@@ -93,7 +93,7 @@ entry_lines="$(generate | wc -l)"
 rebuild_config_file > "$newversion" || exit
 
 if command -v delta &>/dev/null; then
-  if delta --side-by-side ~/.ssh/config "$newversion"; then
+  if delta --paging=never --side-by-side ~/.ssh/config "$newversion"; then
     echo
     echo no changes required
     exit
