@@ -80,7 +80,7 @@ src_file="$src"
 src_copy=
 if [ "$src" = "-" ]; then
   src_copy="$(mktemp /tmp/vm_send.XXXXXXXX)" || exit
-  cat - > "$src_copy"
+  cat - > "$src_copy" || exit
   src_file="$src_copy"
 fi
 dest_copy="$(mktemp /tmp/vm_send.XXXXXXXX)" || exit
