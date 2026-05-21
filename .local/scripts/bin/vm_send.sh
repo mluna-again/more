@@ -18,6 +18,7 @@ NOTE: Don't forget to quote <dest> or use a relative path.
 
 Usage:
 $ ${0##*/} <fzf-able vm name> <src> <dest>
+$ ${0##*/} <fzf-able vm name> - <dest> # read src from stdin
 
 Flags:
   --help | -h      show this message
@@ -50,7 +51,7 @@ while true; do
         [ -z "$vm" ] && exit 1
       else
         if [ -z "$src" ]; then
-          if [ ! -f "$1" ] && [ ! -d "$1" ]; then
+          if [ ! -f "$1" ] && [ ! -d "$1" ] && [ "$1" != "-" ]; then
             usage "$1 is not a file or directory"
           fi
           src="$1"
@@ -75,9 +76,17 @@ if ! grep -qE "Host\s+$vmname" ~/.ssh/config; then
   die "$vmname has not an SSH alias yet, use vm_alias.sh <vm> first"
 fi
 
+src_file="$src"
+src_copy=
+if [ "$src" = "-" ]; then
+  src_copy="$(mktemp /tmp/vm_send.XXXXXXXX)" || exit
+  cat - > "$src_copy"
+  src_file="$src_copy"
+fi
 dest_copy="$(mktemp /tmp/vm_send.XXXXXXXX)" || exit
 cleanup() {
   rm "$dest_copy"
+  [ -n "$src_copy" ] && rm "$src_copy"
 }
 trap cleanup EXIT
 
@@ -85,10 +94,10 @@ echo "fetching current version..."
 if rsync -ah "$vmname":"$dest" "$dest_copy" &>/dev/null; then
   diff=
   if command -v delta &>/dev/null; then
-    delta --side-by-side --paging=never "$dest_copy" "$src"
+    delta --side-by-side --paging=never "$dest_copy" "$src_file"
     diff="$?"
   else
-    diff --color=always --unified --suppress-common-lines "$dest_copy" "$src"
+    diff --color=always --unified --suppress-common-lines "$dest_copy" "$src_file"
     diff="$?"
   fi
   if [ "$diff" -eq 0 ]; then
@@ -104,6 +113,6 @@ else
   echo "no current version found"
 fi
 
-rsync -ahq "$src" "$vmname":"$dest" || exit
+rsync -ahq "$src_file" "$vmname":"$dest" || exit
 
 echo "done :D"
