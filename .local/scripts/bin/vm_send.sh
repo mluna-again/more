@@ -14,6 +14,8 @@ Uses \`delta\` if available, or \`diff\`.
 
 This script is meant for single files only, mainly for specific config files I wanna copy into a VM. For general file transfer use rsync.
 
+NOTE: Don't forget to quote <dest> or use a relative path.
+
 Usage:
 $ ${0##*/} <fzf-able vm name> <src> <dest>
 
@@ -83,10 +85,10 @@ echo "fetching current version..."
 if rsync -ah "$vmname":"$dest" "$dest_copy" &>/dev/null; then
   diff=
   if command -v delta &>/dev/null; then
-    delta --side-by-side --paging=never "$src" "$dest_copy"
+    delta --side-by-side --paging=never "$dest_copy" "$src"
     diff="$?"
   else
-    diff --color=always --unified --suppress-common-lines "$src" "$dest_copy"
+    diff --color=always --unified --suppress-common-lines "$dest_copy" "$src"
     diff="$?"
   fi
   if [ "$diff" -eq 0 ]; then
