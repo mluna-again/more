@@ -262,7 +262,6 @@ tmux_switch() {
       yq -n ".session_name=\"$random_name\" | .windows[0] = load(\"$tmp2\")" > "$tmp" || return
       _tmuxp_load_session "$socket" "$random_name" "$tmp" || return
       tmux move-window -s "$random_name:1" -t "$session" || return
-      sleep 5
       rm "$tmp"
       rm "$tmp2"
     fi
