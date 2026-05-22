@@ -75,7 +75,7 @@ _switch() {
   fi
 }
 
-output="$(get_sessions 1 | fzf +m --border=none)"
+output="$(get_sessions 1 | fzf +m --border=none | sed 's| (lazy)$||')"
 [ -z "$output" ] && exit 0
 session="$(awk -F: '{print $1}' <<< "$output" | xargs)"
 window="$(awk -F: '{print $2}' <<< "$output" | xargs)"

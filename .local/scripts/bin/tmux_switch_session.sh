@@ -4,7 +4,8 @@ source ~/.local/scripts/bin/tmux_util.sh || exit
 
 output=$(
     get_sessions 1 |
-    mina -title="Search TMUX session" -icon=""
+    mina -title="Search TMUX session" -icon="" |
+    sed 's| (lazy)$||'
 )
 
 [ -z "$output" ] && exit
