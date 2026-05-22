@@ -7,6 +7,42 @@ _SHELLS=(
   zsh
 )
 
+_tmuxp_load_session() {
+  local socket="$1" session="$2" session_path="$3" tmp pid lpid code retries found
+  [ -z "$session_path" ] && session_path="$session"
+
+  tmp="$(mktemp /tmp/tmux_switch.XXXXXXX)" || return
+  tmuxp load -S "$socket" -d "$session_path" &>"$tmp" &
+  pid="$!"
+  ~/.local/scripts/bin/bunny.sh "loading session..." &
+  lpid="$!"
+  wait "$pid"
+  code="$?"
+  kill "$lpid"
+
+  if [ "$code" -ne 0 ]; then
+    cat "$tmp"
+    rm "$tmp"
+    return 1
+  fi
+
+  rm "$tmp"
+
+  retries=0
+  found=0
+  while (( retries < 10 )); do
+    if tmux has-session -t "$session" &>/dev/null; then
+      found=1
+      break
+    fi
+
+    retries=$(( retries + 1 ))
+    sleep 0.1
+  done
+
+  [ "$found" -eq 1 ]
+}
+
 client_height_no_bar() {
   local tm h="${1:-1}"
   tm=$(tmux display -p '#{client_height}')
@@ -18,7 +54,7 @@ client_height() {
 }
 
 panes_count() {
-  tmux display -p '#{window_panes}' || exit
+  tmux display -p '#{window_panes}' || return
 }
 
 get_last_session_or_default() {
@@ -195,53 +231,46 @@ looks_empty() {
 
 # Switches TMUX sessions (supports tmuxp sessions (lazy))
 tmux_switch() {
-  local session="$1" window="$2" session_created socket retries output res code pid lpid tmp
-  session_created=0
-  if ! tmux has-session -t "$session" &>/dev/null; then
-    if ! command -v tmuxp &>/dev/null; then
-      tmux_alert "No tmuxp installed, and session is lazy loaded!"
-      return 1
-    fi
-    session_created=1
+  local session="$1" window="$2" socket retries output res code pid lpid tmp tmp2 window_exists session_file random_name
+  window_exists="$(tmux list-windows -t "$session" -F '#{window_name}' 2>/dev/null | grep -x "$window")"
+  if [ -z "$window_exists" ]; then
     socket=$(tmux display -p '#{socket_path}')
-    tmp="$(mktemp /tmp/tmux_switch.XXXXXXX)"
-    tmuxp load -S "$socket" -d "$session" &>"$tmp" &
-    pid="$!"
-    ~/.local/scripts/bin/bunny.sh "loading session..." &
-    lpid="$!"
-    wait "$pid"
-    code="$?"
-    kill "$lpid"
-
-    if [ "$code" -ne 0 ]; then
-      cat "$tmp"
-      rm "$tmp"
-      return 1
-    fi
-
-    rm "$tmp"
-  fi
-
-  if [ "$session_created" -eq 1 ]; then
-    retries=0
-    while (( retries < 10 )); do
-      output=$(tmux switch-client -t "$session" \; select-window -t "$window" 2>&1)
-      res="$?"
-      [ "$res" -eq 0 ] && break
-
-      if [ "$res" -ne 0 ] && (( retries >= 9 )); then
-        echo "$output"
-        break
+    if ! tmux has-session -t "$session" &>/dev/null; then
+      if ! command -v tmuxp &>/dev/null; then
+        tmux_alert "No tmuxp installed, and session/window is lazy loaded!"
+        return 1
+      fi
+      _tmuxp_load_session "$socket" "$session" || return
+    else
+      if ! command -v yq &>/dev/null; then
+        tmux_alert "Window is lazy loaded but yq is not installed"
+        return 1
+      fi
+      
+      session_file="$HOME/.local/tmuxp/${session}.yaml"
+      [ ! -f "$session_file" ] && session_file="$HOME/.local/tmuxp/${session}.yml"
+      if [ ! -f "$session_file" ]; then
+        tmux_alert "No config file found for $session"
+        return 1
       fi
 
-      retries=$(( retries + 1 ))
-      sleep 0.1
-    done
-  else
-    output=$(tmux switch-client -t "$session" \; select-window -t "$window" 2>&1)
-    res="$?"
-    if [ "$res" -ne 0 ]; then
-      tmux_alert "$output"
+      tmp="$(mktemp /tmp/tmux_switch.XXXXXX.yaml)" || return
+      tmp2="$(mktemp /tmp/tmux_switch.XXXXXX.yaml)" || return
+      yq ".windows[] | select(.window_name == \"$window\")" "$session_file" > "$tmp2"
+      random_name="$(basename "$tmp")"
+      random_name="$(sed 's|\.|_|g' <<< "$random_name")"
+      yq -n ".session_name=\"$random_name\" | .windows[0] = load(\"$tmp2\")" > "$tmp" || return
+      _tmuxp_load_session "$socket" "$random_name" "$tmp" || return
+      tmux move-window -s "$random_name:1" -t "$session" || return
+      sleep 5
+      rm "$tmp"
+      rm "$tmp2"
     fi
+  fi
+
+  output=$(tmux switch-client -t "$session" \; select-window -t "$window" 2>&1)
+  res="$?"
+  if [ "$res" -ne 0 ]; then
+    tmux_alert "$output"
   fi
 }
