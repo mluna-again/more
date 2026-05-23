@@ -1,15 +1,11 @@
-# .bashrc
+ # shellcheck shell=bash
 
 # Source global definitions
 if [ -f /etc/bashrc ]; then
     . /etc/bashrc
 fi
 
-# User specific environment
-if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]; then
-    PATH="$HOME/.local/bin:$HOME/bin:$PATH"
-fi
-PATH="$HOME/go/bin:$PATH"
+PATH="$HOME/go/bin:$HOME/.local/bin:$PATH"
 export PATH
 
 export EDITOR=nvim
@@ -25,11 +21,25 @@ fi
 unset rc
 
 hostc="$(tput setaf 1)"
+red="$(tput setaf 1)"
 gray="$(tput setaf 5)"
 green="$(tput setaf 2)"
 yellow="$(tput setaf 3)"
 reset="$(tput sgr0)"
-export PS1='\[$gray\][\[$green\]\u\[$yellow\]@\[$hostc\]\H\[$gray\]]\[$reset\] \w $ '
+__status_ps1() {
+  local e="$?"
+  [ "$e" -ne 0 ] && printf "%s%s%s " "$red" "$e" "$reset"
+  return "$e"
+}
+
+__jobs_ps1() {
+  local c e="$?"
+  c="$(jobs | wc -l)"
+  [ "$c" -gt 0 ] && printf "%s%%%s%s " "$yellow" "$c" "$reset"
+  return "$e"
+}
+
+export PS1='$(__jobs_ps1)\[$gray\][\[$green\]\u\[$yellow\]@\[$hostc\]\H\[$gray\]]\[$reset\] \w $(__status_ps1)\$ '
 
 alias v=nvim
 alias t="tmux attach || tmux"
