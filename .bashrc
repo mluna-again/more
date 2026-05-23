@@ -33,7 +33,7 @@ __status_ps1() {
 }
 
 __jobs_ps1() {
-  local c e="$?"
+  local e="$?" c
   c="$(jobs | wc -l)"
   [ "$c" -gt 0 ] && printf "%s%%%s%s " "$yellow" "$c" "$reset"
   return "$e"
