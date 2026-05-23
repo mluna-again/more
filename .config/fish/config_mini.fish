@@ -1,3 +1,18 @@
+function fish_prompt -d "Write out the prompt"
+  set -l s "$status"
+  set -l c (jobs | wc -l)
+  set -l cm
+  if test "$c" -gt 0
+    set cm (set_color yellow)"%$c "(set_color normal)
+  end
+
+  set -l sm
+  if test "$s" != 0
+    set sm (set_color red)"$s "(set_color normal)
+  end
+  printf '%s[%s%s%s@%s%s%s%s] %s %s$ ' "$cm" (set_color green) "$USER" (set_color yellow) (set_color normal) (set_color red) "$hostname" (set_color normal) (prompt_pwd) "$sm"
+end
+
 set -g fish_key_bindings fish_vi_key_bindings
 set -g fish_color_valid_path
 
