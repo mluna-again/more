@@ -52,7 +52,6 @@ set -g status-left-length 50
 set -g status-right-length 50
 set -g status-left '#[bg=#{?client_prefix,#21bf0f,#040d04},fg=#{?client_prefix,#040d04,#21bf0f}] #H #[bg=default,fg=default]:: #S   '
 set -g status-right '%I:%M %p @ #{pane_current_path} '
-set -g window-active-style bg=#040d04
 set -g window-status-format '#[bg=#040d04,fg=#21bf0f] #I #W #{?window_zoomed_flag,* ,}'
 set -g window-status-current-format '#[bg=#21bf0f,fg=#040d04] #I #W #{?window_zoomed_flag,* ,}'
 set -g window-status-separator ''
