@@ -85,4 +85,3 @@ mv "$download_dir"/*.iso . || exit
 
 quickget --create-config "$name" ./*.iso || exit
 
-~/.local/scripts/bin/vm_alias.sh "$name" || exit
