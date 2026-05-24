@@ -64,7 +64,7 @@ trap cleanup EXIT
 
 _dir=( "${dir[@]}" )
 if [ -z "${dir[*]}" ]; then
-  _dir=( "$HOME" )
+  _dir=( "$PWD" )
 fi
 yazi "${_dir[@]}" --chooser-file="$chooser_file" --cwd-file="$cwd_file"
 
