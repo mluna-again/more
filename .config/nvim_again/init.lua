@@ -504,7 +504,6 @@ local treesitter_langs = {
   "cpp",
   "json",
 }
-require('nvim-treesitter').install(treesitter_langs)
 vim.api.nvim_create_autocmd('FileType', {
   pattern = treesitter_langs,
   callback = function(c)
