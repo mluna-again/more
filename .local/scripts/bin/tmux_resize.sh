@@ -11,11 +11,11 @@ if (( count < 2 )); then
 fi
 
 while true; do
-  key=$(tmux command-prompt -1 -p "Resize (hjkl). C-c/q to quit." 'display -p %%')
+  key=$(tmux command-prompt -k -p "Resize (hjkl). C-c/q to quit." 'display -p %%')
   [ -z "$key" ] && exit 0
 
   case "$key" in
-    q)
+    q|Escape|C-c)
       break
       ;;
     k)
