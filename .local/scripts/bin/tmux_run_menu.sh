@@ -19,7 +19,6 @@ REMBER="TMUX: Add sticky note"
 NOTREMBER="TMUX: Remove sticky note"
 CLEAR_PANE="TMUX: clear scrollback buffer"
 CLEAR_TAG="TMUX: remove tag"
-DISPLAY_POPUP="TMUX: display popup"
 REARRANGE_FIRST="Panes: move empty first"
 REARRANGE_LAST="Panes: move empty last"
 BREAK_PANE="Panes: break pane"
@@ -55,7 +54,6 @@ $REARRANGE_FIRST
 $REARRANGE_LAST
 $CLEAR_PANE
 $CLEAR_TAG
-$DISPLAY_POPUP
 $BREAK_PANE
 $JOIN_PANE
 $JOIN_PANES
@@ -97,7 +95,6 @@ case "$response" in
   "$REARRANGE_LAST") ~/.local/scripts/bin/tmux_rearrange_panes.sh last ;;
   "$CLEAR_PANE") tmux clear-history -t .;;
   "$CLEAR_TAG") ~/.local/scripts/bin/tmux_tag_clear.sh;;
-  "$DISPLAY_POPUP") tmux display-popup -EE ;;
   "$BREAK_PANE") tmux break-pane -a ;;
   "$JOIN_PANE") tmux join-pane || true ;;
   "$JOIN_PANES") ~/.local/scripts/bin/tmux_merge_windows.sh;;
