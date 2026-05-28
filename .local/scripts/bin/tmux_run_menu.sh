@@ -19,6 +19,9 @@ REMBER="TMUX: Add sticky note"
 NOTREMBER="TMUX: Remove sticky note"
 CLEAR_PANE="TMUX: clear scrollback buffer"
 CLEAR_TAG="TMUX: remove tag"
+STACK_LEFT="Panes: stack panes to the left"
+STACK_RIGHT="Panes: stack panes to the right"
+UNSTACK="Panes: unstack panes"
 REARRANGE_FIRST="Panes: move empty first"
 REARRANGE_LAST="Panes: move empty last"
 BREAK_PANE="Panes: break pane"
@@ -54,6 +57,9 @@ $REARRANGE_FIRST
 $REARRANGE_LAST
 $CLEAR_PANE
 $CLEAR_TAG
+$STACK_LEFT
+$STACK_RIGHT
+$UNSTACK
 $BREAK_PANE
 $JOIN_PANE
 $JOIN_PANES
@@ -95,6 +101,26 @@ case "$response" in
   "$REARRANGE_LAST") ~/.local/scripts/bin/tmux_rearrange_panes.sh last ;;
   "$CLEAR_PANE") tmux clear-history -t .;;
   "$CLEAR_TAG") ~/.local/scripts/bin/tmux_tag_clear.sh;;
+  "$STACK_LEFT")
+    # shellcheck disable=SC2088
+    tmux bind k run-shell '~/.local/scripts/bin/tmux_stack.sh k'
+    # shellcheck disable=SC2088
+    tmux bind j run-shell '~/.local/scripts/bin/tmux_stack.sh j'
+    tmux set-option -g @stack_at_left 1
+    ;;
+  "$STACK_RIGHT")
+    # shellcheck disable=SC2088
+    tmux bind k run-shell '~/.local/scripts/bin/tmux_stack.sh k'
+    # shellcheck disable=SC2088
+    tmux bind j run-shell '~/.local/scripts/bin/tmux_stack.sh j'
+    tmux set-option -g @stack_at_right 1
+    ;;
+  "$UNSTACK")
+    tmux bind k select-pane -U -Z
+    tmux bind j select-pane -D -Z
+    tmux set-option -gu @stack_at_left
+    tmux set-option -gu @stack_at_right
+    ;;
   "$BREAK_PANE") tmux break-pane -a ;;
   "$JOIN_PANE") tmux join-pane || true ;;
   "$JOIN_PANES") ~/.local/scripts/bin/tmux_merge_windows.sh;;
