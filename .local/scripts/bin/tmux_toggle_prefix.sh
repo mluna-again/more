@@ -9,7 +9,7 @@ is_on() {
 }
 
 enable() {
-  tmux set-option "$OPT_NAME" "#[bg=#{@red},fg=#{@black1}] ${originalprefix} -> ${prefix2} #[bg=default,fg=default]" || return
+  tmux set-option "$OPT_NAME" "#[bg=#{@red},fg=#{@black1}] ${originalprefix} -> ${prefix2} #[bg=default,fg=default] " || return
   tmux set prefix "$prefix2" || return
   tmux set status-position bottom
 }

@@ -5,15 +5,17 @@ note=$(cat ~/.cache/tmux_rember.sh 2>/dev/null)
 
 minwidth="${1:-140}"
 tw="$(tmux display -p '#{client_width}')"
+styles="#[bg=#{@yellow},fg=#{@black2}]"
+reset="#[bg=default,fg=default]"
 
 if [ "$tw" -lt "$minwidth" ]; then
-  echo " N* "
+  echo "${styles} N* ${reset} "
   exit 0
 fi
 
 if [ "${#note}" -gt 30 ]; then
   short_note=$(cut -c 1-30 <<< "$note")
-  echo " ${short_note}... "
+  echo "${styles} ${short_note}... ${reset} "
 else
-  echo " $note "
+  echo "${styles} $note ${reset} "
 fi
