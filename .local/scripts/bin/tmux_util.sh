@@ -241,7 +241,7 @@ tmux_switch() {
         return 1
       fi
       _tmuxp_load_session "$socket" "$session" || return
-    else
+    elif [ -n "$window" ]; then
       if ! command -v yq &>/dev/null; then
         tmux_alert "Window is lazy loaded but yq is not installed"
         return 1
