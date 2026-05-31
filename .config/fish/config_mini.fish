@@ -90,6 +90,18 @@ abbr --add gA git add
 abbr --add gr git reset --soft
 abbr --add gc --set-cursor git commit -m \"%\"
 abbr --add gR git reset --hard
+abbr --add dots yadm
+abbr --add dotss yadm status
+abbr --add dotsa yadm add -u
+abbr --add dotsA yadm add
+abbr --add dotsl "yadm log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+abbr --add dotsC yadm checkout
+abbr --add dotsR yadm reset --hard
+abbr --add dotsp yadm push
+abbr --add dotsd yadm diff
+abbr --add dotsdd yadm diff --cached
+abbr --add dotsc --set-cursor yadm commit -m \"%\"
+abbr --add dotsP yadm pull
 abbr --add mv mv -i
 abbr --add op opencode
 abbr --add doeach "fzf --multi | entr -rp"

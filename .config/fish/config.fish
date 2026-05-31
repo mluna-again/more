@@ -109,6 +109,8 @@ abbr --add dotsR yadm reset --hard
 abbr --add dotsp yadm push
 abbr --add dotsd yadm diff
 abbr --add dotsdd yadm diff --cached
+abbr --add dotsc --set-cursor yadm commit -m \"%\"
+abbr --add dotsP yadm pull
 abbr --add gd git diff
 abbr --add gdd git diff --cached
 abbr --add gl "git log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
