@@ -28,6 +28,7 @@ BREAK_PANE="Panes: break pane"
 JOIN_PANE="Panes: join pane $marked_pane"
 JOIN_PANES="Panes: join window $marked_window"
 CLEAR_PANES="Panes: clear panes"
+PANES_COUNT="Panes: display count"
 CLOSE_EMPTY_PANELS="Panes: close empty panels"
 MAKE_PANES="Panes: make panes"
 SAVE_SESSION="Sessions: save current"
@@ -71,6 +72,7 @@ $SAVER
 $START_APPS
 $STOP_APPS
 $CLEAR_PANES
+$PANES_COUNT
 $TODO
 $MATRIX
 $CLEAR_MARKS
@@ -134,6 +136,7 @@ case "$response" in
   "$START_APPS") ~/.local/scripts/bin/tmux_start_apps.sh ;;
   "$STOP_APPS") ~/.local/scripts/bin/tmux_stop_apps.sh ;;
   "$CLEAR_PANES") ~/.local/scripts/bin/tmux_clear_everypane.sh ;;
+  "$PANES_COUNT") tmux display 'Panes count: #{window_panes}' ;;
   "$TODO") ~/.local/scripts/bin/tmux_goto_todo.sh ;;
   "$MATRIX") ~/.local/scripts/bin/tmux_matrix.sh ;;
   "$MAKE_PANES") ~/.local/scripts/bin/tmux_make_panels.sh ;;
