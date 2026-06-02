@@ -56,5 +56,5 @@ set -g window-status-format '#[bg=#040d04,fg=#21bf0f] #I #W #{?window_zoomed_fla
 set -g window-status-current-format '#[bg=#21bf0f,fg=#040d04] #I #W #{?window_zoomed_flag,* ,}'
 set -g window-status-separator ''
 set -g status-justify left
-set -ga command-alias kse="kill-session"
+set -ga command-alias killsess="kill-session"
 EOF
