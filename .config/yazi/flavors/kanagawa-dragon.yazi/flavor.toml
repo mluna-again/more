@@ -1,4 +1,4 @@
-## Check https://github.com/rebelot/kanagawa.nvim
+# https://github.com/rebelot/kanagawa.nvim (dragon)
 [mgr]
 marker_copied = { fg = "#87a987", bg = "#87a987" }
 marker_cut = { fg = "#c4746e", bg = "#c4746e" }
@@ -42,7 +42,7 @@ unset_alt = { fg = "#c4b28a", bg = "#282727" }
 [status]
 sep_left = { open = "", close = "" }
 sep_right = { open = "", close = "" }
-overall = { fg = "#c5c9c5", bg = "#1D1C19" }
+overall = { fg = "#c5c9c5", bg = "reset" }
 
 progress_label = { fg = "#8ba4b0", bold = true }
 progress_normal = { fg = "#282727", bg = "#181616" }
