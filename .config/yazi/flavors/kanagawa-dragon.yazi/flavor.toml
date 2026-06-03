@@ -21,6 +21,7 @@ border_style = { fg = "#c5c9c5" }
 parent = { fg = "#c4b28a", bg = "#181616" }
 current = { bg = "#c4b28a", fg = "#181616" }
 preview = { fg = "#c4b28a", bg = "#181616" }
+padding = { open = " ", close = " " }
 
 [tabs]
 active = { fg = "#181616", bg = "#8ba4b0" }
