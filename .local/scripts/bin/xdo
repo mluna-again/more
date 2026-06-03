@@ -18,6 +18,7 @@ Options:
   -l <name> | --layout <name>     tmux layout (default: tiled)
   -y | --yes                      don't ask for confirmation (default: no)
   -f FILE | --file FILE           read cmds.xdo file. sets --yes, --killp and --sep @ (every other flag is ignored).
+  --without-id                    don't pass pane_id as arguments to commands when using --file.
   -h | --help                     show this message
 All options should be at the beginning, and the <cmd> starts after the first non-recognized option.
 
@@ -80,6 +81,7 @@ kill_pane=0
 skip_confirmation=0
 layout=tiled
 file=""
+without_id=
 while true; do
   [ -z "$1" ] && break
 
@@ -124,6 +126,10 @@ while true; do
       separator="$1"
       ;;
 
+    --without-id)
+      without_id=1
+      ;;
+
     --help|-h|help)
       usage
       ;;
@@ -157,7 +163,7 @@ if [ -n "$file" ]; then
       # i mean... i tried doing it the "right" way but this just works better
       # the "right" way being using a super complex regex to tried to handle all possible escape scenarios
       cmd="$(sed -E -e 's|%%|__replace__here__you_wouldnt_use_this_would_you|g' -e "s|%|$pane_id|g" -e 's|__replace__here__you_wouldnt_use_this_would_you|%|g' <<< "$cmd")"
-    else
+    elif [ -z "$without_id" ]; then
       cmd="$cmd $pane_id"
     fi
     tmux send-keys -l -t "$pane_id" "$cmd"
