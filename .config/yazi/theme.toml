@@ -1,3 +1,7 @@
+[flavor]
+dark = "kanagawa-dragon"
+light = "kanagawa-dragon"
+
 [icon]
 globs = []
 dirs  = []

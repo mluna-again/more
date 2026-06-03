@@ -1,0 +1,123 @@
+## Check https://github.com/rebelot/kanagawa.nvim
+[mgr]
+marker_copied = { fg = "#87a987", bg = "#87a987" }
+marker_cut = { fg = "#c4746e", bg = "#c4746e" }
+marker_marked = { fg = "#8992a7", bg = "#8992a7" }
+marker_selected = { fg = "#b6927b", bg = "#b6927b" }
+
+cwd = { fg = "#c4b28a" }
+
+find_keyword = { fg = "#b6927b", bg = "#181616" }
+find_position = {}
+
+count_copied = { fg = "#181616", bg = "#87a987" }
+count_cut = { fg = "#181616", bg = "#c4746e" }
+count_selected = { fg = "#181616", bg = "#b6927b" }
+
+border_symbol = " "
+border_style = { fg = "#c5c9c5" }
+
+[indicator]
+parent = { reversed = true }
+current = { reversed = true }
+preview = { reversed = true }
+
+[tabs]
+active = { fg = "#181616", bg = "#8ba4b0" }
+inactive = { fg = "#8ba4b0", bg = "#282727" }
+
+sep_inner = { open = "", close = "" }
+sep_outer = { open = "", close = "" }
+
+
+[mode]
+normal_main = { fg = "#c5c9c5", bg = "#393836" }
+normal_alt = { fg = "#c5c9c5", bg = "#282727" }
+select_main = { fg = "#181616", bg = "#8992a7" }
+select_alt = { fg = "#8992a7", bg = "#282727" }
+unset_main = { fg = "#181616", bg = "#c4b28a" }
+unset_alt = { fg = "#c4b28a", bg = "#282727" }
+
+
+[status]
+sep_left = { open = "", close = "" }
+sep_right = { open = "", close = "" }
+overall = { fg = "#c5c9c5", bg = "#1D1C19" }
+
+progress_label = { fg = "#8ba4b0", bold = true }
+progress_normal = { fg = "#282727", bg = "#181616" }
+progress_error = { fg = "#282727", bg = "#181616" }
+
+perm_type = { fg = "#87a987" }
+perm_read = { fg = "#c4b28a" }
+perm_write = { fg = "#c4746e" }
+perm_exec = { fg = "#8ea4a2" }
+perm_sep = { fg = "#8992a7" }
+
+
+[pick]
+border = { fg = "#949fb5" }
+active = { fg = "#8992a7", bold = true }
+inactive = {}
+
+[input]
+border = { fg = "#949fb5" }
+title = {}
+value = {}
+selected = { reversed = true }
+
+[completion]
+border = { fg = "#949fb5" }
+active = { reversed = true }
+inactive = {}
+
+[tasks]
+border = { fg = "#949fb5" }
+title = {}
+hovered = { fg = "#8992a7" }
+
+[which]
+cols = 2
+separator = " - "
+separator_style = { fg = "#9e9b93" }
+mask = { bg = "#1D1C19" }
+rest = { fg = "#9e9b93" }
+cand = { fg = "#8ba4b0" }
+desc = { fg = "#a6a69c" }
+
+[help]
+on = { fg = "#8ea4a2" }
+run = { fg = "#8992a7" }
+desc = {}
+hovered = { reversed = true, bold = true }
+footer = { fg = "#181616", bg = "#c5c9c5" }
+
+[notify]
+title_info = { fg = "#87a987" }
+title_warn = { fg = "#c4b28a" }
+title_error = { fg = "#c4746e" }
+
+[filetype]
+rules = [
+    # images
+    { mime = "image/*", fg = "#c4b28a" },
+
+    # media
+    { mime = "{audio,video}/*", fg = "#8992a7" },
+
+    # archives
+    { mime = "application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", fg = "#c4746e" },
+
+    # documents
+    { mime = "application/{pdf,doc,rtf,vnd.*}", fg = "#8ea4a2" },
+
+    # broken links
+    { url = "*", is = "orphan", fg = "#c4746e" },
+
+    # executables
+    { url = "*", is = "exec", fg = "#87a987" },
+
+    # fallback
+    { url = "*", fg = "#c5c9c5" },
+    { url = "*/", fg = "#8ba4b0" },
+]
