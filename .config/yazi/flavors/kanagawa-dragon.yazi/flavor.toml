@@ -18,9 +18,9 @@ border_symbol = " "
 border_style = { fg = "#c5c9c5" }
 
 [indicator]
-parent = { reversed = true }
-current = { reversed = true }
-preview = { reversed = true }
+parent = { fg = "#c4b28a", bg = "#181616" }
+current = { bg = "#c4b28a", fg = "#181616" }
+preview = { fg = "#c4b28a", bg = "#181616" }
 
 [tabs]
 active = { fg = "#181616", bg = "#8ba4b0" }
