@@ -15,7 +15,7 @@ selected="$(
     tmux list-commands -F '#{command_list_name} #{command_list_usage}' ;
     tmux show-option -gv command-alias | awk -F= '{printf "%s (alias: %s)\n", $1, $2}' ;
   } | \
-  mina -nobanner -icon "" | \
+  mina -nobanner -icon ":" | \
   head -n 1 | \
   awk '{ if ($0 ~ /\(alias: /) { sub(/.*\(alias: /, ""); sub(/\)$/, ""); print $0 } else { print $1 } }'
 )"
