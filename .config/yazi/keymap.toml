@@ -1,5 +1,15 @@
 [mgr]
 prepend_keymap = [
-	{ on = "<Enter>", run = "enter", desc = "Enter directory" },
-	{ on = "?", run = "help", desc = "Show this message" },
+  { on = "<Enter>", run = "enter", desc = "Enter directory" },
+  { on = "?", run = "help", desc = "Show this message" },
+  { on = "x", run = "remove", desc = "Trash selected files" },
+  { on = "X", run = "remove --permanently", desc = "Permanently delete files" },
+  { on = "d", run = "yank --cut", desc = "Yank selected files (cut)" },
+  { on = "D", run = "unyank", desc = "Cancel the yank status" },
+  { on = "X", run = "remove --permanently", desc = "Permanently delete files" },
+  { on = "{", run = "tab_switch -1 --relative", desc = "Switch to previous tab" },
+  { on = "}", run = "tab_switch 1 --relative", desc = "Switch to next tab" },
+  { on = "[", run = "tab_swap -1", desc = "Swap with previous tab" },
+  { on = "]", run = "tab_swap 1", desc = "Swap with next tab" },
+  { on = "T", run = "plugin toggle-pane max-preview", desc = "Maximize or restore the preview pane" },
 ]

@@ -24,8 +24,8 @@ preview = { fg = "#c4b28a", bg = "#181616" }
 padding = { open = " ", close = " " }
 
 [tabs]
-active = { fg = "#181616", bg = "#8ba4b0" }
-inactive = { fg = "#8ba4b0", bg = "#282727" }
+active = { fg = "#181616", bg = "#c4b28a" }
+inactive = { fg = "#c4b28a", bg = "#282727" }
 
 sep_inner = { open = "", close = "" }
 sep_outer = { open = "", close = "" }
