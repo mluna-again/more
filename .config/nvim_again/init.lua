@@ -144,6 +144,8 @@ vim.pack.add({
 })
 
 require("oil").setup({
+  default_file_explorer = true,
+  use_default_keymaps = false,
   columns = {
     "icon",
     "permissions",
@@ -159,7 +161,17 @@ require("oil").setup({
   constrain_cursor = "name",
   keymaps = {
     ["g?"] = "actions.show_help",
-    ["<CR>"] = "actions.select",
+    ["<CR>"] = {
+      function()
+        local entry = require("oil").get_cursor_entry()
+        if entry.type == "directory" then
+          require("oil").select()
+        end
+      end,
+      mode = "n",
+      desc = "Enter directory"
+    },
+    ["o"] = "actions.select",
     ["<C-t>"] = "actions.select_tab",
     ["<C-p>"] = "actions.preview",
     ["<C-c>"] = "actions.close",
@@ -168,7 +180,7 @@ require("oil").setup({
     ["<C-l>"] = "actions.refresh",
     ["<BS>"] = "actions.parent",
     ["_"] = "actions.open_cwd",
-    ["`"] = "actions.cd",
+    ["´"] = "actions.cd",
     ["~"] = "actions.tcd",
     ["gz"] = { "actions.change_sort", mode = "n" },
     ["gs"] = { function() require("oil").set_sort({{ "size", "desc" }}) end, mode = "n", desc = "Sort by size" },
