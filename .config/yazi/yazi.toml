@@ -1,5 +1,5 @@
 [mgr]
-ratio = [2, 4, 3]
+ratio = [1, 2, 3]
 sort_by = "mtime"
 sort_sensitive = true
 sort_reverse = true
@@ -12,9 +12,9 @@ title_format = "{cwd}"
 scrolloff = 5
 
 [preview]
-max_width = 800
+max_width = 1920
 image_filter = "triangle"
-image_quality = 50
+image_quality = 90
 
 [opener]
 play = [
