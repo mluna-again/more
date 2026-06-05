@@ -12,7 +12,7 @@ title_format = "{cwd}"
 scrolloff = 5
 
 [preview]
-max_width = 1920
+max_width = 2160
 image_filter = "triangle"
 image_quality = 90
 
