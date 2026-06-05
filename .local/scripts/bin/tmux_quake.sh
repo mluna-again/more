@@ -20,4 +20,4 @@ configure_quake_session() {
 
 configure_quake_session
 
-tmux display-popup -y 0 -w 100% -h 50% -E "tmux attach -t quake"
+tmux display-popup -s bg="#282727" -y 0 -w 100% -h 80% -E "tmux attach -t quake"
