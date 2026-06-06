@@ -42,6 +42,7 @@ bind -M insert \cn history-search-forward
 bind -M insert \cb edit_command_buffer
 bind -M insert \cw backward-kill-path-component
 bind -M insert \cc cancel-commandline
+bind -M insert ctrl-shift-d delete-or-exit
 bind --mode insert --sets-mode default jj backward-char repaint
 bind -M insert f1 true
 bind -M insert f2 true
