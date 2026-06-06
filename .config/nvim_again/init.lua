@@ -161,17 +161,7 @@ require("oil").setup({
   constrain_cursor = "name",
   keymaps = {
     ["g?"] = "actions.show_help",
-    ["<CR>"] = {
-      function()
-        local entry = require("oil").get_cursor_entry()
-        if entry.type == "directory" then
-          require("oil").select()
-        end
-      end,
-      mode = "n",
-      desc = "Enter directory"
-    },
-    ["o"] = "actions.select",
+    ["<CR>"] = "actions.select",
     ["<C-t>"] = "actions.select_tab",
     ["<C-p>"] = "actions.preview",
     ["<C-c>"] = "actions.close",
