@@ -3,27 +3,7 @@
 
 .DS_Store
 
-# packer (nvim)
-packer_compiled.lua
-
 Session.vim*
 session.vim*
-
-/scratch-pad.clj
-/scratch-pad.exs
-
-/dev/
-/dev
-/sql/
-/sql
-
-.config/fish/fish_variables
-
-/__START__.sh
-
-.npmrc
-
-/.claude
-CLAUDE.md
 
 selune.sh
