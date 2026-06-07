@@ -1,4 +1,5 @@
 import platform
+from kitty.boss import get_boss
 from kitty.rgb import to_color
 from kitty.fast_data_types import Screen, get_options
 from kitty.tab_bar import (
@@ -26,6 +27,7 @@ ACTIVE_TAB_FG = as_rgb(color_as_int(opts.active_tab_foreground))
 ACTIVE_TAB_BG = as_rgb(color_as_int(opts.active_tab_background))
 INACTIVE_TAB_FG = as_rgb(color_as_int(opts.inactive_tab_foreground))
 INACTIVE_TAB_BG = as_rgb(color_as_int(opts.inactive_tab_background))
+ACCENT = as_rgb(color_as_int(opts.color3))
 BG = as_rgb(color_as_int(opts.background))
 FG = as_rgb(color_as_int(opts.foreground))
 
@@ -72,8 +74,12 @@ def draw_tab(
         screen.cursor.fg = BG
         screen.draw(" "*padd)
 
-        screen.cursor.bg = TAB_INDEX_BG
-        screen.cursor.fg = ACTIVE_TAB_FG
+        if get_boss().mappings.current_keyboard_mode_name == "prefix":
+            screen.cursor.bg = ACCENT
+            screen.cursor.fg = BG
+        else:
+            screen.cursor.bg = TAB_INDEX_BG
+            screen.cursor.fg = ACTIVE_TAB_FG
         screen.draw(right_side)
 
     # idk why do we need to return this but whatever
