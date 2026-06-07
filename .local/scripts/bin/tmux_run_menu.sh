@@ -124,7 +124,7 @@ case "$response" in
     tmux set-option -gu @stack_at_right
     ;;
   "$BREAK_PANE") tmux break-pane -a ;;
-  "$JOIN_PANE") tmux join-pane || true ;;
+  "$JOIN_PANE") tmux join-pane -h || true ;;
   "$JOIN_PANES") ~/.local/scripts/bin/tmux_merge_windows.sh;;
   "$SWITCH_PREFIX") ~/.local/scripts/bin/tmux_toggle_prefix.sh;;
   "$KILL_SERVER") ~/.local/scripts/bin/tmux_kill_server.sh;;
