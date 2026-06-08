@@ -1,40 +1,28 @@
 add_newline = true
 format = "$jobs${custom.fish_private}${custom.icon}$hostname$directory$cmd_duration$status "
 right_format = "$time$git_status$git_branch"
-palette = "kanagawa-dragon"
 command_timeout = 2000
 
-[palettes.kanagawa-dragon]
-grey = "#a6a69c"
-yellow = "#c4b28a"
-black = "#393836"
-black_dark = "#282727"
-black_light = "#625e5a"
-white = "#c5c9c5"
-red = "#c4746e"
-violet = "#8992a7"
-orange = "#b6927b"
-
 [time]
-format = "[ $time ](bg:black_dark fg:white)"
+format = "[ $time ](bg:black fg:bright-white)"
 use_12hr = true
 time_format = '%I:%M %P'
 disabled = false
 
 [status]
-format = "[ $status ](bg:black_dark fg:red)"
+format = "[ $status ](bg:black fg:red)"
 disabled = false
 
 [cmd_duration]
-format = "[ $duration ](bg:orange fg:black)"
+format = "[ $duration ](bg:blue fg:bright-black)"
 disabled = false
 min_time = 3000
 
 [directory]
-format = "[ $path ](bg:black fg:white)"
+format = "[ $path ](bg:bright-black fg:bright-white)"
 
 [hostname]
-format = "[ $hostname ](bg:black_dark fg:white)"
+format = "[ $hostname ](bg:black fg:bright-white)"
 ssh_only = false
 
 [username]
@@ -42,7 +30,7 @@ show_always = true
 format = "$user"
 
 [git_branch]
-format = "[ $branch ](bg:black fg:white)"
+format = "[ $branch ](bg:bright-black fg:bright-white)"
 symbol = "GIT"
 
 [git_status]
@@ -57,17 +45,17 @@ modified = " *"
 staged = " *"
 renamed = " *"
 deleted = " *"
-format = "[$all_status](bg:black fg:red)"
+format = "[$all_status](bg:bright-black fg:red)"
 
 [jobs]
-format = "[ $symbol $number ](bg:violet fg:black)"
+format = "[ $symbol $number ](bg:purple fg:bright-black)"
 number_threshold = 1
 symbol_threshold = 1
 
 [custom.icon]
-format = "[ λ ](bg:black fg:yellow)"
+format = "[ λ ](bg:bright-black fg:yellow)"
 when = 'test -z "$STARSHIP_FISH_PRIVATE_MODE"'
 
 [custom.fish_private]
-format = "[ λ ](bg:yellow fg:black)"
+format = "[ λ ](bg:yellow fg:bright-black)"
 when = 'test -n "$STARSHIP_FISH_PRIVATE_MODE"'
