@@ -2,4 +2,4 @@ new_tab DeeptThought
 launch --hold tmux new-session -A -n null -s void
 
 new_tab ENIAC
-launch --hold ssh eniac
+launch --color=~/.config/kitty/themes/everforest.conf --hold ssh eniac
