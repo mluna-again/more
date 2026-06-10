@@ -3,12 +3,12 @@
 source ~/.local/scripts/bin/tmux_util.sh || exit
 
 is_empty=1
-while read -r cmd; do
-  if ! looks_empty "$cmd"; then
+while read -r pid; do
+  if ! is_pane_empty "$pid"; then
     is_empty=0
     break
   fi
-done < <(tmux list-panes -F '#{pane_current_command}')
+done < <(tmux list-panes -F '#{pane_pid}')
 
 if [ "$is_empty" -eq 1 ]; then
   tmux kill-window

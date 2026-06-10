@@ -220,6 +220,15 @@ tmux_prompt() {
   cat ~/.cache/mina_response
 }
 
+is_pane_empty() {
+  local pane_pid="$1"
+  if ! command -v pgrep >/dev/null; then
+    exit 1
+  fi
+
+  [ -z "$(pgrep -P "$pane_pid")" ]
+}
+
 looks_empty() {
   local shell
   for shell in "${_SHELLS[@]}"; do

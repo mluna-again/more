@@ -2,15 +2,15 @@
 
 source ~/.local/scripts/bin/tmux_util.sh || exit
 
-current_pane_command=$(tmux display -p "#{pane_current_command}")
+current_pane_pid=$(tmux display -p "#{pane_pid}")
 
 panes_with_content=0
 
-while read -r cmd; do
-  if ! looks_empty "$cmd"; then
+while read -r pid; do
+  if ! is_pane_empty "$pid"; then
     (( panes_with_content++ ))
   fi
-done < <(tmux list-panes -F '#{pane_current_command}')
+done < <(tmux list-panes -F '#{pane_pid}')
 
 pane_count=$(tmux list-panes -t . | wc -l)
 
@@ -20,7 +20,7 @@ dokill() {
 
 # there is only one pane with content, and is the current one
 if [ "$panes_with_content" -eq 1 ]; then
-  if ! looks_empty "$current_pane_command"; then
+  if ! is_pane_empty "$current_pane_pid"; then
     dokill
     exit 0
   fi

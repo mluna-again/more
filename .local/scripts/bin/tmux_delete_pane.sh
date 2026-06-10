@@ -2,7 +2,7 @@
 
 source ~/.local/scripts/bin/tmux_util.sh || exit
 
-if looks_empty "$(tmux display -p '#{pane_current_command}')"; then
+if is_pane_empty "$(tmux display -p '#{pane_pid}')"; then
   tmux kill-pane
 else
   response=$(tmux_prompt "Are you sure (kill-pane)?")
