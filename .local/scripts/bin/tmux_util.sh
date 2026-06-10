@@ -231,7 +231,7 @@ looks_empty() {
 
 # Switches TMUX sessions (supports tmuxp sessions (lazy))
 tmux_switch() {
-  local session="$1" window="$2" socket retries output res code pid lpid tmp tmp2 window_exists session_file random_name index
+  local session="$1" window="$2" socket retries output res code pid lpid tmp tmp2 window_exists session_file random_name index win_count
   window_exists="$(tmux list-windows -t "$session" -F '#{window_name}' 2>/dev/null | grep -x "$window")"
   if [ -z "$window_exists" ]; then
     socket=$(tmux display -p '#{socket_path}')
@@ -263,7 +263,12 @@ tmux_switch() {
       random_name="$(sed 's|\.|_|g' <<< "$random_name")"
       yq -n ".session_name=\"$random_name\" | .windows[0] = load(\"$tmp2\")" > "$tmp" || return
       _tmuxp_load_session "$socket" "$random_name" "$tmp" || return
-      tmux move-window -b -s "$random_name:1" -t "$session:$index" || return
+      win_count="$(tmux list-windows -t "$session" | wc -l)"
+      if (( win_count < index )); then
+        tmux move-window -a -s "$random_name:1" -t "$session:$win_count"
+      else
+        tmux move-window -b -s "$random_name:1" -t "$session:$index"
+      fi
       rm "$tmp"
       rm "$tmp2"
     fi
