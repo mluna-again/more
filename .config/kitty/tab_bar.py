@@ -64,6 +64,7 @@ def draw_tab(
         screen.cursor.fg = INACTIVE_TAB_FG
         screen.draw(f" {index} {title} ")
 
+    end = screen.cursor.x
     # draw right side
     if is_last:
         width = screen.columns
@@ -83,4 +84,5 @@ def draw_tab(
         screen.draw(right_side)
 
     # idk why do we need to return this but whatever
-    return screen.cursor.x
+    # R: it makes the mouse events not do funny stuff
+    return end
