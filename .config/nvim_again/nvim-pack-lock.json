@@ -35,6 +35,11 @@
       "src": "https://github.com/rebelot/kanagawa.nvim",
       "version": "'aef7f5c'"
     },
+    "lualine.nvim": {
+      "rev": "221ce6b2d999187044529f49da6554a92f740a96",
+      "src": "https://github.com/nvim-lualine/lualine.nvim",
+      "version": "'221ce6b'"
+    },
     "nvim-cmp": {
       "rev": "a1d504892f2bc56c2e79b65c6faded2fd21f3eca",
       "src": "https://github.com/hrsh7th/nvim-cmp",
