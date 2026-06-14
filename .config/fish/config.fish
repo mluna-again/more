@@ -64,7 +64,7 @@ set -gx ELIXIR_ERL_OPTIONS "-kernel shell_history enabled"
 set -gx ERL_AFLAGS "-kernel shell_history enabled -kernel shell_history_file_bytes 1024000"
 set -gx GOPATH "$HOME/.local/go"
 set -gx SHELLCHECK_OPTS "-e SC2001 -e SC1090"
-set -gx MANPAGER "nvim -c 'set cmdheight=1' '+Man!'"
+set -gx MANPAGER "nvim -c '+Man!'"
 set -gx AUTOSSH_PORT 0
 set -gx POSTING_THEME_DIRECTORY "$HOME/.config/posting/themes"
 set -gx TMUXP_CONFIGDIR "$HOME/.local/tmuxp"
@@ -143,7 +143,6 @@ abbr --add llsblk lsblk -o "NAME,MAJ:MIN,RM,SIZE,RO,FSTYPE,MOUNTPOINT,UUID"
 abbr --add oil nvim -c 'Oil'
 abbr --add --set-cursor oilssh nvim oil-ssh://%/
 abbr --add nv NVIM_APPNAME=bare_nvim nvim
-abbr --add pager $MANPAGER
 abbr --add ss ss -nlput
 abbr --add ympv mpv --script-opts=ytdl_hook-ytdl_path=yt-dlp
 abbr --add gv nvim --listen /tmp/godot.pipe
