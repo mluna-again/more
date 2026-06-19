@@ -1,0 +1,17 @@
+git:
+  pagers:
+    - pager: delta --paging=never
+    - {} # default, no pager used
+gui:
+  sidePanelWidth: 0.2
+  expandedSidePanelWeight: 1
+  enlargedSideViewLocation: top
+  nerdFontsVersion: ""
+  border: bold
+  theme:
+    activeBorderColor:
+      - yellow
+    inactiveBorderColor:
+      - black
+    selectedLineBgColor:
+      - black

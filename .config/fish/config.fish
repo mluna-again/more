@@ -152,6 +152,7 @@ abbr --add kp keepassxc-cli
 abbr --add sql nvim -c DBUI
 abbr --add op opencode
 abbr --add doeach "fzf --multi | entr -rp"
+abbr --add lg lazygit
 
 set fish_cursor_default block
 set fish_cursor_insert block blink
