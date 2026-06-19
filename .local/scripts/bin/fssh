@@ -1,8 +1,12 @@
 #! /usr/bin/env bash
 
-host="$(grep -r -h -i "host\s" ~/.ssh/config ~/.ssh/config.d | awk '$2 != "*" {print $2}' | tr -d ' ' | fzf +m)"
+# vim:set filetype=bash:
+
+query="$1"
+host="$(grep -r -h -i "host\s" ~/.ssh/config ~/.ssh/config.d | awk '$2 != "*" {print $2}' | tr -d ' ' | fzf -1 -q "$query" +m)"
 [ -z "$host" ] && exit 1
 
+echo "Connecting to: $host"
 if [ -n "$KITTY_WINDOW_ID" ]; then
   kitten ssh "$host"
 else
