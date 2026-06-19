@@ -1,0 +1,10 @@
+#! /usr/bin/env bash
+
+host="$(grep -r -h -i "host\s" ~/.ssh/config ~/.ssh/config.d | awk '$2 != "*" {print $2}' | tr -d ' ' | fzf +m)"
+[ -z "$host" ] && exit 1
+
+if [ -n "$KITTY_WINDOW_ID" ]; then
+  kitten ssh "$host"
+else
+  ssh "$host"
+fi
