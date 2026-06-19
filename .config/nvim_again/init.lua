@@ -146,6 +146,7 @@ vim.pack.add({
   { src = "https://github.com/saadparwaiz1/cmp_luasnip", version = "98d9cb5" },
   { src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "4916d65" },
   { src = "https://github.com/nvim-lualine/lualine.nvim", version = "221ce6b" },
+  { src = "https://github.com/lewis6991/gitsigns.nvim", version = "2038c66" },
 })
 
 require("lualine").setup({
@@ -594,6 +595,26 @@ require("cmp").setup.cmdline(':', {
   }),
   matching = { disallow_symbol_nonprefix_matching = false }
 })
+
+require('gitsigns').setup {
+  signs_staged_enable = true,
+  signcolumn = true,
+  watch_gitdir = {
+    follow_files = true
+  },
+  auto_attach = true,
+  attach_to_untracked = false,
+  current_line_blame = true,
+  current_line_blame_opts = {
+    virt_text = true,
+    virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
+    delay = 1000,
+    ignore_whitespace = false,
+    virt_text_priority = 100,
+    use_focus = true,
+  },
+  current_line_blame_formatter = '<author>, <author_time:%R> - <summary> (<abbrev_sha>)',
+}
 
 function enable_lsp_server(server)
   local cmp_caps = require('cmp_nvim_lsp').default_capabilities()
