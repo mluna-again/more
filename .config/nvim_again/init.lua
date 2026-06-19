@@ -87,6 +87,10 @@ vim.api.nvim_create_user_command("W", function()
     cmd = {"go", "fmt", p}
   end
 
+  if ft == "rust" then
+    cmd = {"rustfmt", p}
+  end
+
   if cmd == nil then
     vim.notify(string.format("No formatted configured for %s.", ft), vim.log.levels.ERROR)
     return

@@ -8,7 +8,6 @@ set -g fish_user_paths /usr/local/bin \
     "$HOME/.local/go/bin" \
     "$HOME/.local/bin" \
     "$HOME/.dotnet/tools" \
-    "$HOME/.cargo/bin" \
     "/usr/local/go/bin" \
     "$HOME/.local/scripts/bin" \
     "$HOME/.local/share/bob/nvim-bin" \
@@ -196,4 +195,5 @@ if status is-interactive
   command -vq starship; and starship init fish | source
   command -vq zoxide; and zoxide init fish | source
   command -vq fzf; and fzf --fish | FZF_CTRL_R_COMMAND= FZF_ALT_C_COMMAND= FZF_CTRL_T_COMMAND= source
+  command -vq rust; and source "$HOME/.cargo/env.fish"
 end
