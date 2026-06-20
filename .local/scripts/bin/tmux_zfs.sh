@@ -6,14 +6,14 @@ fi
 
 printf "#[bg=#{@black1},fg=default] "
 zfs list -H -o name,used,available -s name -d 0 -p | \
-  awk '{printf "%s %0.2f\n", $1, ($2/($2+$3))*100}' | \
   awk '{
-  if ($2 >= 90) {
-    printf "%s: #[fg=#{@red}]%s%%#[fg=default] ", $1, $2;
-  } else if ($2 >= 80) {
-    printf "%s: #[fg=#{@yellow}]%s%%#[fg=default] ", $1, $2;
+  usage = (($2 / ($2 + $3)) * 100);
+  if (usage >= 90) {
+    printf "%s: #[fg=#{@red}]%0.2f%%#[fg=default] ", $1, usage;
+  } else if (usage >= 80) {
+    printf "%s: #[fg=#{@yellow}]%0.2f%%#[fg=default] ", $1, usage;
   } else {
-    printf "%s: %s%% ", $1, $2;
+    printf "%s: %0.2f%% ", $1, usage;
   }
 }'
 printf "#[bg=default,fg=default]"
