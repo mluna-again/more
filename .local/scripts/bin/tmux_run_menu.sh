@@ -105,11 +105,11 @@ case "$response" in
   "$NOTREMBER") rm ~/.cache/tmux_rember.sh || true ;;
   "$BUM_TAG")
     if [ "$(tmux show-option -pv allow-set-title)" = off ]; then
-      read -r pane title < <(tmux display -p '#{pane_id} #{pane_title}')
+      read -r pane title description < <(tmux display -p '#{pane_id} #{session_name}:#{window_name}.#{pane_index} #{pane_title}')
     else
       read -r title pane < <(tmux display -p '#{session_name}:#{window_name}.#{pane_index} #{pane_id}')
     fi
-    curl -fSs -X POST -d "{\"pane_id\": \"$pane\", \"title\": \"$title\", \"color\": \"2\"}" "localhost:${BUM_PORT}/new" >/dev/null
+    curl -fSs -X POST -d "{\"pane_id\": \"$pane\", \"title\": \"$title\", \"description\": \"$description\", \"color\": \"2\"}" "localhost:${BUM_PORT}/new" >/dev/null
     ;;
   "$TOGGLE_BORDERS") ~/.local/scripts/bin/tmux_toggle_panel_borders.sh ;;
   "$CMD_BORDERS") ~/.local/scripts/bin/tmux_panel_cmd.sh ;;
