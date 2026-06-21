@@ -21,9 +21,11 @@ REMBER="TMUX: Add sticky note"
 NOTREMBER="TMUX: Remove sticky note"
 BUM_TAG="BUM: Tag pane"
 CLEAR_PANE="TMUX: clear scrollback buffer"
-CLEAR_TAG="TMUX: remove tag"
+CLEAR_TAG="TMUX: remove key tag"
 STACK_LEFT="Panes: stack panes to the left"
 STACK_RIGHT="Panes: stack panes to the right"
+RENAME_PANE="Panes: rename pane"
+RESET_PANE_TITLE="Panes: reset title"
 UNSTACK="Panes: unstack panes"
 REARRANGE_FIRST="Panes: move empty first"
 REARRANGE_LAST="Panes: move empty last"
@@ -64,6 +66,8 @@ $CLEAR_PANE
 $CLEAR_TAG
 $STACK_LEFT
 $STACK_RIGHT
+$RENAME_PANE
+$RESET_PANE_TITLE
 $UNSTACK
 $BREAK_PANE
 $JOIN_PANE
@@ -130,6 +134,10 @@ case "$response" in
     tmux bind j select-pane -D -Z
     tmux set-option -gu @stack_at_left
     tmux set-option -gu @stack_at_right
+    ;;
+  "$RENAME_PANE") ~/.local/scripts/bin/tmux_rename_pane.sh ;;
+  "$RESET_PANE_TITLE")
+    tmux set-option -pu allow-set-title
     ;;
   "$BREAK_PANE") tmux break-pane -a ;;
   "$JOIN_PANE") tmux join-pane -h || true ;;
