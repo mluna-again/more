@@ -11,10 +11,10 @@ ssh_cmd_lines="$(echo "$ssh_cmd" | wc -l)"
 if (( ssh_cmd_lines == 1 )) && [ -n "$ssh_cmd" ]; then
   host="$(awk '{if (NF == 2) {print $2} else {print $3}}' <<< "$ssh_cmd")"
   cmd="$(awk '{print $1}' <<< "$ssh_cmd")"
-  if [ "$cmd" = ssh ]; then
-    ssh -t "$host" -o RemoteCommand="bum -toggle"
-  else
+  if [ "$cmd" = bash ]; then
     vm_ssh.sh "$host" --cmd "bum -toggle"
+  else
+    ssh -t "$host" -o RemoteCommand="bum -toggle"
   fi
 else
   die "Could not infer host to connect to. Expected a *single* window with a cmd with the following format: \`ssh <host>\` or \`bash ~/.local/scripts/bin/vm_ssh.sh <host>\`.\nFound:\n${ssh_cmd:-Nothing}"
