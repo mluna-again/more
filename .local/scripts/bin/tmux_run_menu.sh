@@ -105,7 +105,7 @@ case "$response" in
   "$NOTREMBER") rm ~/.cache/tmux_rember.sh || true ;;
   "$BUM_TAG")
     if [ "$(tmux show-option -pv allow-set-title)" = off ]; then
-      read -r title pane < <(tmux display -p '#{pane_title} #{pane_id}')
+      read -r pane title < <(tmux display -p '#{pane_id} #{pane_title}')
     else
       read -r title pane < <(tmux display -p '#{session_name}:#{window_name}.#{pane_index} #{pane_id}')
     fi
