@@ -22,3 +22,4 @@ set -x
 
 go install github.com/mluna-again/mina@latest || exit
 go install github.com/mluna-again/samurai@latest || exit
+go install github.com/mluna-again/bum@latest || exit
