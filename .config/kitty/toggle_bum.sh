@@ -18,7 +18,11 @@ if [ -n "$closed" ]; then
   exit
 fi
 
-ssh_cmd="$(echo "$root_data" | jq -s -r '. | .[].cmdline | select((. | length) > 1 and ((.[0] | endswith("ssh")) or (.[1] | endswith("vm_ssh.sh")))) | join(" ")' | grep -v '_bum')"
+ssh_cmd="$(echo "$root_data" | jq -s -r '. | .[].cmdline | select((. | length) > 1 and ((.[0] | endswith("ssh")) or (.[1] | endswith("vm_ssh.sh")))) | join(" ")')"
+if [ -z "$ssh_cmd" ]; then
+  kitten @ launch --type window --location first --bias 20 bum -toggle
+  exit
+fi
 ssh_cmd_lines="$(echo "$ssh_cmd" | wc -l)"
 if (( ssh_cmd_lines == 1 )) && [ -n "$ssh_cmd" ]; then
   host="$(awk '{if (NF == 2) {print $2} else {print $3}}' <<< "$ssh_cmd")"
