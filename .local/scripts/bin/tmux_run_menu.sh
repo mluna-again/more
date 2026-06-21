@@ -100,8 +100,8 @@ case "$response" in
   "$REMBER") ~/.local/scripts/bin/tmux_rember_add.sh ;;
   "$NOTREMBER") rm ~/.cache/tmux_rember.sh || true ;;
   "$BUM_TAG")
-    read -r pane < <(tmux display -p '#{session_name}:#{window_name}.#{pane_index}')
-    curl -fSs -X POST -d "{\"pane_id\": \"$pane\", \"title\": \"$pane\", \"color\": \"2\"}" "localhost:${BUM_PORT}/new" >/dev/null
+    read -r title pane < <(tmux display -p '#{session_name}:#{window_name}.#{pane_index} #{pane_id}')
+    curl -fSs -X POST -d "{\"pane_id\": \"$pane\", \"title\": \"$title\", \"color\": \"2\"}" "localhost:${BUM_PORT}/new" >/dev/null
     ;;
   "$TOGGLE_BORDERS") ~/.local/scripts/bin/tmux_toggle_panel_borders.sh ;;
   "$CMD_BORDERS") ~/.local/scripts/bin/tmux_panel_cmd.sh ;;
