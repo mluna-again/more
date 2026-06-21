@@ -2,6 +2,8 @@
 
 source ~/.local/scripts/bin/tmux_util.sh || exit
 
+BUM_PORT=56569
+
 marked_pane=$(tmux list-panes -a -f '#{pane_marked}' -F '(#{session_name}.#{pane_current_command})')
 if [ -z "$marked_pane" ]; then
   marked_pane="(No pane marked)"
@@ -17,6 +19,7 @@ SWITCH_PREFIX="TMUX: switch prefix"
 DUMP_CMDS="TMUX: dump current window commands"
 REMBER="TMUX: Add sticky note"
 NOTREMBER="TMUX: Remove sticky note"
+BUM_TAG="BUM: Tag pane"
 CLEAR_PANE="TMUX: clear scrollback buffer"
 CLEAR_TAG="TMUX: remove tag"
 STACK_LEFT="Panes: stack panes to the left"
@@ -54,6 +57,7 @@ $DUMP_CMDS
 $SWITCH_PREFIX
 $REMBER
 $NOTREMBER
+$BUM_TAG
 $REARRANGE_FIRST
 $REARRANGE_LAST
 $CLEAR_PANE
@@ -95,6 +99,10 @@ case "$response" in
   "$DUMP_CMDS") ~/.local/scripts/bin/tmux_dump_cmds.sh ;;
   "$REMBER") ~/.local/scripts/bin/tmux_rember_add.sh ;;
   "$NOTREMBER") rm ~/.cache/tmux_rember.sh || true ;;
+  "$BUM_TAG")
+    read -r pane < <(tmux display -p '#{session_name}:#{window_name}.#{pane_index}')
+    curl -fSs -X POST -d "{\"pane_id\": \"$pane\", \"title\": \"$pane\", \"color\": \"2\"}" "localhost:${BUM_PORT}/new" >/dev/null
+    ;;
   "$TOGGLE_BORDERS") ~/.local/scripts/bin/tmux_toggle_panel_borders.sh ;;
   "$CMD_BORDERS") ~/.local/scripts/bin/tmux_panel_cmd.sh ;;
   "$PATH_BORDERS") ~/.local/scripts/bin/tmux_panel_path.sh ;;
