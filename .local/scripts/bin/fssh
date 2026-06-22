@@ -7,8 +7,4 @@ host="$(grep -r -h -i "host\s" ~/.ssh/config ~/.ssh/config.d | awk '$2 != "*" {p
 [ -z "$host" ] && exit 1
 
 echo "Connecting to: $host"
-if [ -n "$KITTY_WINDOW_ID" ]; then
-  kitten ssh "$host"
-else
-  ssh "$host"
-fi
+exec ssh "$host"
