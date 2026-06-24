@@ -215,6 +215,8 @@ require("lualine").setup({
     lualine_b = {
       {
         "filename",
+        path = 1,
+        shorting_target = 70,
         icons_enabled = true,
         symbols = {
           modified = "",
