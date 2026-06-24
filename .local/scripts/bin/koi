@@ -40,24 +40,24 @@ fi
 DATE_FMT="+%Y-%m-%dT%H:%M:%S%z"
 NOW=$("$date" -u "$DATE_FMT")
 
-HURL_KOI_NOW=$("$date" -u -d "$NOW" "$DATE_FMT") || exit
-HURL_KOI_YESTERDAY=$("$date" -u -d "$NOW -1 days" "$DATE_FMT") || exit
-HURL_KOI_TOMORROW=$("$date" -u -d "$NOW +1 days" "$DATE_FMT") || exit
-HURL_KOI_TODAY=$("$date" -u -d "$NOW" "$DATE_FMT") || exit
-HURL_KOI_UUID=$(uuidgen) || exit
-HURL_KOI_RANDOM=$RANDOM
-HURL_KOI_LOREM="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-export HURL_KOI_YESTERDAY
-export HURL_KOI_NOW
-export HURL_KOI_TOMORROW
-export HURL_KOI_TODAY
-export HURL_KOI_UUID
-export HURL_KOI_RANDOM
-export HURL_KOI_LOREM
+HURL_VARIABLE_KOI_NOW=$("$date" -u -d "$NOW" "$DATE_FMT") || exit
+HURL_VARIABLE_KOI_YESTERDAY=$("$date" -u -d "$NOW -1 days" "$DATE_FMT") || exit
+HURL_VARIABLE_KOI_TOMORROW=$("$date" -u -d "$NOW +1 days" "$DATE_FMT") || exit
+HURL_VARIABLE_KOI_TODAY=$("$date" -u -d "$NOW" "$DATE_FMT") || exit
+HURL_VARIABLE_KOI_UUID=$(uuidgen) || exit
+HURL_VARIABLE_KOI_RANDOM=$RANDOM
+HURL_VARIABLE_KOI_LOREM="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+export HURL_VARIABLE_KOI_YESTERDAY
+export HURL_VARIABLE_KOI_NOW
+export HURL_VARIABLE_KOI_TOMORROW
+export HURL_VARIABLE_KOI_TODAY
+export HURL_VARIABLE_KOI_UUID
+export HURL_VARIABLE_KOI_RANDOM
+export HURL_VARIABLE_KOI_LOREM
 
 output=$(hurl --include "$FILE") || exit
 
-if grep -iq "content-type: application/json" <<< "$output"; then
+if grep -iq "content-type: .*/json" <<< "$output"; then
   echo "$output" | awk 'headers_end{print} /^\s*$/{headers_end=1}' | jnv
   echo
   echo
