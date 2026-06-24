@@ -47,6 +47,7 @@ TODO="Utilities: TODOs"
 MATRIX="Random: matrix"
 TOGGLE_BORDERS="Borders: toggle"
 CMD_BORDERS="Borders: display running command"
+TITLE_BORDERS="Borders: display title"
 PATH_BORDERS="Borders: display current path"
 MESSAGE_BORDERS="Borders: display current message"
 PRIV_MODE="Utilities: private mode"
@@ -88,6 +89,7 @@ $CLOSE_EMPTY_PANELS
 $MAKE_PANES
 $TOGGLE_BORDERS
 $CMD_BORDERS
+$TITLE_BORDERS
 $PATH_BORDERS
 $MESSAGE_BORDERS
 $PRIV_MODE
@@ -113,6 +115,7 @@ case "$response" in
     ;;
   "$TOGGLE_BORDERS") ~/.local/scripts/bin/tmux_toggle_panel_borders.sh ;;
   "$CMD_BORDERS") ~/.local/scripts/bin/tmux_panel_cmd.sh ;;
+  "$TITLE_BORDERS") ~/.local/scripts/bin/tmux_panel_title.sh ;;
   "$PATH_BORDERS") ~/.local/scripts/bin/tmux_panel_path.sh ;;
   "$MESSAGE_BORDERS") ~/.local/scripts/bin/tmux_panel_message.sh ;;
   "$REARRANGE_FIRST") ~/.local/scripts/bin/tmux_rearrange_panes.sh first ;;
