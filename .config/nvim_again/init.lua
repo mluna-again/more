@@ -75,6 +75,8 @@ vim.api.nvim_create_user_command("W", function()
   vim.cmd("write")
 
   local cmd = nil
+  local msg = nil
+
   if ft == "ruby" then
     cmd = {"rubocop", "--autocorrect-all", "--format", "quiet", "--fail-level", "error", "--stderr", p}
   end
@@ -84,7 +86,12 @@ vim.api.nvim_create_user_command("W", function()
   end
 
   if ft == "go" then
-    cmd = {"go", "fmt", p}
+    if vim.fn.executable("goimports") == 0 then
+      msg = "goimports is not installed, using gofmt"
+      cmd = {"go", "fmt", p}
+    else
+      cmd = {"goimports", "-w", p}
+    end
   end
 
   if ft == "rust" then
@@ -99,6 +106,9 @@ vim.api.nvim_create_user_command("W", function()
   local res = vim.system(cmd, { text = true }):wait()
   vim.cmd("edit")
   if res.code == 0 then
+    if msg ~= nil then
+      vim.notify(msg, vim.log.levels.WARN)
+    end
     return
   end
 
