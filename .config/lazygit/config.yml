@@ -15,3 +15,7 @@ gui:
       - black
     selectedLineBgColor:
       - black
+keybinding:
+  universal:
+    pushFiles: p
+    pullFiles: P
