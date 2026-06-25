@@ -10,7 +10,8 @@ case "$key" in
     ;;
 esac
 
-read -r stacked_r stacked_l < <(tmux display -p '#{@stack_at_right} #{@stack_at_left}')
+read -r stacked_r < <(tmux display -p '#{@stack_at_right}')
+read -r stacked_l < <(tmux display -p '#{@stack_at_left}')
 read -r height at_right at_left < <(tmux display -p '#{client_height} #{pane_at_right} #{pane_at_left}')
 
 if [ "$stacked_l" = 1 ] && [ "$at_left" = 1 ]; then
