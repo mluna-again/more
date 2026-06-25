@@ -20,7 +20,7 @@ stack() {
   tmux bind C-k run-shell '~/.local/scripts/bin/tmux_stack.sh k'
   # shellcheck disable=SC2088
   tmux bind C-j run-shell '~/.local/scripts/bin/tmux_stack.sh j'
-  tmux run-shell '~/.local/scripts/bin/tmux_stack.sh k'
+  tmux run-shell '~/.local/scripts/bin/tmux_stack.sh STAY'
 }
 
 unstack() {

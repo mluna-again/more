@@ -14,6 +14,9 @@ elif [ "$stacked_r" = 1 ] && [ "$at_right" = 1 ]; then
 fi
 
 case "$key" in
+  STAY)
+    tmux resize-pane -y "$remaining_height"
+    ;;
   j)
     tmux select-pane -D
     tmux resize-pane -y "$remaining_height"
