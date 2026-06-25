@@ -22,8 +22,7 @@ NOTREMBER="TMUX: Remove sticky note"
 BUM_TAG="BUM: Tag pane"
 CLEAR_PANE="TMUX: clear scrollback buffer"
 CLEAR_TAG="TMUX: remove key tag"
-STACK_LEFT="Panes: stack panes to the left"
-STACK_RIGHT="Panes: stack panes to the right"
+STACK="Panes: stack panes"
 RENAME_PANE="Panes: rename pane"
 RESET_PANE_TITLE="Panes: reset title"
 UNSTACK="Panes: unstack panes"
@@ -65,8 +64,7 @@ $REARRANGE_FIRST
 $REARRANGE_LAST
 $CLEAR_PANE
 $CLEAR_TAG
-$STACK_LEFT
-$STACK_RIGHT
+$STACK
 $RENAME_PANE
 $RESET_PANE_TITLE
 $UNSTACK
@@ -122,25 +120,32 @@ case "$response" in
   "$REARRANGE_LAST") ~/.local/scripts/bin/tmux_rearrange_panes.sh last ;;
   "$CLEAR_PANE") tmux clear-history -t .;;
   "$CLEAR_TAG") ~/.local/scripts/bin/tmux_tag_clear.sh;;
-  "$STACK_LEFT")
-    # shellcheck disable=SC2088
-    tmux bind k run-shell '~/.local/scripts/bin/tmux_stack.sh k'
-    # shellcheck disable=SC2088
-    tmux bind j run-shell '~/.local/scripts/bin/tmux_stack.sh j'
-    tmux set-option -g @stack_at_left 1
-    ;;
-  "$STACK_RIGHT")
-    # shellcheck disable=SC2088
-    tmux bind k run-shell '~/.local/scripts/bin/tmux_stack.sh k'
-    # shellcheck disable=SC2088
-    tmux bind j run-shell '~/.local/scripts/bin/tmux_stack.sh j'
-    tmux set-option -g @stack_at_right 1
+  "$STACK")
+    read -r right left < <(tmux display -p '#{pane_at_right} #{pane_at_left}')
+    if [ "$right" -eq 1 ]; then
+      # shellcheck disable=SC2088
+      tmux bind k run-shell '~/.local/scripts/bin/tmux_stack.sh k'
+      # shellcheck disable=SC2088
+      tmux bind j run-shell '~/.local/scripts/bin/tmux_stack.sh j'
+      tmux set-option -w @stack_at_right 1
+      tmux run-shell '~/.local/scripts/bin/tmux_stack.sh k'
+    elif [ "$left" -eq 1 ]; then
+      # shellcheck disable=SC2088
+      tmux bind k run-shell '~/.local/scripts/bin/tmux_stack.sh k'
+      # shellcheck disable=SC2088
+      tmux bind j run-shell '~/.local/scripts/bin/tmux_stack.sh j'
+      tmux set-option -w @stack_at_left 1
+      tmux run-shell '~/.local/scripts/bin/tmux_stack.sh k'
+    else
+      tmux_alert "Only panes on the right/left can be stacked."
+    fi
     ;;
   "$UNSTACK")
     tmux bind k select-pane -U -Z
     tmux bind j select-pane -D -Z
-    tmux set-option -gu @stack_at_left
-    tmux set-option -gu @stack_at_right
+    tmux set-option -wu @stack_at_left
+    tmux set-option -wu @stack_at_right
+    tmux resize-pane -y 50%
     ;;
   "$RENAME_PANE") ~/.local/scripts/bin/tmux_rename_pane.sh ;;
   "$RESET_PANE_TITLE")
