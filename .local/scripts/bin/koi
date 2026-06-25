@@ -57,7 +57,7 @@ export HURL_VARIABLE_KOI_LOREM
 
 output=$(hurl --include "$FILE") || exit
 
-if grep -iq "content-type: .*/json" <<< "$output"; then
+if grep -iqE "content-type: .*/.*+?json" <<< "$output"; then
   echo "$output" | awk 'headers_end{print} /^\s*$/{headers_end=1}' | jnv
   echo
   echo
