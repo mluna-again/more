@@ -1,5 +1,7 @@
 #! /usr/bin/env bash
 
+source ~/.local/scripts/bin/tmux_util.sh || exit
+
 stack() {
   read -r right left < <(tmux display -p '#{pane_at_right} #{pane_at_left}')
   if [ "$right" -eq 1 ]; then
@@ -58,4 +60,7 @@ elif [ "$left" -eq 1 ]; then
   else
     stack
   fi
+else
+  tmux_alert "Only panes on the right/left can be stacked."
+  exit 0
 fi
