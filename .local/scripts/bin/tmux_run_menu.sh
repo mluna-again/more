@@ -123,26 +123,29 @@ case "$response" in
   "$STACK")
     read -r right left < <(tmux display -p '#{pane_at_right} #{pane_at_left}')
     if [ "$right" -eq 1 ]; then
-      # shellcheck disable=SC2088
-      tmux bind k run-shell '~/.local/scripts/bin/tmux_stack.sh k'
-      # shellcheck disable=SC2088
-      tmux bind j run-shell '~/.local/scripts/bin/tmux_stack.sh j'
       tmux set-option -w @stack_at_right 1
-      tmux run-shell '~/.local/scripts/bin/tmux_stack.sh k'
     elif [ "$left" -eq 1 ]; then
-      # shellcheck disable=SC2088
-      tmux bind k run-shell '~/.local/scripts/bin/tmux_stack.sh k'
-      # shellcheck disable=SC2088
-      tmux bind j run-shell '~/.local/scripts/bin/tmux_stack.sh j'
       tmux set-option -w @stack_at_left 1
-      tmux run-shell '~/.local/scripts/bin/tmux_stack.sh k'
     else
       tmux_alert "Only panes on the right/left can be stacked."
+    fi
+    if [ "$left" -eq 1 ] || [ "$right" -eq 1 ]; then
+      # shellcheck disable=SC2088
+      tmux bind k run-shell '~/.local/scripts/bin/tmux_stack.sh k'
+      # shellcheck disable=SC2088
+      tmux bind j run-shell '~/.local/scripts/bin/tmux_stack.sh j'
+      # shellcheck disable=SC2088
+      tmux bind C-k run-shell '~/.local/scripts/bin/tmux_stack.sh k'
+      # shellcheck disable=SC2088
+      tmux bind C-j run-shell '~/.local/scripts/bin/tmux_stack.sh j'
+      tmux run-shell '~/.local/scripts/bin/tmux_stack.sh k'
     fi
     ;;
   "$UNSTACK")
     tmux bind k select-pane -U -Z
     tmux bind j select-pane -D -Z
+    tmux bind C-k select-pane -U -Z
+    tmux bind C-j select-pane -D -Z
     tmux set-option -wu @stack_at_left
     tmux set-option -wu @stack_at_right
     tmux resize-pane -y 50%
