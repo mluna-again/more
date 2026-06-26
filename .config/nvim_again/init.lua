@@ -1,5 +1,6 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
+vim.opt.scrolloff = 999
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.mouse = "a"
