@@ -15,7 +15,8 @@ set -g fish_user_paths /usr/local/bin \
     "$HOME/Scripts" \
     "$HOME/.local/zig" \
     "$HOME/.local/odin" \
-    "$HOME/.local/bin/spotless"
+    "$HOME/.local/bin/spotless" \
+    "$HOME/.cargo/bin"
 
 function fish_title
   set -l cmd "$argv[1]"
@@ -196,5 +197,5 @@ if status is-interactive
   command -vq starship; and starship init fish | source
   command -vq zoxide; and zoxide init fish | source
   command -vq fzf; and fzf --fish | FZF_CTRL_R_COMMAND= FZF_ALT_C_COMMAND= FZF_CTRL_T_COMMAND= source
-  command -vq cargo; and source "$HOME/.cargo/env.fish"
+  command -vq cargo; and test -f "$HOME/.cargo/env.fish"; and source "$HOME/.cargo/env.fish"
 end
