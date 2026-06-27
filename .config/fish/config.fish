@@ -196,5 +196,5 @@ if status is-interactive
   command -vq starship; and starship init fish | source
   command -vq zoxide; and zoxide init fish | source
   command -vq fzf; and fzf --fish | FZF_CTRL_R_COMMAND= FZF_ALT_C_COMMAND= FZF_CTRL_T_COMMAND= source
-  command -vq rust; and source "$HOME/.cargo/env.fish"
+  command -vq cargo; and source "$HOME/.cargo/env.fish"
 end
