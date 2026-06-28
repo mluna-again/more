@@ -18,7 +18,6 @@ Options:
   -l <name> | --layout <name>     tmux layout (default: tiled)
   -y | --yes                      don't ask for confirmation (default: no)
   -f FILE | --file FILE           read cmds.xdo file. sets --yes, --killp and --sep @ (every other flag is ignored).
-  --without-id                    don't pass pane_id as arguments to commands when using --file.
   -h | --help                     show this message
 All options should be at the beginning, and the <cmd> starts after the first non-recognized option.
 
@@ -81,7 +80,6 @@ kill_pane=0
 skip_confirmation=0
 layout=tiled
 file=""
-without_id=
 while true; do
   [ -z "$1" ] && break
 
@@ -126,10 +124,6 @@ while true; do
       separator="$1"
       ;;
 
-    --without-id)
-      without_id=1
-      ;;
-
     --help|-h|help)
       usage
       ;;
@@ -147,28 +141,32 @@ if [ -n "$file" ]; then
   original_pane=$(tmux display -p '#{pane_id}') || exit
   while read -r line; do
     line="$(echo "$line" | xargs)" # trim
-    if [[ "$line" =~ ^\s*#.*$ ]] || [[ "$line" =~ ^\s*-----.*$ ]]; then
+    if [[ "$line" =~ ^\s*#.*$ ]]; then
+      continue
+    fi
+    if [[ "$line" =~ ^\s*-----.*$ ]]; then
+      pane_id=$(tmux new-window -P -F '#{pane_id}' -c "$dir" fish -P)
+      if [ -z "$pane_id" ]; then
+        echo something went wrong, pane_id empty >&2
+        exit
+      fi
       continue
     fi
 
     dir=$(awk -F@ '{print $1}' <<< "$line")
     cmd=$(awk -F@ '{print $2}' <<< "$line")
-    pane_id=$(tmux split-window -P -F '#{pane_id}' -c "$dir" fish -P)
     if [ -z "$pane_id" ]; then
-      echo something went wrong, pane_id empty >&2
-      exit
+      pane_id=$(tmux split-window -P -F '#{pane_id}' -c "$dir" fish -P)
+      if [ -z "$pane_id" ]; then
+        echo something went wrong, pane_id empty >&2
+        exit
+      fi
     fi
 
-    if [[ "$cmd" =~ % ]]; then
-      # i mean... i tried doing it the "right" way but this just works better
-      # the "right" way being using a super complex regex to tried to handle all possible escape scenarios
-      cmd="$(sed -E -e 's|%%|__replace__here__you_wouldnt_use_this_would_you|g' -e "s|%|$pane_id|g" -e 's|__replace__here__you_wouldnt_use_this_would_you|%|g' <<< "$cmd")"
-    elif [ -z "$without_id" ]; then
-      cmd="$cmd $pane_id"
-    fi
     tmux send-keys -l -t "$pane_id" "$cmd"
     tmux send-keys -t "$pane_id" Enter
     tmux select-layout "$layout"
+    unset pane_id
   done < "$file"
   tmux kill-pane -t "$original_pane" \; select-layout "$layout"
   exit
