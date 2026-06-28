@@ -109,7 +109,7 @@ copy_files() {
   done < <(eval "$cmd")
 }
 
-replicate_dirs "$src" "$dest"
-copy_files "$src" "$dest"
+replicate_dirs "$src" "$dest" || exit
+copy_files "$src" "$dest" || exit
 
 echo "done"
