@@ -3,7 +3,9 @@
 BACKUP_MUSIC_DIR="${BACKUP_MUSIC_DIR:-$HOME/Music/}"
 BACKUP_MUSIC_DEST="${BACKUP_MUSIC_DEST:-/pond/root/Music}"
 BACKUP_MUSIC_OPUS="${BACKUP_MUSIC_OPUS:-$HOME/Opus/}"
-BACKUP_MUSIC_REMOTE="${BACKUP_MUSIC_REMOTE:-aztlan:/tank/root}"
+if [ -z "${BACKUP_MUSIC_REMOTE+x}" ]; then
+  BACKUP_MUSIC_REMOTE="aztlan:/tank/root"
+fi
 
 # shellcheck disable=SC2120
 usage() {
@@ -59,7 +61,7 @@ album="$(find "$BACKUP_MUSIC_DIR" -maxdepth 1 -mindepth 1 -type d -exec basename
 rm_original=( rm -rf "$(readlink -m "${BACKUP_MUSIC_DIR}/$album" )" )
 rm_backup=( rm -rf "$(readlink -m "${BACKUP_MUSIC_DEST}/$album" )" )
 rm_opus=( rm -rf "$(readlink -m "${BACKUP_MUSIC_OPUS}/$album" )" )
-if [ "$BACKUP_MUSIC_REMOTE" != " " ]; then
+if [ -n "$BACKUP_MUSIC_REMOTE" ]; then
   remote_host=$(awk -F: '{print $1}' <<< "$BACKUP_MUSIC_REMOTE") || exit
   remote_dir=$(awk -F: '{print $2}' <<< "$BACKUP_MUSIC_REMOTE") || exit
   remote_dir="$(readlink -m "$remote_dir")"
@@ -69,7 +71,7 @@ echo "================ About to run ================"
 echo "${rm_original[@]}"
 echo "${rm_backup[@]}"
 echo "${rm_opus[@]}"
-[ "$BACKUP_MUSIC_REMOTE" != " " ] && echo "${rm_remote[@]}"
+[ -n "$BACKUP_MUSIC_REMOTE" ] && echo "${rm_remote[@]}"
 echo "================ About to run ================"
 
 printf "Continue? [N/y] "
@@ -81,7 +83,7 @@ fi
 "${rm_original[@]}" || exit
 "${rm_backup[@]}" || exit
 "${rm_opus[@]}" || exit
-if [ "$BACKUP_MUSIC_REMOTE" != " " ]; then
+if [ -n "$BACKUP_MUSIC_REMOTE" ]; then
   # shellcheck disable=SC2029
   ssh "$remote_host" " rm -rf \"${remote_dir}/$album\" "  || exit
 fi
