@@ -7,9 +7,9 @@ if [ -n "$match" ] ; then
   match_count="$(echo "$match" | wc -l)"
   if (( match_count == 1 )) && [[ "$match" =~ ^.*tailscale.*$ ]]; then
     if tailscale status --self &>/dev/null; then
-      echo "#[bg=#{@yellow},fg=#{@black2}] VPN #[bg=default,fg=default] "
+      echo "#[bg=#{@yellow},fg=#{@black2}] tailscale #[bg=default,fg=default] "
     fi
   else
-    echo "#[bg=#{@yellow},fg=#{@black2}] VPN #[bg=default,fg=default] "
+    echo "#[bg=#{@yellow},fg=#{@black2}] $match #[bg=default,fg=default] "
   fi
 fi
