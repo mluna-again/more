@@ -144,19 +144,22 @@ if [ -n "$file" ]; then
     if [[ "$line" =~ ^\s*#.*$ ]]; then
       continue
     fi
+    open_window=
     if [[ "$line" =~ ^\s*-----.*$ ]]; then
-      pane_id=$(tmux new-window -P -F '#{pane_id}' -c "$dir" fish -P)
-      if [ -z "$pane_id" ]; then
-        echo something went wrong, pane_id empty >&2
-        exit
-      fi
+      open_window=1
       continue
     fi
 
     dir=$(awk -F@ '{print $1}' <<< "$line")
     cmd=$(awk -F@ '{print $2}' <<< "$line")
-    if [ -z "$pane_id" ]; then
+    if [ -z "$open_window" ]; then
       pane_id=$(tmux split-window -P -F '#{pane_id}' -c "$dir" fish -P)
+      if [ -z "$pane_id" ]; then
+        echo something went wrong, pane_id empty >&2
+        exit
+      fi
+    else
+      pane_id=$(tmux new-window -P -F '#{pane_id}' -c "$dir" fish -P)
       if [ -z "$pane_id" ]; then
         echo something went wrong, pane_id empty >&2
         exit
