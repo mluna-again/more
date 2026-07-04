@@ -144,7 +144,6 @@ if [ -n "$file" ]; then
     if [[ "$line" =~ ^\s*#.*$ ]]; then
       continue
     fi
-    open_window=
     if [[ "$line" =~ ^\s*-----.*$ ]]; then
       open_window=1
       continue
@@ -166,6 +165,7 @@ if [ -n "$file" ]; then
       fi
     fi
 
+    open_window=
     tmux send-keys -l -t "$pane_id" "$cmd"
     tmux send-keys -t "$pane_id" Enter
     tmux select-layout "$layout"
