@@ -104,6 +104,14 @@ abbr --add dotsP yadm pull
 abbr --add mv mv -i
 abbr --add op opencode
 abbr --add doeach "fzf --multi | entr -rp"
+function y
+	set tmp (mktemp -t "yazi-cwd.XXXXXX")
+	command yazi $argv --cwd-file="$tmp"
+	if read -z cwd < "$tmp"; and [ "$cwd" != "$PWD" ]; and test -d "$cwd"
+		builtin cd -- "$cwd"
+	end
+	command rm -f -- "$tmp"
+end
 
 function mkcdir
   set -l dir "$argv[1]"

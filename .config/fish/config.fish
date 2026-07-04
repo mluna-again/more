@@ -154,6 +154,14 @@ abbr --add sql nvim -c DBUI
 abbr --add op opencode
 abbr --add doeach "fzf --multi | entr -rp"
 abbr --add lg lazygit
+function y
+	set tmp (mktemp -t "yazi-cwd.XXXXXX")
+	command yazi $argv --cwd-file="$tmp"
+	if read -z cwd < "$tmp"; and [ "$cwd" != "$PWD" ]; and test -d "$cwd"
+		builtin cd -- "$cwd"
+	end
+	command rm -f -- "$tmp"
+end
 
 set fish_cursor_default block
 set fish_cursor_insert block blink
