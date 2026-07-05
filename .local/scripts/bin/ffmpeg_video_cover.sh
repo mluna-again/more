@@ -116,7 +116,7 @@ if ! original_hash="$(ffmpeg -i "$video_backup" -map 0:V -map 0:a -c copy -f md5
   exit 1
 fi
 
-ffmpeg -y -i "$video_backup" -i "$cover" -map 1 -map 0 -c copy -disposition:0 attached_pic "$out" || exit
+ffmpeg -y -i "$video_backup" -i "$cover" -map 1 -map '0:V?' -map '0:a?' -map '0:d?' -map '0:s?' -map '0:t?' -c copy -disposition:0 attached_pic "$out" || exit
 cp "$out" "$video" || exit
 if ! new_hash="$(ffmpeg -i "$out" -map 0:V -map 0:a -c copy -f md5 - 2>/dev/null)"; then
   echo "Could not calculate new md5 hash" >&2
