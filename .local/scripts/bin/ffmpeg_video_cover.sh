@@ -7,6 +7,7 @@ Usage:
 $ ${0##*/} <video> <cover>
 
 Add cover to a video.
+<cover> can be a link.
 
 Flags:
   --help | -h      show this message
@@ -22,6 +23,30 @@ EOF
   exit 1
 }
 
+maybe_download_cover() {
+  local tmpcover tmpcover_out ua
+  ua="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36"
+
+  if [ -f "$cover" ]; then
+    return 0
+  fi
+
+  if [[ "$cover" =~ ^http.*$ ]]; then
+    tmpcover="$(mktemp /tmp/ffmpeg_video_cover.XXXXXX.jpg)" || return 1
+    printf "Downloading cover... "
+    if curl -A "$ua" -H 'Accept-Language: en' -fSs -L "$cover" -o "$tmpcover"; then
+      tmpcover_out="$(basename "$tmpcover")"
+      mv "$tmpcover" "$tmpcover_out" || return 1
+      cover="$tmpcover_out"
+      echo "OK."
+      delete_cover=1
+    else
+      return 1
+    fi
+  fi
+}
+
+delete_cover=
 video=
 cover=
 while true; do
@@ -37,6 +62,7 @@ while true; do
         video="$1"
       elif [ -z "$cover" ]; then
         cover="$1"
+        maybe_download_cover || exit
       fi
   esac
 
@@ -69,10 +95,14 @@ cleanup() {
   if rm -f "$out"; then
     echo "OK."
   fi
+
+  if [ -n "$delete_cover" ]; then
+    rm -f "$cover"
+  fi
 }
 trap cleanup EXIT
 
 mv "$video" "$video_backup" || exit
-ffmpeg -y -i "$video_backup" -i "$cover" -map 1 -map 0 -c copy -disposition:0 attached_pic "$out" || exit
+ffmpeg -y -i "$video_backup" -i "$cover" -map 1 -map 0:V -c copy -disposition:0 attached_pic "$out" || exit
 cp "$out" "$video" || exit
 done=1
