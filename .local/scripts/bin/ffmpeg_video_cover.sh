@@ -32,11 +32,13 @@ maybe_download_cover() {
   fi
 
   if [[ "$cover" =~ ^http.*$ ]]; then
-    tmpcover="$(mktemp /tmp/ffmpeg_video_cover.XXXXXX.jpg)" || return 1
+    tmpcover="$(mktemp /tmp/ffmpeg_video_cover.XXXXXX)" || return 1
     printf "Downloading cover... "
     if curl -A "$ua" -H 'Accept-Language: en' -fSs -L "$cover" -o "$tmpcover"; then
       tmpcover_out="$(basename "$tmpcover")"
-      mv "$tmpcover" "$tmpcover_out" || return 1
+      tmpcover_out="${tmpcover_out}.jpg"
+      magick -format jpg "$tmpcover" "$tmpcover_out" || return 1
+      rm -f "$tmpcover"
       cover="$tmpcover_out"
       echo "OK."
       delete_cover=1
