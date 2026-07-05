@@ -79,7 +79,8 @@ done
 done=
 video_backup="${video}.bak"
 
-out="$(mktemp /tmp/ffmpeg_video_cover.XXXXXXX.mp4)" || exit
+extension="${video##*.}"
+out="$(mktemp "ffmpeg_video_cover.XXXXXXX.${extension}")" || exit
 cleanup() {
   if [ -z "$done" ]; then
     printf "Restoring backup... "
