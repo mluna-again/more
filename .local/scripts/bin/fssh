@@ -1,6 +1,11 @@
 #! /usr/bin/env bash
 
 # vim:set filetype=bash:
+if ! command -v fzf &>/dev/null; then
+  echo fzf not installed
+  read -n 1
+  exit 1
+fi
 
 query="$1"
 host="$(grep -r -h -i "host\s" ~/.ssh/config ~/.ssh/config.d | awk '$2 != "*" {print $2}' | tr -d ' ' | fzf -1 -q "$query" +m)"
