@@ -189,7 +189,7 @@ end
 set --erase _asdf_shims
 
 if test -n "$fish_private_mode"
-  set -x STARSHIP_FISH_PRIVATE_MODE "$fish_private_mode"
+  set -x fish_private_mode "$fish_private_mode"
 end
 
 if status is-interactive

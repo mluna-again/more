@@ -1,5 +1,5 @@
 add_newline = true
-format = "$jobs${custom.fish_private}${custom.icon}$hostname$directory$cmd_duration$status "
+format = "$jobs${custom.fish_private}${custom.icon}$hostname$directory$cmd_duration$status${custom.yazi} "
 right_format = "$time$git_status$git_branch"
 command_timeout = 2000
 
@@ -54,8 +54,12 @@ symbol_threshold = 1
 
 [custom.icon]
 format = "[ λ ](bg:bright-black fg:yellow)"
-when = 'test -z "$STARSHIP_FISH_PRIVATE_MODE"'
+when = 'test -z "$fish_private_mode"'
 
 [custom.fish_private]
 format = "[ λ ](bg:yellow fg:bright-black)"
-when = 'test -n "$STARSHIP_FISH_PRIVATE_MODE"'
+when = 'test -n "$fish_private_mode"'
+
+[custom.yazi]
+format = "[ 󰇥 ](bg:yellow fg:black)"
+when = 'test -n "$__YAZI_OPEN"'
