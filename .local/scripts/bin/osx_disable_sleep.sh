@@ -1,13 +1,18 @@
 #! /usr/bin/env bash
 
-set -x
+if [[ "$EUID" -ne 0 ]]; then
+  echo run this as sudo >&2
+  exit 1
+fi
 
 cleanup() {
-  sudo pmset -b disablesleep 0
+  pmset -b disablesleep 0 || return
+  echo sleep enabled
 }
 trap cleanup EXIT
 
-sudo pmset -b disablesleep 1
+pmset -b disablesleep 1 || exit
+echo sleep disabled
 
 while true; do
   sleep 100000
