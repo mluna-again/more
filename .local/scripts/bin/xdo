@@ -141,15 +141,16 @@ if [ -n "$file" ]; then
   original_pane=$(tmux display -p '#{pane_id}') || exit
   while read -r line; do
     line="$(echo "$line" | xargs)" # trim
+    skip_cmd=
     if [[ "$line" =~ ^\s*#.*$ ]]; then
-      continue
+      skip_cmd=1
     fi
     if [[ "$line" =~ ^\s*-----.*$ ]]; then
       open_window=1
       continue
     fi
 
-    dir=$(awk -F@ '{print $1}' <<< "$line")
+    dir=$(awk -F@ '{print $1}' <<< "$line" | sed 's|^\s*#\s*||')
     cmd=$(awk -F@ '{print $2}' <<< "$line")
     if [ -z "$open_window" ]; then
       pane_id=$(tmux split-window -P -F '#{pane_id}' -c "$dir" fish -P)
@@ -165,11 +166,14 @@ if [ -n "$file" ]; then
       fi
     fi
 
-    open_window=
     tmux send-keys -l -t "$pane_id" "$cmd"
-    tmux send-keys -t "$pane_id" Enter
+    if [ -z "$skip_cmd" ]; then
+      tmux send-keys -t "$pane_id" Enter
+    fi
     tmux select-layout "$layout"
     unset pane_id
+    open_window=
+    skip_cmd=
   done < "$file"
   tmux kill-pane -t "$original_pane" \; select-layout "$layout"
   exit
