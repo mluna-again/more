@@ -1,4 +1,5 @@
 .envrc
+.envrc.*
 .env
 
 .DS_Store
