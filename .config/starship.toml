@@ -1,5 +1,5 @@
 add_newline = true
-format = "$jobs${custom.fish_private}${custom.icon}$hostname$directory$cmd_duration$status${custom.yazi} "
+format = "$jobs${custom.fish_private}${custom.icon}$hostname$directory$cmd_duration$status${custom.yazi}${custom.temp} "
 right_format = "$time$git_status$git_branch"
 command_timeout = 2000
 
@@ -63,3 +63,7 @@ when = 'test -n "$fish_private_mode"'
 [custom.yazi]
 format = "[ 󰇥 ](bg:yellow fg:black)"
 when = 'test -n "$__YAZI_OPEN"'
+
+[custom.temp]
+format = "[ TEMP ](bg:purple fg:black)"
+when = 'test -n "$__TEMPDO"'
