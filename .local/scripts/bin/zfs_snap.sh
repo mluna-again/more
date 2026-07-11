@@ -63,4 +63,4 @@ for set in "${sets[@]}"; do
   sudo zfs snap "${set}@${now}" || exit
 done
 
-echo done
+echo "done."
