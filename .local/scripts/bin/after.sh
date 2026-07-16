@@ -14,7 +14,7 @@ Supports -- to separate ${0##*/} flags from <cmd> flags.
 
 Flags:
   --help | -h                       show this message
-  --pgrep <patter> | -e <pattern>   instead of reading PIDs from STDIN, run \`pgrep -f "<pattern>"\` until it returns a non-zero code. can be supplied multiple times.
+  --pgrep <patter> | -e <pattern>   instead of reading PIDs from STDIN, run \`pgrep "<pattern>"\` until it returns a non-zero code. can be supplied multiple times.
                                     if supplied multiple times, wait until all patterns return a non-zero code.
   --sleep <n> | -s <n>              how much time to sleep (in seconds) between --pgrep checks. default 30
 EOF
@@ -83,16 +83,18 @@ if [ "${#expressions[@]}" -eq 0 ] && [ -z "$procs_found" ]; then
   usage No procs and no --pgrep args given
 fi
 
-log="after-$(date +%Y-%m-%dT%H:%M:%S%z).log"
-: > "$log"
+
+_log="$(mktemp)" || exit
+cleanup() { rm -f "$_log" ; }
+trap cleanup EXIT
 
 if [ -n "$procs_found" ]; then
-  tail --follow /dev/null "${procs[@]}" 2>>"$log" || exit
+  tail --follow /dev/null "${procs[@]}" 2>>"$_log" || exit
 else
   while true; do
     still_alive=
     for e in "${expressions[@]}"; do
-      if pgrep -f "$e" >/dev/null 2>>"$log"; then
+      if pgrep "$e" >/dev/null 2>>"$_log"; then
         still_alive=1
         break
       fi
@@ -108,5 +110,7 @@ else
   unset still_alive
 fi
 
+log="after-$(date +%Y-%m-%dT%H:%M:%S%z).log"
+cat "$_log" > "$log"
 echo "Running ${cmd[*]}" >> "$log"
 "${cmd[@]}" &>> "$log"
