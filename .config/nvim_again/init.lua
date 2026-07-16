@@ -158,6 +158,7 @@ vim.pack.add({
   { src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "4916d65" },
   { src = "https://github.com/nvim-lualine/lualine.nvim", version = "221ce6b" },
   { src = "https://github.com/lewis6991/gitsigns.nvim", version = "2038c66" },
+  { src = "https://github.com/fatih/vim-go", version = "551d423" },
 })
 
 require("lualine").setup({
