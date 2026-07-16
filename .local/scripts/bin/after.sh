@@ -83,13 +83,16 @@ if [ "${#expressions[@]}" -eq 0 ] && [ -z "$procs_found" ]; then
   usage No procs and no --pgrep args given
 fi
 
+log="after-$(date +%Y-%m-%dT%H:%M:%S%z).log"
+: > "$log"
+
 if [ -n "$procs_found" ]; then
-  tail --follow /dev/null "${procs[@]}" || exit
+  tail --follow /dev/null "${procs[@]}" 2>>"$log" || exit
 else
   while true; do
     still_alive=
     for e in "${expressions[@]}"; do
-      if pgrep -f "$e" >/dev/null; then
+      if pgrep -f "$e" >/dev/null 2>>"$log"; then
         still_alive=1
         break
       fi
@@ -105,6 +108,5 @@ else
   unset still_alive
 fi
 
-log="after-$(date +%Y-%m-%dT%H:%M:%S%z).log"
-echo "Running ${cmd[*]}" > "$log"
+echo "Running ${cmd[*]}" >> "$log"
 "${cmd[@]}" &>> "$log"
