@@ -18,22 +18,6 @@ set -g fish_user_paths /usr/local/bin \
     "$HOME/.local/bin/spotless" \
     "$HOME/.cargo/bin"
 
-function fish_title
-  set -l cmd "$argv[1]"
-  if test -z "$cmd"
-    set cmd fish
-  end
-
-  if test -z "$TMUX"
-    echo "$cmd"
-    return
-  end
-
-  set cmd (string trim "$cmd")
-
-  echo "[$(date +'%I:%M %p')] $cmd @ $PWD"
-end
-
 bind -M insert \ce end-of-line
 bind -M insert \ca beginning-of-line
 bind -M insert \ck accept-autosuggestion

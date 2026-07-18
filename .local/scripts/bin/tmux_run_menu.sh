@@ -16,7 +16,7 @@ fi
 
 KILL_SERVER="TMUX: kill server"
 SWITCH_PREFIX="TMUX: switch prefix"
-DUMP_CMDS="TMUX: dump current window commands"
+DUMP_SESSION="TMUX: dump current session"
 REMBER="TMUX: Add sticky note"
 NOTREMBER="TMUX: Remove sticky note"
 BUM_TAG="BUM: Tag pane"
@@ -54,7 +54,7 @@ AUTISM="Random: autism"
 
 items=$(cat - <<EOF | sort -h
 $KILL_SERVER
-$DUMP_CMDS
+$DUMP_SESSION
 $SWITCH_PREFIX
 $REMBER
 $NOTREMBER
@@ -102,7 +102,7 @@ fi
 [ -z "$response" ] && exit 0
 
 case "$response" in
-  "$DUMP_CMDS") ~/.local/scripts/bin/tmux_dump_cmds.sh ;;
+  "$DUMP_SESSION") ~/.local/scripts/bin/tmux_session_dump.sh ;;
   "$REMBER") ~/.local/scripts/bin/tmux_rember_add.sh ;;
   "$NOTREMBER") rm ~/.cache/tmux_rember.sh || true ;;
   "$BUM_TAG")
