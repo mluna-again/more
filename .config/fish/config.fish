@@ -18,6 +18,15 @@ set -g fish_user_paths /usr/local/bin \
     "$HOME/.local/bin/spotless" \
     "$HOME/.cargo/bin"
 
+function fish_title
+  if test -z "$argv"
+    echo fish
+    return 0
+  end
+
+  echo "$argv"
+end
+
 bind -M insert \ce end-of-line
 bind -M insert \ca beginning-of-line
 bind -M insert \ck accept-autosuggestion

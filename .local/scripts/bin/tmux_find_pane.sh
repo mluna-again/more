@@ -3,7 +3,7 @@
 source ~/.local/scripts/bin/tmux_util.sh || exit
 
 target=$(
-  tmux list-panes -F '#{pane_id} #{?pane_title,#{pane_title},#{pane_current_command} @ #{pane_current_path}}' | \
+  tmux list-panes -a -F '#{pane_id} #{pane_current_command} @ #{pane_current_path}' | \
     mina -title="Find pane" -icon="" -nth=1,-1 | \
     awk '{print $1}'
 )
