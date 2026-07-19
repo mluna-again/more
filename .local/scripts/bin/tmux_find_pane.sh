@@ -9,4 +9,4 @@ target=$(
 )
 [ -z "$target" ] && exit 0
 
-tmux select-pane -t "$target"
+tmux switch-client -t "$target"
