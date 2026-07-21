@@ -38,6 +38,7 @@ SAVE_SESSION="Sessions: save current"
 EDIT_SESSION="Sessions: edit current"
 KILL_SESSION="Sessions: kill session"
 DELETE_SESSION="Sessions: delete session"
+NEW_SESSION="Sessions: new session"
 SAVER="Utilities: screen saver"
 START_APPS="Automation: start applications"
 STOP_APPS="Automation: Stop applications"
@@ -73,6 +74,7 @@ $SAVE_SESSION
 $EDIT_SESSION
 $KILL_SESSION
 $DELETE_SESSION
+$NEW_SESSION
 $SAVER
 $START_APPS
 $STOP_APPS
@@ -102,7 +104,7 @@ fi
 [ -z "$response" ] && exit 0
 
 case "$response" in
-  "$DUMP_SESSION") ~/.local/scripts/bin/tmux_session_dump.sh ;;
+  "$DUMP_SESSION") ~/.local/scripts/bin/tmux_dump_cmds.sh ;;
   "$REMBER") ~/.local/scripts/bin/tmux_rember_add.sh ;;
   "$NOTREMBER") rm ~/.cache/tmux_rember.sh || true ;;
   "$BUM_TAG")
@@ -136,6 +138,7 @@ case "$response" in
   "$EDIT_SESSION") ~/.local/scripts/bin/tmux_session_edit.sh;;
   "$KILL_SESSION") ~/.local/scripts/bin/tmux_session_kill.sh;;
   "$DELETE_SESSION") ~/.local/scripts/bin/tmux_session_delete.sh;;
+  "$NEW_SESSION") ~/.local/scripts/bin/tmux_session_dump.sh;;
   "$SAVER") ~/.local/scripts/bin/tmux_samurai.sh ;;
   "$START_APPS") ~/.local/scripts/bin/tmux_start_apps.sh ;;
   "$STOP_APPS") ~/.local/scripts/bin/tmux_stop_apps.sh ;;

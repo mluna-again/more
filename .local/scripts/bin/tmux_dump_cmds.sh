@@ -4,14 +4,10 @@ source ~/.local/scripts/bin/tmux_util.sh || exit
 
 # Dumps current window's panes commands.
 # This only works if your shell is correctly setting the title with the running command + args.
-# This script assumes the following format: [<date>] <cmd> <args> @ <path>
+# This script assumes the following format: <cmd> [<args>...]
 # Outputs the following: <path>@<cmd> <args>
 
-cmds=$(
-  tmux list-panes -F '#{pane_title}' | \
-    sed 's|\[.*\]||' | \
-    awk -F@ '{ gsub(/^ */, "", $1); gsub(/ *$/, "", $1); gsub(/^ */, "", $2); gsub(/ *$/, "", $2); printf "%s@%s\n", $2, $1 }'
-)
+cmds=$(tmux list-panes -F '#{pane_current_path}@#{pane_title}')
 
 if [ -z "$cmds" ]; then
   tmux_alert "Could not retrieve CMDs"
