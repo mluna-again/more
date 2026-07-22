@@ -85,6 +85,10 @@ while true; do
   shift
 done
 
+if [ "${#cmd[@]}" -eq 0 ]; then
+  usage Missing cmd
+fi
+
 procs=()
 if [ "${#expressions[@]}" -eq 0 ]; then
   while read -r pid; do
