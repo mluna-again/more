@@ -58,7 +58,7 @@ while true; do
     --wait|-w)
       shift
       sleep_time="$1"
-      if ! [[ "$sleep_time" =~ ^[0-9]+$ ]]; then
+      if ! [[ "$sleep_time" =~ ^[0-9]+$ ]] && [ "$sleep_time" != random ]; then
         usage Invalid --wait value
       fi
       ;;
