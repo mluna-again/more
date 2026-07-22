@@ -11,7 +11,7 @@ Run <cmd> <n> times, or until it returns 0 status code.
 Flags:
   --help | -h              show this message
   --retries <n> | -n <n>   number of retries. default: 5
-  --wait <n> | -w <n>      number, in seconds, to wait between retries. default: 3
+  --wait <n> | -w <n>      number, in seconds, to wait between retries. a special value of 'random' will select a random number between 0 and 60 each time. default: 3
 
 Examples:
   $ retry.sh -w 300 -n 10 -- curl "\$link" -o /tmp/some_website_index.html # Try 10 times to download \$link, and sleep 5 minutes between each retry
@@ -83,7 +83,12 @@ while (( i < retries )); do
   [ "$last_code" -eq 0 ] && break
 
   if ! (( i + 1 >= retries )); then
-    sleep "$sleep_time"
+    if [ "$sleep_time" = random ]; then
+      _time="$(( RANDOM % 60 ))"
+      sleep "$_time"
+    else
+      sleep "$sleep_time"
+    fi
   fi
   (( i++ ))
 done
