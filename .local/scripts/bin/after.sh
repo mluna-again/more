@@ -106,6 +106,8 @@ fi
 
 
 _log="$(mktemp)" || exit
+# this warning is bugged, says the function is not used but it is
+# shellcheck disable=SC2329
 cleanup() { rm -f "$_log" ; }
 trap cleanup EXIT
 
