@@ -1,5 +1,7 @@
 #! /usr/bin/env bash
 
+script_name="${0##*/}"
+
 # shellcheck disable=SC2120
 usage() {
   cat - <<EOF
@@ -145,7 +147,6 @@ else
   unset still_alive
 fi
 
-log="after-$(date +%Y-%m-%dT%H:%M:%S%z).log"
 {
   cat "$_log"
   echo "----------------------------"
@@ -156,5 +157,6 @@ log="after-$(date +%Y-%m-%dT%H:%M:%S%z).log"
   echo "  --wait ${wait_time}"
   echo "----------------------------"
   echo "OUTPUT:"
-} > "$log"
-"${cmd[@]}" &>> "$log"
+} |& logger -t "$script_name"
+"${cmd[@]}" |& logger -t "$script_name"
+echo | logger -t "$script_name"
