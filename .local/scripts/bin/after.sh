@@ -60,7 +60,7 @@ while true; do
 
     --pgrep|-e)
       shift
-      expressions=( "$1" )
+      expressions+=( "$1" )
       ;;
 
     -w|--wait)
