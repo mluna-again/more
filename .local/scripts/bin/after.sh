@@ -159,4 +159,7 @@ fi
   echo "OUTPUT:"
 } |& logger -t "$script_name"
 "${cmd[@]}" |& tee /dev/tty | logger -t "$script_name"
+status="${PIPESTATUS[0]}"
 echo | logger -t "$script_name"
+
+exit "$status"
