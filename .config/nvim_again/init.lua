@@ -95,6 +95,10 @@ vim.api.nvim_create_user_command("W", function()
     end
   end
 
+  if ft == "sql" then
+    cmd = {"sqlfluff", "fix", "--dialect", "postgres", "--show-lint-violations", "--quiet", "--disable-progress-bar", p}
+  end
+
   if ft == "rust" then
     cmd = {"rustfmt", p}
   end
@@ -113,7 +117,7 @@ vim.api.nvim_create_user_command("W", function()
     return
   end
 
-  vim.notify(res.stderr, vim.log.levels.ERROR)
+  vim.notify(res.stdout .. "\n" .. res.stderr, vim.log.levels.ERROR)
 end, {})
 
 vim.api.nvim_create_user_command("SessionSave", function()
