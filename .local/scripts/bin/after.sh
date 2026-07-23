@@ -158,5 +158,5 @@ fi
   echo "----------------------------"
   echo "OUTPUT:"
 } |& logger -t "$script_name"
-"${cmd[@]}" |& logger -t "$script_name"
+"${cmd[@]}" |& tee /dev/tty | logger -t "$script_name"
 echo | logger -t "$script_name"
