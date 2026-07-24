@@ -21,6 +21,11 @@ vim.opt.fillchars = {eob = " "}
 vim.opt.foldenable = false
 vim.wo.foldmethod = "expr"
 
+vim.g.go_gopls_enabled = false
+vim.g.go_mod_fmt_autosave = false
+vim.g.go_fmt_autosave = false
+vim.g.go_imports_autosave = false
+
 -- Default LSP keybinds
 vim.keymap.del({"n", "v"}, "gra")
 vim.keymap.del({"n"}, "gri")
