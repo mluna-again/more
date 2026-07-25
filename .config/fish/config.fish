@@ -87,6 +87,10 @@ set -gx FZF_DEFAULT_OPTS '--ellipsis=...
   --bind="down:preview-down,up:preview-up,ctrl-a:select-all"
   --no-scrollbar'
 
+function _dotdot
+  echo "$argv[1]/%"
+end
+abbr --add dotdot --position anywhere --regex '.*\.\.+$' --function _dotdot --set-cursor=%
 abbr --add cd.. cd ..
 abbr --add cd- cd -
 abbr --add v nvim
