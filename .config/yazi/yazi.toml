@@ -7,9 +7,9 @@ sort_dir_first = false
 linemode = "mtime"
 show_hidden = true
 show_symlink = true
-mouse_events = []
 title_format = "{cwd}"
 scrolloff = 5
+mouse_events = ["click", "scroll", "touch", "move"]
 
 [preview]
 max_width = 2160
