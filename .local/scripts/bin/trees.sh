@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-_WORKTREES="$HOME/Trees"
+_WORKTREES="$PWD/.worktrees"
 
 stderr() {
   echo "$*" 1>&2
@@ -11,18 +11,26 @@ check_git() {
     stderr "Not inside a Git Repo."
     exit 1
   fi
+
+  if ! grep -q .worktrees .gitignore; then
+    stderr "You don't have .worktrees ignored"
+    exit 1
+  fi
 }
 
 usage() {
   cat - <<EOF
 Usage:
-$ trees.sh <command>
+$ trees.sh <command> [<arg>]
 
 Commands:
-  list, l, ls      lists available worktrees
-  create, c        creates a new worktree
-  remove, rm       removes a worktree
-  dir              print the path to a worktree. useful like this: cd (trees.sh dir)
+  list, l, ls           lists available worktrees
+  create, c [<name>]    creates a new worktree
+  remove, rm [<name>]   removes a worktree
+  dir [<name>]          print the path to a worktree. useful like this: cd (trees.sh dir)
+
+Flags:
+  --help | -h    show this message
 EOF
   exit 1
 }
