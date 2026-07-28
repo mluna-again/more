@@ -13,13 +13,12 @@ check_git() {
   fi
 
   if ! grep -q .worktrees .gitignore; then
-    stderr "You don't have .worktrees ignored"
-    exit 1
+    stderr "[WARN] You don't have .worktrees ignored"
   fi
 }
 
 usage() {
-  cat - <<EOF
+  cat - <<EOF >&2
 Usage:
 $ trees.sh <command> [<arg>]
 
@@ -27,7 +26,7 @@ Commands:
   list, l, ls           lists available worktrees
   create, c [<name>]    creates a new worktree
   remove, rm [<name>]   removes a worktree
-  dir [<name>]          print the path to a worktree. useful like this: cd (trees.sh dir)
+  cd [<name>]          print the path to a worktree. useful like this: cd (trees.sh cd)
 
 Flags:
   --help | -h    show this message
@@ -57,7 +56,7 @@ done
 [ -z "$action" ] && usage
 
 case "$action" in
-  dir)
+  cd)
     check_git
     if [ -f .git ]; then
       repo=$(awk -F': ' '{print $2}' .git | sed 's|\.git.*||') || exit
@@ -86,7 +85,6 @@ case "$action" in
 
   create|c)
     check_git
-    base=$(basename "$(pwd)") || exit
     tree_name="${action_arg}"
     if [ -z "$tree_name" ]; then
       printf "Name: "
@@ -112,17 +110,18 @@ case "$action" in
       exit 1
     fi
 
-    printf "\nName: %s\nBranch: %s\nPath: %s/%s/%s\n\nContinue? [N/y] " "$tree_name" "$branch" "$_WORKTREES" "$base" "$tree_name"
+    printf "\nName: %s\nBranch: %s\nPath: %s/%s\n\nContinue? [N/y] " "$tree_name" "$branch" "$_WORKTREES" "$tree_name"
     read -r response || exit
     [ "${response,,}" != y ] && exit 1
 
     if git rev-parse --verify "$branch" &>/dev/null; then
-      git worktree add "${_WORKTREES}/$base/$tree_name" --checkout "$branch" || exit
+      git worktree add "${_WORKTREES}/$tree_name" --checkout "$branch" || exit
     else
-      git worktree add "${_WORKTREES}/$base/$tree_name" -b "$branch" || exit
+      git worktree add "${_WORKTREES}/$tree_name" -b "$branch" || exit
     fi
 
-    echo "${_WORKTREES}/$base/$tree_name"
+    echo
+    echo "${_WORKTREES}/$tree_name"
     ;;
 
   remove|rm)
@@ -132,7 +131,7 @@ case "$action" in
       echo "$repo"
       exit 1
     fi
-    trees=$(find "$_WORKTREES" -maxdepth 2 -mindepth 2 -type d | sed "s|${_WORKTREES}/||")
+    trees=$(find "$_WORKTREES" -maxdepth 2 -mindepth 1 -type d | sed "s|${_WORKTREES}/||")
     if [ -z "$trees" ]; then
       stderr "No worktrees found."
       exit 1
