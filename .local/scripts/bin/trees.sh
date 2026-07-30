@@ -2,25 +2,38 @@
 
 _WORKTREES="$PWD/.worktrees"
 
-stderr() {
-  echo "$*" 1>&2
+error() {
+  tput setab 1
+  tput setaf 0
+  printf " ERR " >&2
+  tput sgr0
+  echo " $* " >&2
+}
+
+warn() {
+  tput setab 3
+  tput setaf 0
+  printf " WARN " >&2
+  tput sgr0
+  echo " $* " >&2
 }
 
 check_git() {
   if [ ! -d .git ] && [ ! -f .git ]; then
-    stderr "Not inside a Git Repo."
+    error "Not inside a Git Repo."
     exit 1
   fi
 
   if ! git check-ignore -q .worktrees/; then
-    stderr "[WARN] You don't have .worktrees ignored"
+    warn "You don't have .worktrees ignored"
   fi
 }
 
+# shellcheck disable=SC2120
 usage() {
   cat - <<EOF >&2
 Usage:
-$ trees.sh <command> [<arg>]
+$ ${0##*/}
 
 Commands:
   list, l, ls           lists available worktrees
@@ -31,9 +44,15 @@ Commands:
 Flags:
   --help | -h    show this message
 EOF
+  if [ "$#" -gt 0 ]; then
+    echo
+    error "$*"
+  fi
   exit 1
 }
 
+action=
+action_arg=
 while true; do
   [ -z "$1" ] && break
 
@@ -53,14 +72,14 @@ while true; do
 
   shift
 done
-[ -z "$action" ] && usage
+[ -z "$action" ] && usage Missing action
 
 case "$action" in
   cd)
     check_git
     if [ -f .git ]; then
       repo=$(awk -F': ' '{print $2}' .git | sed 's|\.git.*||') || exit
-      stderr "Inside Worktree. Going back to original repo."
+      error "Inside Worktree. Going back to original repo."
       echo "$repo"
       exit 0
     fi
@@ -92,7 +111,7 @@ case "$action" in
     fi
     tree_name=$(sed 's| |_|g' <<< "$tree_name")
     if [ -z "$tree_name" ]; then
-      stderr "Name required. Bye."
+      error "Name required. Bye."
       exit 1
     fi
 
@@ -106,7 +125,7 @@ case "$action" in
       branch="$response"
     fi
     if [ -z "$branch" ]; then
-      stderr "Branch required. Bye."
+      error "Branch required. Bye."
       exit 1
     fi
 
@@ -128,12 +147,12 @@ case "$action" in
   remove|rm)
     if [ -f .git ]; then
       repo=$(awk -F': ' '{print $2}' .git | sed 's|\.git.*||') || exit
-      stderr "Inside Worktree. Go back to the original repo and try again."
+      error "Inside Worktree. Go back to the original repo and try again."
       exit 1
     fi
     trees=$(find "$_WORKTREES" -maxdepth 1 -mindepth 1 -type d | sed "s|${_WORKTREES}/||")
     if [ -z "$trees" ]; then
-      stderr "No worktrees found."
+      error "No worktrees found."
       exit 1
     fi
 
@@ -142,7 +161,7 @@ case "$action" in
 
     branch=$(git -C "${_WORKTREES}/$tree" branch --show-current) || exit
     if [ -z "$branch" ]; then
-      stderr "Could not fetch branch."
+      error "Could not fetch branch."
       exit 1
     fi
 
@@ -160,6 +179,6 @@ case "$action" in
     ;;
 
   *)
-    echo "Invalid action: $action" >&2
+    usage "Invalid action: $action"
     ;;
 esac
