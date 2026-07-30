@@ -12,7 +12,7 @@ check_git() {
     exit 1
   fi
 
-  if ! grep -q .worktrees .gitignore; then
+  if ! git check-ignore -q .worktrees/; then
     stderr "[WARN] You don't have .worktrees ignored"
   fi
 }
@@ -110,6 +110,7 @@ case "$action" in
       exit 1
     fi
 
+    tree_name=$(sed 's|[ /]|_|g' <<< "$tree_name") # i do this *after* assigning branch, i want to preserve the branch name
     printf "\nName: %s\nBranch: %s\nPath: %s/%s\n\nContinue? [N/y] " "$tree_name" "$branch" "$_WORKTREES" "$tree_name"
     read -r response || exit
     [ "${response,,}" != y ] && exit 1
@@ -128,10 +129,9 @@ case "$action" in
     if [ -f .git ]; then
       repo=$(awk -F': ' '{print $2}' .git | sed 's|\.git.*||') || exit
       stderr "Inside Worktree. Go back to the original repo and try again."
-      echo "$repo"
       exit 1
     fi
-    trees=$(find "$_WORKTREES" -maxdepth 2 -mindepth 1 -type d | sed "s|${_WORKTREES}/||")
+    trees=$(find "$_WORKTREES" -maxdepth 1 -mindepth 1 -type d | sed "s|${_WORKTREES}/||")
     if [ -z "$trees" ]; then
       stderr "No worktrees found."
       exit 1
