@@ -35,13 +35,13 @@ check_git() {
 usage() {
   cat - <<EOF >&2
 Usage:
-$ ${0##*/}
+$ ${0##*/} <command> [<arg>]
 
 Commands:
   list, l, ls           lists available worktrees
   create, c [<name>]    creates a new worktree
   remove, rm [<name>]   removes a worktree
-  cd [<name>]          print the path to a worktree. useful like this: cd (trees.sh cd)
+  cd [<name>]           print the path to a worktree. useful like this: cd (trees.sh cd)
 
 Flags:
   --help | -h    show this message
