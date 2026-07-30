@@ -8,6 +8,7 @@ error() {
   printf " ERR " >&2
   tput sgr0
   echo " $* " >&2
+  echo
 }
 
 warn() {
@@ -16,6 +17,7 @@ warn() {
   printf " WARN " >&2
   tput sgr0
   echo " $* " >&2
+  echo
 }
 
 check_git() {
