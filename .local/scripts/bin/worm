@@ -1,0 +1,105 @@
+#! /usr/bin/env bash
+
+# vim:set filetype=bash:
+
+error() {
+  tput setab 1
+  tput setaf 0
+  printf " ERROR "
+  tput sgr0
+  echo " $*"
+}
+
+if ! command -v fzf &>/dev/null; then
+  error fzf is not installed
+  exit 1
+fi
+
+# shellcheck disable=SC2120
+usage() {
+  cat - <<EOF
+Usage:
+$ ${0##*/} <action> [<file>...]
+$ ${0##*/} push # Opens fzf to select files to send to the vault
+$ ${0##*/} pop # If only one file is on the vault, send it back. Otherwise open fzf to select them.
+
+Sends a file to a secret location (\$XDG_DATA_HOME). Files in the secret location can be send back.
+
+Available actions:
+  push [<file>...]           sends (moves) files to another location
+  pop                        moves files back
+  ls                         ls vault
+
+Flags:
+  --help | -h      show this message
+EOF
+  if [ "$#" -gt 0 ]; then
+    echo
+    error "$*"
+  fi
+  exit 1
+}
+
+action=
+files=()
+while true; do
+  [ -z "$1" ] && break
+
+  case "$1" in
+    --help|-h)
+      usage
+      ;;
+
+    *)
+      if [ -z "$action" ]; then
+        action="$1"
+      else
+        files+=( "$1" )
+      fi
+      ;;
+  esac
+
+  shift
+done
+
+blackhole="${XDG_DATA_HOME}"
+[ -z "$blackhole" ] && blackhole="$HOME/.local/share"
+blackhole="$blackhole/worm"
+
+if [ ! -d "$blackhole" ]; then
+  mkdir "$blackhole" || exit
+fi
+
+[ -z "$action" ] && usage action required
+
+case "$action" in
+  ls)
+    ls "$blackhole"
+    ;;
+  push)
+    if [ "${#files[@]}" -eq 0 ]; then
+      mapfile -t tosend < <(fzf -m)
+      [ "${#tosend[@]}" -eq 0 ] && exit 1
+
+      mv -v -i "${tosend[@]}" "$blackhole" || exit
+    else
+      mv -v -i "${files[@]}" "$blackhole" || exit
+    fi
+    ;;
+  pop)
+    file_count="$(find "$blackhole" -mindepth 1 | wc -l)"
+    if (( file_count == 0 )); then
+      error no files in vault
+      exit 1
+    elif (( file_count == 1 )); then
+      mv -v -i "$blackhole"/* . || exit
+    else
+      mapfile -t torec < <(find "$blackhole" -mindepth 1 | sed "s|$blackhole/||" | fzf -m)
+      [ "${#torec[@]}" -eq 0 ] && exit 1
+      ( p="$PWD" ; cd "$blackhole" && mv -v -i "${torec[@]}" "$p" ; ) || exit
+    fi
+    ;;
+  *)
+    usage invalid action
+    ;;
+esac
