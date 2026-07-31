@@ -19,7 +19,7 @@ fi
 usage() {
   cat - <<EOF
 Usage:
-$ ${0##*/} <action> [<file>...]
+$ ${0##*/} [<action>] [<file>...]
 $ ${0##*/} push # Opens fzf to select files to send to the vault
 $ ${0##*/} pop # If only one file is on the vault, send it back. Otherwise open fzf to select them.
 
@@ -28,7 +28,7 @@ Sends a file to a secret location (\$XDG_DATA_HOME). Files in the secret locatio
 Available actions:
   push [<file>...]           sends (moves) files to another location
   pop                        moves files back
-  ls                         ls vault
+  ls                         ls vault (default action)
 
 Flags:
   --help | -h      show this message
@@ -70,8 +70,7 @@ if [ ! -d "$blackhole" ]; then
   mkdir "$blackhole" || exit
 fi
 
-[ -z "$action" ] && usage action required
-
+[ -z "$action" ] && action=ls
 case "$action" in
   ls)
     ls "$blackhole"
