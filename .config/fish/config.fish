@@ -95,7 +95,6 @@ abbr --add cd.. cd ..
 abbr --add cd- cd -
 abbr --add v nvim
 abbr --add t tmux new-session -A -n null -s void
-abbr --add sel selune
 abbr --add pg pgcli -h 127.0.0.1 -u postgres
 abbr --add dots yadm
 abbr --add dotss yadm status
@@ -124,31 +123,16 @@ abbr --add gA git add
 abbr --add gr git reset --soft
 abbr --add gc --set-cursor git commit -m \"%\"
 abbr --add gR git reset --hard
-abbr --add gofmt go fmt ./...
 abbr --add dateiso date +"%Y-%m-%dT%H:%M:%S%z"
 abbr --add emacs "emacsclient -a '' -c --tty"
 abbr --add doom '~/.config/emacs/bin/doom'
-abbr --add setup-idf source "$HOME/esp/esp-idf/export.fish"
-abbr --add esp idf.py
 abbr --add rsync rsync -avhbu --info=progress2
 abbr --add p fish -P
-abbr --add un podman unshare
-abbr --add work SHELL=/usr/bin/fish toolbox enter work
 abbr --add mv mv -i
-abbr --add rubydocs gem rdoc --all --ri --no-rdoc
 abbr --add llsblk lsblk -o "NAME,MAJ:MIN,RM,SIZE,RO,FSTYPE,MOUNTPOINT,UUID"
-abbr --add oil nvim -c 'Oil'
-abbr --add --set-cursor oilssh nvim oil-ssh://%/
-abbr --add nv NVIM_APPNAME=bare_nvim nvim
 abbr --add ss ss -nlput
-abbr --add ympv mpv --script-opts=ytdl_hook-ytdl_path=yt-dlp
-abbr --add gv nvim --listen /tmp/godot.pipe
-abbr --add r bin/rails
-abbr --add rd bin/dev
-abbr --add rc bin/rails console
 abbr --add kp keepassxc-cli
 abbr --add sql nvim -c DBUI
-abbr --add op opencode
 abbr --add doeach "fzf --multi | entr -rp"
 abbr --add lg lazygit
 function y
