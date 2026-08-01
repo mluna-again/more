@@ -117,13 +117,12 @@ case "$action" in
       repo=$(awk -F': ' '{print $2}' .git | sed 's|\.git.*||') || exit
       error "Inside Worktree. Going back to original repo."
       echo "$repo"
-      exit 0
+      exit 1
     fi
 
     response=$(git worktree list | fzf -1 -q "$action_arg" | awk '{print $1}')
     if [ -z "$response" ]; then
-      pwd
-      exit 0
+      exit 1
     fi
 
     hooks cd
@@ -135,7 +134,7 @@ case "$action" in
     if [ -f .git ]; then
       repo=$(awk -F': ' '{print $2}' .git | sed 's|\.git.*||') || exit
       git -C "$repo" worktree list
-      exit
+      exit 0
     fi
 
     hooks list
