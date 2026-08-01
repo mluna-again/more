@@ -158,7 +158,7 @@ case "$action" in
       exit 1
     fi
 
-    printf "Git branch [%s|fzf|<other>]: " "$tree_name"
+    printf "Git branch [DEFAULT(%s)|fzf|<other>]: " "$tree_name"
     read -r response || exit
     if [ "$response" = fzf ]; then
       branch=$(git branch --sort=-committerdate -a --format='%(refname:short)' | fzf +m)
