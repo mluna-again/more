@@ -1,4 +1,4 @@
-add_newline = true
+add_newline = false
 format = "$jobs${custom.fish_private}${custom.icon}$hostname$directory$cmd_duration$status${custom.yazi}${custom.temp} "
 right_format = "$time$git_status$git_branch"
 command_timeout = 2000

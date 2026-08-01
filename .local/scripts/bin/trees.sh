@@ -7,7 +7,7 @@ error() {
   tput setaf 0
   printf " ERR " >&2
   tput sgr0
-  echo " $* " >&2
+  printf " %s " "$*" >&2
   echo
 }
 
@@ -16,7 +16,7 @@ warn() {
   tput setaf 0
   printf " WARN " >&2
   tput sgr0
-  echo " $* " >&2
+  printf " %s " "$*" >&2
   echo
 }
 
@@ -25,7 +25,7 @@ debug() {
   tput setaf 0
   printf " DEBUG " >&2
   tput sgr0
-  echo " $* " >&2
+  printf " %s " "$*" >&2
   echo
 }
 
