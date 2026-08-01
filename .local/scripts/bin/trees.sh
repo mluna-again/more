@@ -120,7 +120,7 @@ case "$action" in
       exit 1
     fi
 
-    response=$(git worktree list | fzf -1 -q "$action_arg" | awk '{print $1}')
+    response=$(git worktree list | fzf +m -1 -q "$action_arg" | awk '{print $1}')
     if [ -z "$response" ]; then
       exit 1
     fi
@@ -161,7 +161,7 @@ case "$action" in
     printf "Git branch [%s|fzf|<other>]: " "$tree_name"
     read -r response || exit
     if [ "$response" = fzf ]; then
-      branch=$(git branch --sort=-committerdate -a --format='%(refname:short)' | fzf)
+      branch=$(git branch --sort=-committerdate -a --format='%(refname:short)' | fzf +m)
     elif [ -z "$response" ] || [ "${response,,}" = name ]; then
       branch="$tree_name"
     else
@@ -200,28 +200,36 @@ case "$action" in
       exit 1
     fi
 
-    tree=$(echo "$trees" | fzf -1 -q "$action_arg")
-    [ -z "$tree" ] && exit 1
+    something_done=
+    while read -r tree; do
+      [ -z "$tree" ] && continue
+      something_done=1
 
-    branch=$(git -C "${_WORKTREES}/$tree" branch --show-current) || exit
-    if [ -z "$branch" ]; then
-      error "Could not fetch branch."
-      exit 1
-    fi
+      branch=$(git -C "${_WORKTREES}/$tree" branch --show-current) || exit
+      if [ -z "$branch" ]; then
+        error "Could not fetch branch."
+        exit 1
+      fi
 
-    printf "Deleting %s\nContinue? [N/y] " "$tree"
-    read -r response || exit
-    [ "${response,,}" != y ] && exit 1
-    git worktree remove "$tree" || exit
+      printf "Deleting %s\nContinue? [N/y] " "$tree"
+      read -r response < /dev/tty || exit
+      [ "${response,,}" != y ] && exit 1
+      git worktree remove "$tree" || exit
 
-    printf "Remove branch (%s)? [N/y] " "$branch"
-    read -r response
-    if [[ ! "${response,,}" =~ ^y(es)?$ ]]; then
-      exit 1
-    fi
+      printf "Remove branch (%s)? [N/y] " "$branch"
+      read -r response < /dev/tty
+      if [[ ! "${response,,}" =~ ^y(es)?$ ]]; then
+        hooks remove
+        echo
+        continue
+      fi
 
-    hooks remove
-    git branch -d "$branch"
+      hooks remove
+      git branch -d "$branch" || exit
+      echo
+    done < <(echo "$trees" | fzf -m -1 -q "$action_arg")
+
+    [ -n "$something_done" ]
     ;;
 
   *)
