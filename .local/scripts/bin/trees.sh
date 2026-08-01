@@ -20,6 +20,15 @@ warn() {
   echo
 }
 
+debug() {
+  tput setab 3
+  tput setaf 0
+  printf " DEBUG " >&2
+  tput sgr0
+  echo " $* " >&2
+  echo
+}
+
 check_git() {
   if [ ! -d .git ] && [ ! -f .git ]; then
     error "Not inside a Git Repo."
@@ -43,6 +52,14 @@ Commands:
   remove, rm [<name>]   removes a worktree
   cd [<name>]           print the path to a worktree. useful like this: cd (trees.sh cd)
 
+Hooks:
+  You can set scripts to run automatically after some actions.
+  Set one of the following env variables, pointing to a script, to run them.
+
+  - WK_ON_CREATE    Runs after a \`create\`.
+                    It receives the path of the created worktree as \$1.
+                    Make sure your script is executable.
+
 Flags:
   --help | -h    show this message
 EOF
@@ -51,6 +68,23 @@ EOF
     error "$*"
   fi
   exit 1
+}
+
+hooks() {
+  local action="$1" script args
+  shift
+  args=( "$@" )
+
+  case "$action" in
+    create)
+      script="$WK_ON_CREATE"
+      [ -z "$script" ] && return 0
+
+      debug "WK_ON_CREATE: Running $script ${args[*]}"
+      "$script" "${args[@]}"
+      return
+      ;;
+  esac
 }
 
 action=
@@ -92,20 +126,28 @@ case "$action" in
       exit 0
     fi
 
+    hooks cd
     echo "$response"
     ;;
+
   list|l|ls)
     check_git
     if [ -f .git ]; then
       repo=$(awk -F': ' '{print $2}' .git | sed 's|\.git.*||') || exit
-      echo "Inside Worktree. Original: $repo"
-      exit 0
+      git -C "$repo" worktree list
+      exit
     fi
+
+    hooks list
     git worktree list
     ;;
 
   create|c)
     check_git
+    if [ -f .git ]; then
+      error "Inside Worktree. Go back to the original repo and try again."
+      exit 1
+    fi
     tree_name="${action_arg}"
     if [ -z "$tree_name" ]; then
       printf "Name: "
@@ -136,19 +178,20 @@ case "$action" in
     read -r response || exit
     [ "${response,,}" != y ] && exit 1
 
+    wpath="${_WORKTREES}/$tree_name"
     if git rev-parse --verify "$branch" &>/dev/null; then
-      git worktree add "${_WORKTREES}/$tree_name" --checkout "$branch" || exit
+      git worktree add "$wpath" --checkout "$branch" || exit
     else
-      git worktree add "${_WORKTREES}/$tree_name" -b "$branch" || exit
+      git worktree add "$wpath" -b "$branch" || exit
     fi
 
+    hooks create "$wpath"
     echo
-    echo "${_WORKTREES}/$tree_name"
+    echo "$wpath"
     ;;
 
   remove|rm)
     if [ -f .git ]; then
-      repo=$(awk -F': ' '{print $2}' .git | sed 's|\.git.*||') || exit
       error "Inside Worktree. Go back to the original repo and try again."
       exit 1
     fi
@@ -177,6 +220,8 @@ case "$action" in
     if [[ ! "${response,,}" =~ ^y(es)?$ ]]; then
       exit 1
     fi
+
+    hooks remove
     git branch -d "$branch"
     ;;
 
