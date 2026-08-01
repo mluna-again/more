@@ -194,7 +194,7 @@ case "$action" in
       error "Inside Worktree. Go back to the original repo and try again."
       exit 1
     fi
-    trees=$(find "$_WORKTREES" -maxdepth 1 -mindepth 1 -type d | sed "s|${_WORKTREES}/||")
+    trees=$(find "$_WORKTREES" -maxdepth 1 -mindepth 1 -type d 2>/dev/null | sed "s|${_WORKTREES}/||")
     if [ -z "$trees" ]; then
       error "No worktrees found."
       exit 1
