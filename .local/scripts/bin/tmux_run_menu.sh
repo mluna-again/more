@@ -14,6 +14,13 @@ if [ -z "$marked_window" ]; then
   marked_window="(No window marked)"
 fi
 
+WINTODO="Window: mark as TODO"
+WINWIP="Window: mark as WIP"
+WINDONE="Window: mark as DONE"
+WINBLOCKED="Window: mark as BLOCKED"
+WINREADY="Window: mark as READY"
+WINONREVIEW="Window: mark as REVIEW"
+WINCLEAR="Window: clear mark"
 KILL_SERVER="TMUX: kill server"
 SWITCH_PREFIX="TMUX: switch prefix"
 DUMP_SESSION="TMUX: dump current session"
@@ -42,7 +49,7 @@ NEW_SESSION="Sessions: new session"
 SAVER="Utilities: screen saver"
 START_APPS="Automation: start applications"
 STOP_APPS="Automation: Stop applications"
-TODO="Utilities: TODOs"
+EMACS="Utilities: Emacs"
 MATRIX="Random: matrix"
 TOGGLE_BORDERS="Borders: toggle"
 CMD_BORDERS="Borders: display running command"
@@ -54,6 +61,13 @@ RELOAD_CONFIG="TMUX: reload config"
 AUTISM="Random: autism"
 
 items=$(cat - <<EOF | sort -h
+$WINTODO
+$WINWIP
+$WINDONE
+$WINBLOCKED
+$WINREADY
+$WINONREVIEW
+$WINCLEAR
 $KILL_SERVER
 $DUMP_SESSION
 $SWITCH_PREFIX
@@ -80,7 +94,7 @@ $START_APPS
 $STOP_APPS
 $CLEAR_PANES
 $PANES_COUNT
-$TODO
+$EMACS
 $MATRIX
 $CLEAR_MARKS
 $CLOSE_EMPTY_PANELS
@@ -104,6 +118,13 @@ fi
 [ -z "$response" ] && exit 0
 
 case "$response" in
+  "$WINTODO") ~/.local/scripts/bin/tmux_todo.sh TODO ;;
+  "$WINWIP") ~/.local/scripts/bin/tmux_todo.sh WIP ;;
+  "$WINDONE") ~/.local/scripts/bin/tmux_todo.sh DONE ;;
+  "$WINREADY") ~/.local/scripts/bin/tmux_todo.sh READY ;;
+  "$WINBLOCKED") ~/.local/scripts/bin/tmux_todo.sh BLOCKED ;;
+  "$WINONREVIEW") ~/.local/scripts/bin/tmux_todo.sh REVIEW ;;
+  "$WINCLEAR") ~/.local/scripts/bin/tmux_todo.sh ;;
   "$DUMP_SESSION") ~/.local/scripts/bin/tmux_dump_cmds.sh ;;
   "$REMBER") ~/.local/scripts/bin/tmux_rember_add.sh ;;
   "$NOTREMBER") rm ~/.cache/tmux_rember.sh || true ;;
@@ -144,7 +165,7 @@ case "$response" in
   "$STOP_APPS") ~/.local/scripts/bin/tmux_stop_apps.sh ;;
   "$CLEAR_PANES") ~/.local/scripts/bin/tmux_clear_everypane.sh ;;
   "$PANES_COUNT") tmux display 'Panes count: #{window_panes}' ;;
-  "$TODO") ~/.local/scripts/bin/tmux_goto_todo.sh ;;
+  "$EMACS") ~/.local/scripts/bin/tmux_goto_todo.sh ;;
   "$MATRIX") ~/.local/scripts/bin/tmux_matrix.sh ;;
   "$MAKE_PANES") ~/.local/scripts/bin/tmux_make_panels.sh ;;
   "$CLOSE_EMPTY_PANELS") ~/.local/scripts/bin/tmux_close_empty_panels.sh ;;
