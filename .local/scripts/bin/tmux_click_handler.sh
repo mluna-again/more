@@ -1,11 +1,11 @@
 #! /usr/bin/env bash
 
 case "$1" in
-  banner)
+  HOSTNAME)
     ~/.local/scripts/bin/tmux_tmux_menu.sh
     ;;
 
-  session_name)
+  SESSION_NAME)
     ~/.local/scripts/bin/tmux_session_menu.sh
     ;;
 
@@ -13,7 +13,7 @@ case "$1" in
     tmux clock-mode
     ;;
 
-  ZOOM)
+  TMUX_BANNER)
     tmux resize-pane -Z
     ;;
 
