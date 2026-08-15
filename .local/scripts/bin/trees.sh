@@ -91,7 +91,7 @@ _run_hook() {
     debug "$event: Running $script ${args[*]}"
     "$script" "${args[@]}"
   else
-    debug "$event: Running bash -c '$script[*]' '${args[*]}'"
+    debug "$event: Running bash -c '${script[*]}' '${args[*]}'"
     bash -c "${script[@]}" "${args[@]}"
   fi
 }
