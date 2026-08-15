@@ -57,9 +57,10 @@ Hooks:
   Set one of the following env variables, pointing to a script, to run them.
 
   If the variable value is not a script, then it is treated as a bash command
-  and runs like this: bash -c "\$WK_ON_<hook> [<args...>]".
+  and runs like this: bash -c "\$WK_ON_<hook>" -- "[<args...>]".
   You can then do something like this:
-    WK_ON_CD='p=\$1; n=\$2; tmux rename-window \$(basename \$p)' which will be expanded to \`bash -c "p=\$1; n=\$2; tmux rename-window \$(basename \$p)"\`
+    WK_ON_CD='p=\$1; n=\$2; tmux rename-window "\$(basename \$n)"' which will be expanded to \`bash -c "p=\$1; n=\$2; tmux rename-window "\$(basename \$n)"" -- "<path>" "<branch>"\`
+    Which will result in the tmux window being renamed to the cd'ed worktree branch name.
 
   - WK_ON_CREATE    Runs after a \`create\`.
                     It receives the path of the created worktree as \$1.
@@ -91,8 +92,8 @@ _run_hook() {
     debug "$event: Running $script ${args[*]}"
     "$script" "${args[@]}"
   else
-    debug "$event: Running bash -c '${script[*]}' '${args[*]}'"
-    bash -c "${script[@]}" "${args[@]}"
+    debug "$event: Running bash -c '${script[*]} -- ${args[*]}'"
+    bash -c "${script[*]}" -- "${args[@]}"
   fi
 }
 
