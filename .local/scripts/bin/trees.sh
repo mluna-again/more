@@ -56,9 +56,19 @@ Hooks:
   You can set scripts to run automatically after some actions.
   Set one of the following env variables, pointing to a script, to run them.
 
+  If the variable value is not a script, then it is treated as a bash command
+  and runs like this: bash -c "\$WK_ON_<hook> [<args...>]".
+  You can then do something like this:
+    WK_ON_CD='p=\$1; n=\$2; tmux rename-window \$(basename \$p)' which will be expanded to \`bash -c "p=\$1; n=\$2; tmux rename-window \$(basename \$p)"\`
+
   - WK_ON_CREATE    Runs after a \`create\`.
                     It receives the path of the created worktree as \$1.
                     Make sure your script is executable.
+
+  - WK_ON_CD        Runs after a \`cd\`.
+                    It receives the path of the cd'ed worktree as \$1, and the branch name as \$2.
+                    Make sure your script is executable.
+                    This does not run when cd'ing to the original directory, or when the selected entry is already the current worktree.
 
 Flags:
   --help | -h    show this message
@@ -70,6 +80,22 @@ EOF
   exit 1
 }
 
+_run_hook() {
+  local event="$1" args
+  shift
+  args=( "$@" )
+  script="${!event}"
+  [ -z "$script" ] && return 0
+
+  if command -v "$script" &>/dev/null; then
+    debug "$event: Running $script ${args[*]}"
+    "$script" "${args[@]}"
+  else
+    debug "$event: Running bash -c '$script[*]' '${args[*]}'"
+    bash -c "${script[@]}" "${args[@]}"
+  fi
+}
+
 hooks() {
   local action="$1" script args
   shift
@@ -77,11 +103,12 @@ hooks() {
 
   case "$action" in
     create)
-      script="$WK_ON_CREATE"
-      [ -z "$script" ] && return 0
+      _run_hook WK_ON_CREATE "${args[@]}"
+      return
+      ;;
 
-      debug "WK_ON_CREATE: Running $script ${args[*]}"
-      "$script" "${args[@]}"
+    cd)
+      _run_hook WK_ON_CD "${args[@]}"
       return
       ;;
   esac
@@ -120,13 +147,16 @@ case "$action" in
       exit 1
     fi
 
-    response=$(git worktree list | fzf +m -1 -q "$action_arg" | awk '{print $1}')
+    response=$(git worktree list | fzf +m -1 -q "$action_arg")
     if [ -z "$response" ]; then
       exit 1
     fi
+    path="$(awk '{print $1}' <<< "$response")"
+    branch="$(awk '{print $3}' <<< "$response" | sed -e 's|\[||' -e 's|\]||')"
 
-    hooks cd
-    echo "$response"
+    [ "$path" = "$PWD" ] && exit 0
+    hooks cd "$path" "$branch"
+    echo "$path"
     ;;
 
   list|l|ls)
