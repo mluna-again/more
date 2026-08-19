@@ -91,6 +91,7 @@ function _dotdot
   echo "$argv[1]/%"
 end
 abbr --add dotdot --position anywhere --regex '.*\.\.+$' --function _dotdot --set-cursor=%
+abbr --add ll ls -1Alht
 abbr --add cd.. cd ..
 abbr --add cd- cd -
 abbr --add v nvim
