@@ -55,7 +55,7 @@ export HURL_VARIABLE_KOI_UUID
 export HURL_VARIABLE_KOI_RANDOM
 export HURL_VARIABLE_KOI_LOREM
 
-output=$(hurl --include "$FILE") || exit
+output=$(hurl --error-format long --include "$FILE") || exit
 
 if grep -iqE "content-type: .*/.*+?json" <<< "$output"; then
   echo "$output" | awk 'headers_end{print} /^\s*$/{headers_end=1}' | jnv

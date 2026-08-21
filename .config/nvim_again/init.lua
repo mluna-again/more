@@ -33,7 +33,7 @@ vim.keymap.del({"n"}, "grn")
 vim.keymap.del({"n"}, "grr")
 vim.keymap.del({"n"}, "grt")
 -- Default LSP keybinds
-vim.keymap.set("n", "<leader>lu", "<cmd>Telescope lsp_definitions<cr>", { desc = "Search definitions" })
+vim.keymap.set("n", "<leader>lu", vim.lsp.buf.references, { desc = "Search references" })
 vim.keymap.set("n", "<leader>lc", vim.lsp.buf.code_action, { desc = "Code actions" })
 vim.keymap.set("n", "<leader>lh", vim.lsp.buf.hover, { desc = "Documentation" })
 vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, { desc = "Rename" })
