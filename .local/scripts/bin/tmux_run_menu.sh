@@ -16,6 +16,7 @@ fi
 
 WINTODO="Window: mark as TODO"
 WINWIP="Window: mark as WIP"
+WINDRAFT="Window: mark as DRAFT"
 WINDONE="Window: mark as DONE"
 WINBLOCKED="Window: mark as BLOCKED"
 WINREADY="Window: mark as READY"
@@ -63,6 +64,7 @@ AUTISM="Random: autism"
 items=$(cat - <<EOF | sort -h
 $WINTODO
 $WINWIP
+$WINDRAFT
 $WINDONE
 $WINBLOCKED
 $WINREADY
@@ -120,6 +122,7 @@ fi
 case "$response" in
   "$WINTODO") ~/.local/scripts/bin/tmux_todo.sh TODO ;;
   "$WINWIP") ~/.local/scripts/bin/tmux_todo.sh WIP ;;
+  "$WINDRAFT") ~/.local/scripts/bin/tmux_todo.sh DRAFT ;;
   "$WINDONE") ~/.local/scripts/bin/tmux_todo.sh DONE ;;
   "$WINREADY") ~/.local/scripts/bin/tmux_todo.sh READY ;;
   "$WINBLOCKED") ~/.local/scripts/bin/tmux_todo.sh BLOCKED ;;
