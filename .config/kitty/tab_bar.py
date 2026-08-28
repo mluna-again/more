@@ -58,9 +58,16 @@ def draw_tab(
         screen.cursor.fg = ACTIVE_TAB_FG
         screen.draw(f" {title} ")
     else:
+        screen.cursor.bg = ACTIVE_TAB_BG
+        screen.cursor.fg = ACTIVE_TAB_FG
+        screen.draw(f" {index} ")
         screen.cursor.bg = INACTIVE_TAB_BG
         screen.cursor.fg = INACTIVE_TAB_FG
-        screen.draw(f" {index} {title} ")
+        screen.draw(f" {title} ")
+
+    screen.cursor.bg = BG
+    screen.cursor.fg = FG
+    screen.draw(" ")
 
     end = screen.cursor.x
     # draw right side
@@ -84,3 +91,4 @@ def draw_tab(
     # idk why do we need to return this but whatever
     # R: it makes the mouse events not do funny stuff
     return end
+
