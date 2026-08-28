@@ -49,8 +49,6 @@ def draw_tab(
         screen.cursor.x = MARGIN
 
     title = tab.title
-    if is_default_title(title):
-        title = platform.node()
 
     if tab.is_active:
         screen.cursor.bg = TAB_INDEX_BG
