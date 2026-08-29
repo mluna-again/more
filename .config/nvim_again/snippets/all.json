@@ -1,4 +1,11 @@
 {
+  "bash_shebang": {
+    "prefix": "bash",
+    "description": "Insert bash shebang",
+    "body": [
+      "#! /usr/bin/env bash\n\n"
+    ]
+  },
   "vimft": {
     "prefix": "vimft",
     "description": "Add a hint for the filetype to VIM",
