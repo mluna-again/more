@@ -26,6 +26,7 @@ if [ -f "$path" ]; then
   response=$(tmux_prompt "File $(basename "$path") already exists. What do I do? [r(eplace), n(nothing), a(ppend), c(hoose different name)] " "[N/r/a/c]")
   [ -z "$response" ] && exit 0
 
+  cp "$path" "${path}.bak" || exit 1
   if grep -Eiq "^r(replace)?$" <<< "$response"; then
     if ! echo "$cmds" > "$path"; then
       tmux_alert "Something went wrong"
@@ -48,7 +49,6 @@ if [ -f "$path" ]; then
       exit 0
     fi
   elif grep -Eiq "^a(ppend)?$" <<< "$response"; then
-    cp "$path" "${path}.bak" || exit 1
     echo "-----" >> "$path"
     if ! echo "$cmds" >> "$path"; then
       tmux_alert "Something went wrong"
