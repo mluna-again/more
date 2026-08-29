@@ -48,6 +48,7 @@ if [ -f "$path" ]; then
       exit 0
     fi
   elif grep -Eiq "^a(ppend)?$" <<< "$response"; then
+    cp "$path" "${path}.bak" || exit 1
     echo "-----" >> "$path"
     if ! echo "$cmds" >> "$path"; then
       tmux_alert "Something went wrong"
