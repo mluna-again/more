@@ -130,11 +130,11 @@ case "$response" in
   "$REMBER") ~/.local/scripts/bin/tmux_rember_add.sh ;;
   "$NOTREMBER") rm ~/.cache/tmux_rember.sh || true ;;
   "$BUM_TAG")
-    read -r pane < <(tmux display -p '#{pane_id}')
+    read -r pane description < <(tmux display -p '#{pane_id} #{session_name}:#{window_name}')
     title="$(tmux_ask "Title")"
     [ -z "$title" ] && exit
 
-    bum -color 2 -pane "$pane" add "$title"
+    bum -color 2 -pane "$pane" -description "$description" add "$title"
     ;;
   "$TOGGLE_BORDERS") ~/.local/scripts/bin/tmux_toggle_panel_borders.sh ;;
   "$CMD_BORDERS") ~/.local/scripts/bin/tmux_panel_cmd.sh ;;
