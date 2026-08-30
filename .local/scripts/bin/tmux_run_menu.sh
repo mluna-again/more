@@ -2,8 +2,6 @@
 
 source ~/.local/scripts/bin/tmux_util.sh || exit
 
-BUM_PORT=56569
-
 marked_pane=$(tmux list-panes -a -f '#{pane_marked}' -F '(#{session_name}.#{pane_current_command})')
 if [ -z "$marked_pane" ]; then
   marked_pane="(No pane marked)"
@@ -132,12 +130,11 @@ case "$response" in
   "$REMBER") ~/.local/scripts/bin/tmux_rember_add.sh ;;
   "$NOTREMBER") rm ~/.cache/tmux_rember.sh || true ;;
   "$BUM_TAG")
-    if [ "$(tmux show-option -pv allow-set-title)" = off ]; then
-      read -r pane title description < <(tmux display -p '#{pane_id} #{session_name}:#{window_name}.#{pane_index} #{pane_title}')
-    else
-      read -r title pane < <(tmux display -p '#{session_name}:#{window_name}.#{pane_index} #{pane_id}')
-    fi
-    curl -fSs -X POST -d "{\"pane_id\": \"$pane\", \"title\": \"$title\", \"description\": \"$description\", \"color\": \"2\"}" "localhost:${BUM_PORT}/new" >/dev/null
+    read -r pane < <(tmux display -p '#{pane_id}')
+    title="$(tmux_ask "Title")"
+    [ -z "$title" ] && exit
+
+    bum -color 2 -pane "$pane" add "$title"
     ;;
   "$TOGGLE_BORDERS") ~/.local/scripts/bin/tmux_toggle_panel_borders.sh ;;
   "$CMD_BORDERS") ~/.local/scripts/bin/tmux_panel_cmd.sh ;;
