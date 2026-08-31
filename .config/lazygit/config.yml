@@ -3,6 +3,8 @@ git:
     - pager: delta --paging=never
     - {} # default, no pager used
 gui:
+  autoStageResolvedConflicts: false
+  diffContextSize: 3
   sidePanelWidth: 0.2
   expandedSidePanelWeight: 1
   enlargedSideViewLocation: top
@@ -19,3 +21,4 @@ keybinding:
   universal:
     pushFiles: p
     pullFiles: P
+disableStartupPopups: true
