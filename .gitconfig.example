@@ -21,3 +21,6 @@
 [delta]
   navigate = true    # use n and N to move between diff sections
   dark = true
+  line-numbers = true
+  line-numbers-left-format = ""
+  hunk-header-style = "file line-number syntax"
