@@ -50,7 +50,7 @@ unstack() {
     tmux bind C-k select-pane -U -Z
     tmux bind C-j select-pane -D -Z
   fi
-  tmux resize-pane -y 50%
+  tmux select-layout -E
 }
 
 read -r sright < <(tmux display -p '#{@stack_at_right}')

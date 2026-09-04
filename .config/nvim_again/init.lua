@@ -168,6 +168,16 @@ vim.pack.add({
   { src = "https://github.com/nvim-lualine/lualine.nvim", version = "221ce6b" },
   { src = "https://github.com/lewis6991/gitsigns.nvim", version = "2038c66" },
   { src = "https://github.com/fatih/vim-go", version = "551d423" },
+  { src = "https://github.com/nvim-treesitter/nvim-treesitter-context", version = "f306133" },
+  { src = "https://github.com/lukas-reineke/indent-blankline.nvim", version = "3b1ee18" },
+})
+
+require("treesitter-context").setup({ enable = false })
+require("ibl").setup({
+  whitespace = {
+    remove_blankline_trail = false,
+  },
+  scope = { enabled = false },
 })
 
 require("lualine").setup({
