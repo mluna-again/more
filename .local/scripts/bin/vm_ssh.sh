@@ -24,10 +24,18 @@ Flags:
   --cmd CMD, -c CMD       initial command (default: bash)
   -p PORT, --port PORT    ssh port to connect to (default: 22220)
   -P PORT, --expose PORT  forward PORT (can be provided multiple times) (default: [])
+  --list                  display available VMs
+  -a, --all               include \`template\` when using --list
 EOF
   exit 1
 }
 
+lsvms() {
+  find ~/VMs -maxdepth 1 -type f -iname "*.conf"
+}
+
+lsall=
+lsvms=
 name=
 user=
 initial_program=
@@ -66,6 +74,14 @@ while true; do
       port="$1"
       ;;
 
+    -a|--all)
+      lsall=1
+      ;;
+
+    --list)
+      lsvms=1
+      ;;
+
     *)
       name="$1"
       ;;
@@ -74,7 +90,17 @@ while true; do
   shift
 done
 
-vms="$(find ~/VMs -maxdepth 1 -type f -iname "*.conf")" || exit
+if [ -n "$lsvms" ]; then
+  while read -r vm; do
+    if [ -z "$lsall" ] && [ "$vm" = template ]; then
+      continue
+    fi
+    echo "$vm"
+  done < <(lsvms | xargs -I{} basename {} .conf)
+  exit
+fi
+
+vms="$(lsvms)" || exit
 selected="$(echo "$vms" | fzf -1 -q "$name" | head -n 1)" || exit
 [ -z "$selected" ] && exit 1
 
