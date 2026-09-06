@@ -31,7 +31,7 @@ EOF
 }
 
 lsvms() {
-  find ~/VMs -maxdepth 1 -type f -iname "*.conf"
+  find ~/VMs -maxdepth 1 -type f -iname "*.conf" 2>/dev/null
 }
 
 lsall=

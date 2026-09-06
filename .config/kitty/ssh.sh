@@ -19,4 +19,10 @@ lsvms() {
 host="$(lsvms | mina -title "SSH in new tab" -icon "")"
 [ -z "$host" ] && exit 1
 
-kitten @ launch --type=tab --location=after --title="$host" ssh "$host"
+if [[ "$host" =~ ^\[quickemu\].*$ ]]; then
+  host="$(sed 's|\[.*\] ||' <<< "$host")"
+  kitten @ launch --type=tab --location=after --title="$host" vm_ssh.sh "$host"
+else
+  host="$(sed 's|\[.*\] ||' <<< "$host")"
+  kitten @ launch --type=tab --location=after --title="$host" ssh "$host"
+fi
