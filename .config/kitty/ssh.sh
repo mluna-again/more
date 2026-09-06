@@ -8,21 +8,10 @@ if ! command -v mina &>/dev/null; then
 fi
 
 lsvms() {
-  if command -v vm_ssh.sh &>/dev/null && [ -n "$(vm_ssh.sh --list | head -n 1)" ]; then
-    vm_ssh.sh --list | sed 's|\(.*\)|[quickemu] \1|'
-    grep -r -h -i "host\s" ~/.ssh/config ~/.ssh/config.d | awk '$2 != "*" {print $2}' | tr -d ' ' | sort | uniq | sed 's|\(.*\)|[alias] \1|'
-  else
-    grep -r -h -i "host\s" ~/.ssh/config ~/.ssh/config.d | awk '$2 != "*" {print $2}' | tr -d ' ' | sort | uniq
-  fi
+  grep -r -h -i "host\s" ~/.ssh/config ~/.ssh/config.d | awk '$2 != "*" {print $2}' | tr -d ' ' | sort | uniq
 }
 
 host="$(lsvms | mina -title "SSH in new tab" -icon "")"
 [ -z "$host" ] && exit 1
 
-if [[ "$host" =~ ^\[quickemu\].*$ ]]; then
-  host="$(sed 's|\[.*\] ||' <<< "$host")"
-  kitten @ launch --type=tab --location=after --title="$host" vm_ssh.sh "$host"
-else
-  host="$(sed 's|\[.*\] ||' <<< "$host")"
-  kitten @ launch --type=tab --location=after --title="$host" ssh "$host"
-fi
+kitten @ launch --type=tab --location=after --title="$host" ssh "$host"
