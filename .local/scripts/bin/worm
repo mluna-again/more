@@ -73,7 +73,7 @@ fi
 [ -z "$action" ] && action=ls
 case "$action" in
   ls)
-    ls -a "$blackhole"
+    ls -A "$blackhole"
     ;;
   push)
     if [ "${#files[@]}" -eq 0 ]; then
