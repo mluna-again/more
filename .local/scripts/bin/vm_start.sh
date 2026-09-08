@@ -57,6 +57,7 @@ while true; do
   shift
 done
 
+[ -z "$vm" ] && vm="$(find ~/VMs -maxdepth 1 -type f -iname '*.conf' | fzf -1 -q "$1" | head -n 1)"
 [ -z "$vm" ] && usage
 if [ ! -f "$vm" ]; then
   echo "No config file named $vm found"
