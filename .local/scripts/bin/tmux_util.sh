@@ -14,10 +14,11 @@ _tmuxp_load_session() {
   tmp="$(mktemp /tmp/tmux_switch.XXXXXXX)" || return
   tmuxp load -S "$socket" -d "$session_path" &>"$tmp" &
   pid="$!"
-  ~/.local/scripts/bin/bunny.sh "loading session..." &
+  luna -fill 233 -message "loading session..." &
   lpid="$!"
   wait "$pid"
   code="$?"
+  sleep 1
   kill "$lpid"
 
   if [ "$code" -ne 0 ]; then
