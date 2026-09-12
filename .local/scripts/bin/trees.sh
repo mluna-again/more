@@ -81,6 +81,10 @@ EOF
   exit 1
 }
 
+_list_trees() {
+  find "$_WORKTREES" -maxdepth 1 -mindepth 1 -type d 2>/dev/null
+}
+
 _run_hook() {
   local event="$1" args
   shift
@@ -148,12 +152,33 @@ case "$action" in
       exit 1
     fi
 
-    response=$(git worktree list | fzf +m -1 -q "$action_arg")
-    if [ -z "$response" ]; then
+    trees="$(_list_trees)"
+    if [ -n "$action_arg" ] && [ -n "$trees" ] && ! grep -xq "$trees" <<< "$action_arg"; then
+      branch="$(git branch --format='%(refname:short)' | grep -x "$action_arg" | head -n 1)"
+      if [ -z "$branch" ]; then
+        error "No worktree/branch found."
+        exit 1
+      fi
+
+      warn "No worktrees found, but branch $action_arg found, creating worktree."
+      git worktree add "${_WORKTREES}/$action_arg" --checkout "$action_arg" || exit
+      path="${_WORKTREES}/$action_arg"
+      branch="$action_arg"
+    elif [ -z "$trees" ]; then
+      error "No worktree found."
       exit 1
+    else
+      if [ -z "$action_arg" ]; then
+        response=$(echo "$trees" | fzf +m)
+      else
+        response=$(echo "$trees" | fzf +m -1 -q "$action_arg")
+      fi
+      if [ -z "$response" ]; then
+        exit 1
+      fi
+      path="$(awk '{print $1}' <<< "$response")"
+      branch="$(awk '{print $3}' <<< "$response" | sed -e 's|\[||' -e 's|\]||')"
     fi
-    path="$(awk '{print $1}' <<< "$response")"
-    branch="$(awk '{print $3}' <<< "$response" | sed -e 's|\[||' -e 's|\]||')"
 
     [ "$path" = "$PWD" ] && exit 0
     hooks cd "$path" "$branch"
@@ -225,7 +250,7 @@ case "$action" in
       error "Inside Worktree. Go back to the original repo and try again."
       exit 1
     fi
-    trees=$(find "$_WORKTREES" -maxdepth 1 -mindepth 1 -type d 2>/dev/null | sed "s|${_WORKTREES}/||")
+    trees="$(_list_trees | sed "s|${_WORKTREES}/||")"
     if [ -z "$trees" ]; then
       error "No worktrees found."
       exit 1
