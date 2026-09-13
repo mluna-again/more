@@ -82,7 +82,17 @@ EOF
 }
 
 _list_trees() {
-  find "$_WORKTREES" -maxdepth 1 -mindepth 1 -type d 2>/dev/null
+  local b d
+
+  {
+    echo 'Path;Branch;Worktree;Author;Date;Last commit;Branch'
+    while read -r d; do
+      b="$(git -C "$d" rev-parse --abbrev-ref HEAD)"
+
+      git -C "$d" log -1 --color=never --pretty=format:"$d;$b;$(basename "$d");%an;%ar;%s;$b"
+      echo
+    done < <(find "$_WORKTREES" -maxdepth 1 -mindepth 1 -type d 2>/dev/null)
+  } | column -t -s ';'
 }
 
 _pretty_list_trees() {
@@ -168,7 +178,7 @@ case "$action" in
     fi
 
     trees="$(_list_trees)"
-    if [ -n "$action_arg" ] && [ -n "$trees" ] && ! grep -qE ".*/$action_arg" <<< "$trees"; then
+    if [ -n "$action_arg" ] && ! grep -qE ".*/$action_arg" <<< "$trees"; then
       branch="$(git branch --format='%(refname:short)' | grep -x "$action_arg" | head -n 1)"
       if [ -z "$branch" ]; then
         error "No worktree/branch found."
@@ -184,9 +194,9 @@ case "$action" in
       exit 1
     else
       if [ -z "$action_arg" ]; then
-        response=$(echo "$trees" | fzf +m)
+        response=$(echo "$trees" | fzf --with-nth 3.. --header-lines 1 --ghost "Change worktree" +m)
       else
-        response=$(echo "$trees" | fzf +m -1 -q "$action_arg")
+        response=$(echo "$trees" | fzf --with-nth 3.. --header-lines 1 --ghost "Change worktree" +m -1 -q "$action_arg")
       fi
       if [ -z "$response" ]; then
         exit 1
@@ -265,7 +275,7 @@ case "$action" in
       error "Inside Worktree. Go back to the original repo and try again."
       exit 1
     fi
-    trees="$(_list_trees | sed "s|${_WORKTREES}/||")"
+    trees="$(_list_trees)"
     if [ -z "$trees" ]; then
       error "No worktrees found."
       exit 1
@@ -298,7 +308,7 @@ case "$action" in
       hooks remove
       git branch -d "$branch" || exit
       echo
-    done < <(echo "$trees" | fzf -m -1 -q "$action_arg")
+    done < <(echo "$trees" | fzf -m -q "$action_arg" --with-nth 3.. --header-lines 1 --ghost "Remove worktree" | awk '{print $3}')
 
     [ -n "$something_done" ]
     ;;
