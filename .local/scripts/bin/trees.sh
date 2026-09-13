@@ -168,7 +168,7 @@ case "$action" in
     fi
 
     trees="$(_list_trees)"
-    if [ -n "$action_arg" ] && [ -n "$trees" ] && ! grep -xq "$trees" <<< "$action_arg"; then
+    if [ -n "$action_arg" ] && [ -n "$trees" ] && ! grep -qE ".*/$action_arg" <<< "$trees"; then
       branch="$(git branch --format='%(refname:short)' | grep -x "$action_arg" | head -n 1)"
       if [ -z "$branch" ]; then
         error "No worktree/branch found."
