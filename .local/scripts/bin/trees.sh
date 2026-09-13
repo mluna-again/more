@@ -85,6 +85,21 @@ _list_trees() {
   find "$_WORKTREES" -maxdepth 1 -mindepth 1 -type d 2>/dev/null
 }
 
+_pretty_list_trees() {
+  local b c d repo="${1:-$PWD}" noheadings="$2"
+  {
+    [ -z "$noheadings" ] && echo 'Worktree;Author;Date;Last commit;Branch;Current'
+    while read -r d b; do
+      b="$(sed -e 's|\[||' -e 's|\]||' <<< "$b")"
+      c=
+      [ "$PWD" = "$d" ] && c="   *   "
+
+      git -C "$d" log -1 --color --pretty=format:"%C(3)$(basename "$d");%C(1)%an;%C(6)%ar;%C(13)%s;%C(10)$b%C(reset);$c"
+      echo
+    done < <(git -C "$1" worktree list | awk '{printf "%s %s\n", $1, $3}')
+  } | column -t -s ';'
+}
+
 _run_hook() {
   local event="$1" args
   shift
@@ -189,12 +204,12 @@ case "$action" in
     check_git
     if [ -f .git ]; then
       repo=$(awk -F': ' '{print $2}' .git | sed 's|\.git.*||') || exit
-      git -C "$repo" worktree list
+      _pretty_list_trees "$repo"
       exit 0
     fi
 
     hooks list
-    git worktree list
+    _pretty_list_trees
     ;;
 
   create|c)
