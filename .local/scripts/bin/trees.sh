@@ -104,13 +104,13 @@ _list_trees() {
 _pretty_list_trees() {
   local b c d repo="${1:-$PWD}" noheadings="$2"
   {
-    [ -z "$noheadings" ] && echo 'Worktree;Author;Date;Last commit;Branch;Current'
+    [ -z "$noheadings" ] && echo 'Worktree;Author;Date;Last commit;Branch'
     while read -r d b; do
       b="$(sed -e 's|\[||' -e 's|\]||' <<< "$b")"
-      c=
-      [ "$PWD" = "$d" ] && c="   *   "
+      c="- "
+      [ "$PWD" = "$d" ] && c="* "
 
-      git -C "$d" log -1 --color --pretty=format:"%C(3)$(basename "$d");%C(1)%an;%C(6)%ar;%C(13)%s;%C(10)$b%C(reset);$c"
+      git -C "$d" log -1 --color --pretty=format:"%C(3)$(basename "$d");%C(1)%an;%C(6)%ar;%C(13)%s;%C(1)${c}%C(10)${b}%C(reset)"
       echo
     done < <(git -C "$1" worktree list | awk '{printf "%s %s\n", $1, $3}')
   } | column -t -s ';'
