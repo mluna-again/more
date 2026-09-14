@@ -52,6 +52,12 @@ Commands:
   remove, rm [<name>]   removes a worktree
   cd [<name>]           print the path to a worktree. useful like this: cd (trees.sh cd)
 
+Environment variables:
+  You can customize the behaviour of this program with the following variables:
+    - WK_CREATE_NOPWD   Don't print the worktree directory after creating it.
+                        This will make \`wk\` not cd into the worktree.
+                        Any non empty value will turn this on. Default: false
+
 Hooks:
   You can set scripts to run automatically after some actions.
   Set one of the following env variables, pointing to a script, to run them.
@@ -108,6 +114,11 @@ _pretty_list_trees() {
       echo
     done < <(git -C "$1" worktree list | awk '{printf "%s %s\n", $1, $3}')
   } | column -t -s ';'
+}
+
+_cleanup_treename() {
+  local name="$1"
+  sed 's|[ /]|_|g' <<< "$name"
 }
 
 _run_hook() {
@@ -186,9 +197,10 @@ case "$action" in
       fi
 
       warn "No worktrees found, but branch $action_arg found, creating worktree."
-      git worktree add "${_WORKTREES}/$action_arg" --checkout "$action_arg" || exit
-      path="${_WORKTREES}/$action_arg"
+      tree_name="$(_cleanup_treename "$action_arg")"
       branch="$action_arg"
+      path="${_WORKTREES}/$tree_name"
+      git worktree add "$path" --checkout "$branch" || exit
     elif [ -z "$trees" ]; then
       error "No worktree found."
       exit 1
@@ -253,7 +265,7 @@ case "$action" in
       exit 1
     fi
 
-    tree_name=$(sed 's|[ /]|_|g' <<< "$tree_name") # i do this *after* assigning branch, i want to preserve the branch name
+    tree_name=$(_cleanup_treename "$tree_name") # i do this *after* assigning branch, i want to preserve the branch name
     printf "\nName: %s\nBranch: %s\nPath: %s/%s\n\nContinue? [N/y] " "$tree_name" "$branch" "$_WORKTREES" "$tree_name"
     read -r response || exit
     [ "${response,,}" != y ] && exit 1
@@ -266,8 +278,10 @@ case "$action" in
     fi
 
     hooks create "$wpath"
-    echo
-    echo "$wpath"
+    if [ -z "$WK_CREATE_NOPWD" ]; then
+      echo
+      echo "$wpath"
+    fi
     ;;
 
   remove|rm)
