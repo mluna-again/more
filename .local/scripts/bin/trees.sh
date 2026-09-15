@@ -79,6 +79,8 @@ Hooks:
 
 Flags:
   --help | -h    show this message
+  --force | -f   don't ask for confirmation when removing worktres.
+                 can also be turned on by responding "a" (all) on confirmation prompts.
 EOF
   if [ "$#" -gt 0 ]; then
     echo
@@ -157,12 +159,17 @@ hooks() {
 
 action=
 action_arg=
+force=
 while true; do
   [ -z "$1" ] && break
 
   case "$1" in
     --help|-h|help)
       usage
+      ;;
+
+    --force|-f)
+      force=1
       ;;
 
     *)
@@ -306,17 +313,26 @@ case "$action" in
         exit 1
       fi
 
-      printf "Deleting %s\nContinue? [N/y] " "$tree"
-      read -r response < /dev/tty || exit
-      [ "${response,,}" != y ] && exit 1
+      if [ -z "$force" ]; then
+        printf "Deleting %s\nContinue? [N/y/a] " "$tree"
+        read -r response < /dev/tty || exit
+        if [ "${response,,}" = a ]; then
+          force=1
+        elif [[ ! "${response,,}" =~ ^y(es)?$ ]]; then
+          exit 1
+        fi
+      fi
       git worktree remove "$tree" || exit
 
-      printf "Remove branch (%s)? [N/y] " "$branch"
-      read -r response < /dev/tty
-      if [[ ! "${response,,}" =~ ^y(es)?$ ]]; then
-        hooks remove
-        echo
-        continue
+      if [ -z "$force" ]; then
+        printf "Remove branch (%s)? [N/y/a] " "$branch"
+        read -r response < /dev/tty
+        if [ "${response,,}" = a ]; then
+          force=1
+        elif [[ ! "${response,,}" =~ ^y(es)?$ ]]; then
+          echo
+          continue
+        fi
       fi
 
       hooks remove
