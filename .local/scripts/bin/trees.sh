@@ -129,7 +129,7 @@ _pretty_list_trees() {
       c="- "
       [ "$PWD" = "$d" ] && c="* "
 
-      git -C "$d" log -1 --color --pretty=format:"%C(3)$(basename "$d");%C(1)%an;%C(6)%ar;%C(13)%s;%C(1)${c}%C(10)${b}%C(reset)"
+      git -C "$d" log -1 --color --pretty=format:"%C(3)$(basename "$d");%C(1)%an;%C(6)%ar%C(reset);%s%C(reset);%C(1)${c}%C(10)${b}%C(reset)" | awk -F';' '{if (length($4) > 60) { $4 = substr($4, 0, 59)"..."; } printf "%s;%s;%s;%s;%s;%s;%s", $1, $2, $3, $4, $5, $6, $7; }'
       echo
     done < <(git -C "$1" worktree list | awk '{printf "%s %s\n", $1, $3}')
   } | column -t -s ';'
