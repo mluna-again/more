@@ -71,6 +71,9 @@ Commands:
 
 Environment variables:
   You can customize the behaviour of this program with the following variables:
+    - WK_DEBUG          Print some extra information for debugging.
+                        Any non empty value will turn this on. Default: false
+
     - WK_CREATE_NOPWD   Don't print the worktree directory after creating it.
                         This will make \`wk\` not cd into the worktree.
                         Any non empty value will turn this on. Default: false
@@ -158,10 +161,14 @@ _run_hook() {
   [ -z "$script" ] && return 0
 
   if command -v "$script" &>/dev/null; then
-    debug "$event: Running $script ${args[*]}"
+    if [ -n "$WK_DEBUG" ]; then
+      debug "$event: Running $script ${args[*]}"
+    fi
     "$script" "${args[@]}"
   else
-    debug "$event: Running bash -c '${script[*]} -- ${args[*]}'"
+    if [ -n "$WK_DEBUG" ]; then
+      debug "$event: Running bash -c '${script[*]} -- ${args[*]}'"
+    fi
     bash -c "${script[*]}" -- "${args[@]}"
   fi
 }
