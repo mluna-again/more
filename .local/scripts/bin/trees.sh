@@ -67,7 +67,7 @@ $ ${0##*/} <command> [<arg>]
 Commands:
   list, l, ls           lists available worktrees
   remove, rm [<name>]   removes a worktree
-  cd [<name>]           print the path to a worktree. useful like this: cd (trees.sh cd)
+  cd [<name>]           print the path to a worktree, creating it if necessary. useful like this: cd (trees.sh cd)
 
 Environment variables:
   You can customize the behaviour of this program with the following variables:
@@ -87,6 +87,7 @@ Hooks:
 
   - WK_ON_CD        Runs after a \`cd\`.
                     It receives the path of the cd'ed worktree as \$1, and the branch name as \$2.
+                    It also received 1 as \$3 if the tree is new, or nothing if it was not.
                     Make sure your script is executable.
                     This does not run when cd'ing to the original directory, or when the selected entry is already the current worktree.
 
@@ -216,15 +217,18 @@ case "$action" in
       exit 1
     fi
 
+    isnew=
     trees="$(_list_trees)"
     if [ -n "$action_arg" ] && [ ! -d "${_WORKTREES}/$(_cleanup_treename "$action_arg")" ]; then
       branch="$(git branch -a --format='%(refname:short)' | grep -x "$action_arg" | head -n 1)"
       if [ -z "$branch" ]; then
         info "No worktree or branch found, creating worktree."
         _create_tree "$action_arg" || exit
+        isnew=1
       else
         info "Branch $branch without worktree found, creating worktree."
         _create_tree "$action_arg" 1 || exit
+        isnew=1
       fi
     elif [ "$(wc -l <<< "$trees")" -le 1 ]; then
       error "No trees found."
@@ -245,7 +249,7 @@ case "$action" in
     fi
 
     [ "$path" = "$PWD" ] && exit 0
-    hooks cd "$path" "$branch"
+    hooks cd "$path" "$branch" "$isnew"
 
     if [ -z "$WK_CREATE_NOPWD" ]; then
       echo
