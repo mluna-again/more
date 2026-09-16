@@ -246,7 +246,7 @@ case "$action" in
         branch="$(_cleanup_treename "$action_arg")"
         info "Switching to $action_arg"
       else
-        response="$(echo "$trees" | fzf --with-nth 3.. --header-lines 1 --ghost "Change worktree" +m)"
+        response="$(echo "$trees" | fzf --no-hscroll --with-nth 3.. --header-lines 1 --ghost "Change worktree" +m)"
         [ -z "$response" ] && exit 1
         name="$(awk '{print $3}' <<< "$response")"
         info "Switching to $name"
@@ -323,7 +323,7 @@ case "$action" in
       hooks remove
       git branch -D "$branch" || exit
       echo
-    done < <(echo "$trees" | fzf -m -q "$action_arg" --with-nth 3.. --header-lines 1 --ghost "Remove worktree" | awk '{print $3}')
+    done < <(echo "$trees" | fzf --no-hscroll -m -q "$action_arg" --with-nth 3.. --header-lines 1 --ghost "Remove worktree" | awk '{print $3}' | tee /dev/tty)
 
     [ -n "$something_done" ]
     ;;
