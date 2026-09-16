@@ -2,6 +2,24 @@
 
 _WORKTREES="$PWD/.worktrees"
 
+success() {
+  tput setab 2
+  tput setaf 0
+  printf " OK " >&2
+  tput sgr0
+  printf " %s " "$*" >&2
+  echo
+}
+
+info() {
+  tput setab 4
+  tput setaf 0
+  printf " INFO " >&2
+  tput sgr0
+  printf " %s " "$*" >&2
+  echo
+}
+
 error() {
   tput setab 1
   tput setaf 0
@@ -48,7 +66,6 @@ $ ${0##*/} <command> [<arg>]
 
 Commands:
   list, l, ls           lists available worktrees
-  create, c [<name>]    creates a new worktree
   remove, rm [<name>]   removes a worktree
   cd [<name>]           print the path to a worktree. useful like this: cd (trees.sh cd)
 
@@ -67,10 +84,6 @@ Hooks:
   You can then do something like this:
     WK_ON_CD='p=\$1; n=\$2; tmux rename-window "\$(basename \$n)"' which will be expanded to \`bash -c "p=\$1; n=\$2; tmux rename-window "\$(basename \$n)"" -- "<path>" "<branch>"\`
     Which will result in the tmux window being renamed to the cd'ed worktree branch name.
-
-  - WK_ON_CREATE    Runs after a \`create\`.
-                    It receives the path of the created worktree as \$1.
-                    Make sure your script is executable.
 
   - WK_ON_CD        Runs after a \`cd\`.
                     It receives the path of the cd'ed worktree as \$1, and the branch name as \$2.
@@ -123,6 +136,19 @@ _cleanup_treename() {
   sed 's|[ /]|_|g' <<< "$name"
 }
 
+_create_tree() {
+  local name="$1" existing="$2" tree_name
+  tree_name="$(_cleanup_treename "$name")"
+  branch="$name"
+  path="${_WORKTREES}/$tree_name"
+
+  if [ -n "$existing" ]; then
+    git worktree add "$path" --checkout "$branch" || return 1
+  else
+    git worktree add "$path" -b "$branch" || return 1
+  fi
+}
+
 _run_hook() {
   local event="$1" args
   shift
@@ -145,11 +171,6 @@ hooks() {
   args=( "$@" )
 
   case "$action" in
-    create)
-      _run_hook WK_ON_CREATE "${args[@]}"
-      return
-      ;;
-
     cd)
       _run_hook WK_ON_CD "${args[@]}"
       return
@@ -196,37 +217,40 @@ case "$action" in
     fi
 
     trees="$(_list_trees)"
-    if [ -n "$action_arg" ] && ! grep -qE ".*/$action_arg" <<< "$trees"; then
+    if [ -n "$action_arg" ] && [ ! -d "${_WORKTREES}/$(_cleanup_treename "$action_arg")" ]; then
       branch="$(git branch -a --format='%(refname:short)' | grep -x "$action_arg" | head -n 1)"
       if [ -z "$branch" ]; then
-        error "No worktree/branch found."
-        exit 1
+        info "No worktree or branch found, creating worktree."
+        _create_tree "$action_arg" || exit
+      else
+        info "Branch $branch without worktree found, creating worktree."
+        _create_tree "$action_arg" 1 || exit
       fi
-
-      warn "No worktrees found, but branch $action_arg found, creating worktree."
-      tree_name="$(_cleanup_treename "$action_arg")"
-      branch="$action_arg"
-      path="${_WORKTREES}/$tree_name"
-      git worktree add "$path" --checkout "$branch" || exit
-    elif [ -z "$trees" ]; then
-      error "No worktree found."
+    elif [ "$(wc -l <<< "$trees")" -le 1 ]; then
+      error "No trees found."
       exit 1
     else
-      if [ -z "$action_arg" ]; then
-        response=$(echo "$trees" | fzf --with-nth 3.. --header-lines 1 --ghost "Change worktree" +m)
+      if [ -n "$action_arg" ] && [ -d "${_WORKTREES}/$(_cleanup_treename "$action_arg")" ]; then
+        path="${_WORKTREES}/$(_cleanup_treename "$action_arg")"
+        branch="$(_cleanup_treename "$action_arg")"
+        info "Switching to $action_arg"
       else
-        response=$(echo "$trees" | fzf --with-nth 3.. --header-lines 1 --ghost "Change worktree" +m -1 -q "$action_arg")
+        response="$(echo "$trees" | fzf --with-nth 3.. --header-lines 1 --ghost "Change worktree" +m)"
+        [ -z "$response" ] && exit 1
+        name="$(awk '{print $3}' <<< "$response")"
+        info "Switching to $name"
+        path="$(awk '{print $1}' <<< "$response")"
+        branch="$(awk '{print $3}' <<< "$response" | sed -e 's|\[||' -e 's|\]||')"
       fi
-      if [ -z "$response" ]; then
-        exit 1
-      fi
-      path="$(awk '{print $1}' <<< "$response")"
-      branch="$(awk '{print $3}' <<< "$response" | sed -e 's|\[||' -e 's|\]||')"
     fi
 
     [ "$path" = "$PWD" ] && exit 0
     hooks cd "$path" "$branch"
-    echo "$path"
+
+    if [ -z "$WK_CREATE_NOPWD" ]; then
+      echo
+      echo "$path"
+    fi
     ;;
 
   list|l|ls)
@@ -241,63 +265,13 @@ case "$action" in
     _pretty_list_trees
     ;;
 
-  create|c)
-    check_git
-    if [ -f .git ]; then
-      error "Inside Worktree. Go back to the original repo and try again."
-      exit 1
-    fi
-    tree_name="${action_arg}"
-    if [ -z "$tree_name" ]; then
-      printf "Name: "
-      read -r tree_name || exit
-    fi
-    tree_name=$(sed 's| |_|g' <<< "$tree_name")
-    if [ -z "$tree_name" ]; then
-      error "Name required. Bye."
-      exit 1
-    fi
-
-    printf "Git branch [DEFAULT(%s)|fzf|<other>]: " "$tree_name"
-    read -r response || exit
-    if [ "$response" = fzf ]; then
-      branch=$(git branch --sort=-committerdate -a --format='%(refname:short)' | fzf +m)
-    elif [ -z "$response" ] || [ "${response,,}" = name ]; then
-      branch="$tree_name"
-    else
-      branch="$response"
-    fi
-    if [ -z "$branch" ]; then
-      error "Branch required. Bye."
-      exit 1
-    fi
-
-    tree_name=$(_cleanup_treename "$tree_name") # i do this *after* assigning branch, i want to preserve the branch name
-    printf "\nName: %s\nBranch: %s\nPath: %s/%s\n\nContinue? [N/y] " "$tree_name" "$branch" "$_WORKTREES" "$tree_name"
-    read -r response || exit
-    [ "${response,,}" != y ] && exit 1
-
-    wpath="${_WORKTREES}/$tree_name"
-    if git rev-parse --verify "$branch" &>/dev/null; then
-      git worktree add "$wpath" --checkout "$branch" || exit
-    else
-      git worktree add "$wpath" -b "$branch" || exit
-    fi
-
-    hooks create "$wpath"
-    if [ -z "$WK_CREATE_NOPWD" ]; then
-      echo
-      echo "$wpath"
-    fi
-    ;;
-
   remove|rm)
     if [ -f .git ]; then
       error "Inside Worktree. Go back to the original repo and try again."
       exit 1
     fi
     trees="$(_list_trees)"
-    if [ -z "$trees" ]; then
+    if [ "$(wc -l <<< "$trees")" -le 1 ]; then
       error "No worktrees found."
       exit 1
     fi
@@ -336,7 +310,7 @@ case "$action" in
       fi
 
       hooks remove
-      git branch -d "$branch" || exit
+      git branch -D "$branch" || exit
       echo
     done < <(echo "$trees" | fzf -m -q "$action_arg" --with-nth 3.. --header-lines 1 --ghost "Remove worktree" | awk '{print $3}')
 
