@@ -287,15 +287,9 @@ case "$action" in
     fi
 
     something_done=
-    while read -r tree; do
+    while read -r path branch tree; do
       [ -z "$tree" ] && continue
       something_done=1
-
-      branch=$(git -C "${_WORKTREES}/$tree" branch --show-current) || exit
-      if [ -z "$branch" ]; then
-        error "Could not fetch branch."
-        exit 1
-      fi
 
       if [ -z "$force" ]; then
         printf "Deleting %s\nContinue? [N/y/a] " "$tree"
@@ -306,7 +300,7 @@ case "$action" in
           exit 1
         fi
       fi
-      git worktree remove "$tree" || exit
+      git worktree remove "$path" || exit
       if [ "$tree" = "$original_tree" ]; then
         should_go_back=1
       fi
@@ -325,7 +319,7 @@ case "$action" in
       hooks remove
       git branch -D "$branch" || exit
       echo
-    done < <(echo "$trees" | fzf --no-hscroll -m -q "$action_arg" --with-nth 3.. --header-lines 1 --ghost "Remove worktree" | awk '{print $3}' | tee /dev/tty)
+    done < <(echo "$trees" | fzf --no-hscroll -m -q "$action_arg" --with-nth 3.. --header-lines 1 --ghost "Remove worktree" | awk '{print $1, $2, $3}' | tee /dev/tty)
 
     if [ -n "$should_go_back" ]; then
       echo
