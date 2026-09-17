@@ -56,6 +56,11 @@ check_git() {
     error "Not inside a Git Repo."
     exit 1
   fi
+
+  if [ "$(git rev-parse --is-bare-repository)" != true ]; then
+    error "Not a bare repo."
+    exit 1
+  fi
 }
 
 # shellcheck disable=SC2120
@@ -149,7 +154,11 @@ _create_tree() {
   branch="$name"
   path="${_WORKTREES}/$tree_name"
 
-  git worktree add "$path" "$branch"
+  if git rev-parse --verify refs/heads/"$branch" &>/dev/null; then
+    git worktree add "$path" "$branch"
+  else
+    git worktree add "$path" -b "$branch"
+  fi
 }
 
 _run_hook() {
