@@ -144,16 +144,12 @@ _cleanup_treename() {
 }
 
 _create_tree() {
-  local name="$1" existing="$2" tree_name
+  local name="$1" tree_name
   tree_name="$(_cleanup_treename "$name")" || exit
   branch="$name"
   path="${_WORKTREES}/$tree_name"
 
-  if [ -n "$existing" ]; then
-    git worktree add "$path" --checkout "$branch" || return 1
-  else
-    git worktree add "$path" -b "$branch" || return 1
-  fi
+  git worktree add "$path" "$branch"
 }
 
 _run_hook() {
@@ -223,16 +219,8 @@ case "$action" in
     isnew=
     trees="$(_list_trees)"
     if [ -n "$action_arg" ] && [ ! -d "${_WORKTREES}/$(_cleanup_treename "$action_arg")" ]; then
-      branch="$(git branch -a --format='%(refname:short)' | grep -x "$action_arg" | head -n 1)"
-      if [ -z "$branch" ]; then
-        info "No worktree or branch found, creating worktree."
-        _create_tree "$action_arg" || exit
-        isnew=1
-      else
-        info "Branch $branch without worktree found, creating worktree."
-        _create_tree "$action_arg" 1 || exit
-        isnew=1
-      fi
+      info "No worktree found, creating worktree."
+      _create_tree "$action_arg" || exit
     elif [ "$(wc -l <<< "$trees")" -le 1 ]; then
       error "No trees found."
       exit 1
