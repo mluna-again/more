@@ -32,6 +32,7 @@ format = "$user"
 [git_branch]
 format = "[ $branch ](bg:bright-black fg:bright-white)"
 symbol = "GIT"
+ignore_bare_repo = true
 
 [git_status]
 conflicted = " *"
