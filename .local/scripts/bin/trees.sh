@@ -56,11 +56,6 @@ check_git() {
     error "Not inside a Git Repo."
     exit 1
   fi
-
-  if [ "$(git rev-parse --is-bare-repository)" != true ]; then
-    error "Not a bare repo."
-    exit 1
-  fi
 }
 
 # shellcheck disable=SC2120
@@ -144,7 +139,9 @@ _cleanup_treename() {
   local name="$1" repo
   name="$(sed 's|[ /]|_|g' <<< "$name")"
   repo="$(_common_dir)" || return
-  repo="$(readlink -m "$repo")" || return
+  if [ "$(basename "$repo")" = .git ]; then
+    repo="$(basename "$PWD")"
+  fi
   echo "$(basename "$repo").${name}"
 }
 
