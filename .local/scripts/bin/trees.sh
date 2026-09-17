@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-_WORKTREES="$PWD/.worktrees"
+_WORKTREES=".."
 
 success() {
   tput setab 2
@@ -47,14 +47,14 @@ debug() {
   echo
 }
 
+_common_dir() {
+  readlink -m "$(git rev-parse --git-common-dir)"
+}
+
 check_git() {
-  if [ ! -d .git ] && [ ! -f .git ]; then
+  if ! git rev-parse --git-dir &>/dev/null; then
     error "Not inside a Git Repo."
     exit 1
-  fi
-
-  if ! git check-ignore -q .worktrees/; then
-    warn "You don't have .worktrees ignored"
   fi
 }
 
@@ -111,12 +111,12 @@ _list_trees() {
 
   {
     echo 'Path;Branch;Worktree;Author;Date;Last commit;Branch'
-    while read -r d; do
-      b="$(git -C "$d" rev-parse --abbrev-ref HEAD)"
+    while read -r p; do
+      b="$(git -C "$p" rev-parse --abbrev-ref HEAD)"
 
-      git -C "$d" log -1 --color=never --pretty=format:"$d;$b;$(basename "$d");%an;%ar;%s;$b"
+      git -C "$p" log -1 --color=never --pretty=format:"$p;$b;$(basename "$p");%an;%ar;%s;$b"
       echo
-    done < <(find "$_WORKTREES" -maxdepth 1 -mindepth 1 -type d 2>/dev/null)
+    done < <(git worktree list | awk '$2 != "(bare)"' | awk '{print $1}')
   } | column -t -s ';'
 }
 
@@ -131,18 +131,21 @@ _pretty_list_trees() {
 
       git -C "$d" log -1 --color --pretty=format:"%C(3)$(basename "$d");%C(1)%an;%C(6)%ar%C(reset);%s%C(reset);%C(1)${c}%C(10)${b}%C(reset)" | awk -F';' '{if (length($4) > 60) { $4 = substr($4, 0, 59)"..."; } printf "%s;%s;%s;%s;%s;%s;%s", $1, $2, $3, $4, $5, $6, $7; }'
       echo
-    done < <(git -C "$1" worktree list | awk '{printf "%s %s\n", $1, $3}')
+    done < <(git -C "$1" worktree list | awk '$2 != "(bare)"' | awk '{printf "%s %s\n", $1, $3}')
   } | column -t -s ';'
 }
 
 _cleanup_treename() {
-  local name="$1"
-  sed 's|[ /]|_|g' <<< "$name"
+  local name="$1" repo
+  name="$(sed 's|[ /]|_|g' <<< "$name")"
+  repo="$(_common_dir)" || return
+  repo="$(readlink -m "$repo")" || return
+  echo "$(basename "$repo").${name}"
 }
 
 _create_tree() {
   local name="$1" existing="$2" tree_name
-  tree_name="$(_cleanup_treename "$name")"
+  tree_name="$(_cleanup_treename "$name")" || exit
   branch="$name"
   path="${_WORKTREES}/$tree_name"
 
@@ -217,13 +220,6 @@ done
 case "$action" in
   cd)
     check_git
-    if [ -f .git ]; then
-      repo=$(awk -F': ' '{print $2}' .git | sed 's|\.git.*||') || exit
-      error "Inside Worktree. Going back to original repo."
-      echo "$repo"
-      exit 1
-    fi
-
     isnew=
     trees="$(_list_trees)"
     if [ -n "$action_arg" ] && [ ! -d "${_WORKTREES}/$(_cleanup_treename "$action_arg")" ]; then
@@ -267,7 +263,7 @@ case "$action" in
   list|l|ls)
     check_git
     if [ -f .git ]; then
-      repo=$(awk -F': ' '{print $2}' .git | sed 's|\.git.*||') || exit
+      repo="$(_common_dir)" || exit
       _pretty_list_trees "$repo"
       exit 0
     fi
@@ -277,9 +273,12 @@ case "$action" in
     ;;
 
   remove|rm)
+    check_git
+    original_tree="$(basename "$PWD")"
+    should_go_back=
     if [ -f .git ]; then
-      error "Inside Worktree. Go back to the original repo and try again."
-      exit 1
+      repo="$(_common_dir)" || exit
+      cd "$repo" || exit
     fi
     trees="$(_list_trees)"
     if [ "$(wc -l <<< "$trees")" -le 1 ]; then
@@ -308,6 +307,9 @@ case "$action" in
         fi
       fi
       git worktree remove "$tree" || exit
+      if [ "$tree" = "$original_tree" ]; then
+        should_go_back=1
+      fi
 
       if [ -z "$force" ]; then
         printf "Remove branch (%s)? [N/y/a] " "$branch"
@@ -325,6 +327,10 @@ case "$action" in
       echo
     done < <(echo "$trees" | fzf --no-hscroll -m -q "$action_arg" --with-nth 3.. --header-lines 1 --ghost "Remove worktree" | awk '{print $3}' | tee /dev/tty)
 
+    if [ -n "$should_go_back" ]; then
+      echo
+      _common_dir
+    fi
     [ -n "$something_done" ]
     ;;
 
