@@ -106,6 +106,21 @@ EOF
   exit 1
 }
 
+__git_branch_exists() {
+  local remote in_some_remote=0
+  git show-ref --verify --quiet refs/heads/"$branch" &>/dev/null && return 0
+
+
+  while read -r remote; do
+    git fetch --quiet "$remote" "$branch" &>/dev/null
+    if git show-ref --verify --quiet refs/heads/"$remote"/"$branch" &>/dev/null; then
+      in_some_remote=1
+    fi
+  done < <(git remote)
+
+  [ "$in_some_remote" = 1 ]
+}
+
 _list_trees() {
   local b d
 
@@ -138,11 +153,7 @@ _pretty_list_trees() {
 _cleanup_treename() {
   local name="$1" repo
   name="$(sed 's|[ /]|_|g' <<< "$name")"
-  repo="$(_common_dir)" || return
-  if [ "$(basename "$repo")" = .git ]; then
-    repo="$(basename "$PWD")"
-  fi
-  echo "$(basename "$repo").${name}"
+  echo "$name"
 }
 
 _create_tree() {
@@ -151,7 +162,7 @@ _create_tree() {
   branch="$name"
   path="${_WORKTREES}/$tree_name"
 
-  if git rev-parse --verify refs/heads/"$branch" &>/dev/null; then
+  if __git_branch_exists; then
     git worktree add "$path" "$branch"
   else
     git worktree add "$path" -b "$branch"
