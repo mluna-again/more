@@ -112,8 +112,7 @@ __git_branch_exists() {
 
 
   while read -r remote; do
-    git fetch --quiet "$remote" "$branch" &>/dev/null
-    if git show-ref --verify --quiet refs/heads/"$remote"/"$branch" &>/dev/null; then
+    if git fetch --quiet "$remote" "$branch" &>/dev/null; then
       in_some_remote=1
     fi
   done < <(git remote)
