@@ -92,7 +92,6 @@ Hooks:
                     It receives the path of the cd'ed worktree as \$1, and the branch name as \$2.
                     It also received 1 as \$3 if the tree is new, or nothing if it was not.
                     Make sure your script is executable.
-                    This does not run when cd'ing to the original directory, or when the selected entry is already the current worktree.
 
 Flags:
   --help | -h    show this message
@@ -256,7 +255,6 @@ case "$action" in
       fi
     fi
 
-    [ "$(readlink -m "$path")" = "$(readlink -m "$PWD")" ] && exit 0
     hooks cd "$path" "$branch" "$isnew"
 
     if [ -z "$WK_CREATE_NOPWD" ]; then
