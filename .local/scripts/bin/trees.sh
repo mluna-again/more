@@ -237,6 +237,7 @@ case "$action" in
     if [ -n "$action_arg" ] && [ ! -d "${_WORKTREES}/$(_cleanup_treename "$action_arg")" ]; then
       info "No worktree found, creating worktree."
       _create_tree "$action_arg" || exit
+      isnew=1
     elif [ "$(wc -l <<< "$trees")" -le 1 ]; then
       error "No trees found."
       exit 1
@@ -255,7 +256,7 @@ case "$action" in
       fi
     fi
 
-    [ "$path" = "$PWD" ] && exit 0
+    [ "$(readlink -m "$path")" = "$(readlink -m "$PWD")" ] && exit 0
     hooks cd "$path" "$branch" "$isnew"
 
     if [ -z "$WK_CREATE_NOPWD" ]; then
