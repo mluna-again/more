@@ -326,7 +326,12 @@ case "$action" in
 
     if [ -n "$should_go_back" ]; then
       echo
-      _common_dir
+      p="$(_common_dir)"
+      if [ "$(git -C "$p" rev-parse --is-bare-repository 2>/dev/null)" = false ] && [ "$(git -C "$p" rev-parse --is-inside-git-dir 2>/dev/null)" = true ]; then
+        readlink -m "$p/.."
+      else
+        echo "$p"
+      fi
     fi
     [ -n "$something_done" ]
     ;;
