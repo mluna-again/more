@@ -14,4 +14,13 @@ lsvms() {
 host="$(lsvms | mina -title "SSH in new tab" -icon "")"
 [ -z "$host" ] && exit 1
 
+if [ -f ~/VMs/"$host".conf ] && ! ssh "$host" -o RemoteCommand='echo ok' &>/dev/null; then
+  if ! vm_start.sh "$host"; then
+    echo "Press any key to continue."
+    read -n 1
+    exit 1
+  fi
+  sleep 3
+fi
+
 kitten @ launch --type=tab --location=after --title="$host" ssh "$host"
