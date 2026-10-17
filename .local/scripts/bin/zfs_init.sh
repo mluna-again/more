@@ -73,4 +73,8 @@ else
 fi
 sudo zfs create -o encryption=on -o keylocation=prompt -o keyformat=passphrase "${pool}/${dataset}" || exit
 sudo zpool import -a
+sudo zfs set mountpoint=none "$pool"
+sudo zfs set canmount=off "$pool"
+sudo zfs set mountpoint="/${pool}/${dataset}" "${pool}/${dataset}"
+sudo zfs set canmount=on "${pool}/${dataset}"
 sudo zfs list || exit
