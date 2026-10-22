@@ -28,6 +28,7 @@ NOTREMBER="TMUX: Remove sticky note"
 BUM_TAG="BUM: Tag pane"
 CLEAR_PANE="TMUX: clear scrollback buffer"
 CLEAR_TAG="TMUX: remove key tag"
+FREEZE="Panes: (un)freeze"
 STACK="Panes: toggle stacked panes"
 RENAME_PANE="Panes: rename pane"
 RESET_PANE_TITLE="Panes: reset title"
@@ -79,6 +80,7 @@ $REARRANGE_LAST
 $CLEAR_PANE
 $CLEAR_TAG
 $STACK
+$FREEZE
 $RENAME_PANE
 $RESET_PANE_TITLE
 $BREAK_PANE
@@ -146,6 +148,7 @@ case "$response" in
   "$CLEAR_PANE") tmux clear-history -t .;;
   "$CLEAR_TAG") ~/.local/scripts/bin/tmux_tag_clear.sh;;
   "$STACK") ~/.local/scripts/bin/tmux_stack_toggle.sh;;
+  "$FREEZE") ~/.local/scripts/bin/tmux_freeze_pane.sh;;
   "$RENAME_PANE") ~/.local/scripts/bin/tmux_rename_pane.sh ;;
   "$RESET_PANE_TITLE")
     tmux set-option -pu allow-set-title
