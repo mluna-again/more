@@ -19,7 +19,7 @@ fi
 
 ssh_cmd="$(echo "$root_data" | jq -s -r '. | .[].cmdline | select((. | length) > 1 and ((.[0] | endswith("ssh")) or (.[1] | endswith("vm_ssh.sh")))) | join(" ")')"
 if [ -z "$ssh_cmd" ]; then
-  kitten @ launch --dont-take-focus --type window --location first --bias 20 bum -toggle || die "Something went wrong while opening local bum instance"
+  kitten @ launch --dont-take-focus --type window --location last --bias 20 bum -toggle || die "Something went wrong while opening local bum instance"
   exit
 fi
 ssh_cmd_lines="$(echo "$ssh_cmd" | wc -l)"
@@ -30,7 +30,7 @@ if (( ssh_cmd_lines == 1 )) && [ -n "$ssh_cmd" ]; then
   if [ -z "$match" ]; then
     die "No matching entry in ~/.ssh/config\nExpected a hostname named $host, none found.\nAdd an entry with the appropiate 'bum -toggle' RemoteCommand."
   fi
-  kitten @ launch --dont-take-focus --type window --location first --bias 20 ssh "$match" || die "Something went wrong while opening remote bum instance"
+  kitten @ launch --dont-take-focus --type window --location last --bias 20 ssh "$match" || die "Something went wrong while opening remote bum instance"
 else
   die "Could not infer host to connect to. Expected a *single* window with a cmd with the following format: \`ssh <host>\` or \`bash ~/.local/scripts/bin/vm_ssh.sh <host>\`.\nFound:\n${ssh_cmd:-Nothing}"
 fi
