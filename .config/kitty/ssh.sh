@@ -5,6 +5,8 @@ cleanup() {
 }
 trap cleanup EXIT
 
+pkill -f .config/kitty/ssh.sh
+
 export PATH="$PATH:$HOME/.local/go/bin"
 if ! command -v mina &>/dev/null; then
   echo mina not installed
