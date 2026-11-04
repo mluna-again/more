@@ -1,5 +1,10 @@
 #! /usr/bin/env bash
 
+cleanup() {
+  kitten @ action goto_layout splits
+}
+trap cleanup EXIT
+
 export PATH="$PATH:$HOME/.local/go/bin"
 if ! command -v mina &>/dev/null; then
   echo mina not installed
