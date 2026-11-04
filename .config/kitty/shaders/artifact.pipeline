@@ -2,16 +2,10 @@ startgroup
     animation_step 0
 
     var float WARP = 0
-    var float SCAN = 1
+    var float SCAN = 2
     var float4 TINT = float4(1.0, 0.0, 0.025, 0.4)
 
     shaders crt
-endgroup
-
-startgroup
-    animation_step 0
-
-    shaders tft
 endgroup
 
 startgroup
