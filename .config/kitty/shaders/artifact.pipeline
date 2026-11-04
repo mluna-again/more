@@ -11,7 +11,7 @@ endgroup
 startgroup
     animation_step 0
 
-    var float BLOOM_STRENGTH = 0.05
+    var float BLOOM_STRENGTH = 0.1
     var float BLOOM_THRESHOLD = 0.2
     shaders bloom
 endgroup
