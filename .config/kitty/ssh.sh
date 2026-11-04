@@ -1,11 +1,11 @@
 #! /usr/bin/env bash
 
+pgrep -f .config/kitty/ssh.sh && exit 0
+
 cleanup() {
   kitten @ action goto_layout splits
 }
 trap cleanup EXIT
-
-pkill -f .config/kitty/ssh.sh
 
 export PATH="$PATH:$HOME/.local/go/bin"
 if ! command -v mina &>/dev/null; then
