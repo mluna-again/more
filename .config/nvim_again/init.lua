@@ -20,6 +20,7 @@ vim.opt.cmdheight = 0
 vim.opt.fillchars = {eob = " "}
 vim.opt.foldenable = false
 vim.wo.foldmethod = "expr"
+vim.opt.guicursor:append("a:blinkwait700-blinkoff400-blinkon250")
 
 vim.g.go_gopls_enabled = false
 vim.g.go_mod_fmt_autosave = false
@@ -170,6 +171,19 @@ vim.pack.add({
   { src = "https://github.com/fatih/vim-go", version = "551d423" },
   { src = "https://github.com/nvim-treesitter/nvim-treesitter-context", version = "f306133" },
   { src = "https://github.com/lukas-reineke/indent-blankline.nvim", version = "3b1ee18" },
+  { src = "https://github.com/sindrets/diffview.nvim", version = "4516612" },
+})
+
+require("diffview").setup({
+  use_icons = false,
+  view = {
+    default = {
+      layout = "diff2_horizontal",
+    },
+    merge_tool = {
+      layout = "diff3_horizontal",
+    },
+  },
 })
 
 require("treesitter-context").setup({ enable = false })
