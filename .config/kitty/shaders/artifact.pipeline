@@ -27,10 +27,11 @@ endgroup
 
 startgroup
     animation_start tab-change
-    animation_stop 600
+    animation_stop 450
     animation_curve ease-out
     animation_step 16
     var int ANIMATION_TYPE = 1
+    var float EDGE_SOFTNESS = 0.2
 
     shaders tab-change
 endgroup
