@@ -1,7 +1,5 @@
 #! /usr/bin/env bash
 
-pgrep -f .config/kitty/ssh.sh && exit 0
-
 cleanup() {
   kitten @ action goto_layout splits
 }
