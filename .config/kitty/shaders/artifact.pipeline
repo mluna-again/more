@@ -18,7 +18,19 @@ endgroup
 
 startgroup
     animation_step 0
+    animation_start cursor-trail-move
+    animation_stop cursor-trail-stop
 
     var float4 TRAIL_COLOR = float4(0.584314, 0.0, 0.082353, 1.0);
     shaders cursor-trail-blaze
+endgroup
+
+startgroup
+    animation_start tab-change
+    animation_stop 600
+    animation_curve ease-out
+    animation_step 16
+    var int ANIMATION_TYPE = 1
+
+    shaders tab-change
 endgroup
