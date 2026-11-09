@@ -27,7 +27,7 @@ endgroup
 
 startgroup
     animation_start tab-change
-    animation_stop 450
+    animation_stop 250
     animation_curve ease-out
     animation_step 16
     var int ANIMATION_TYPE = 1
