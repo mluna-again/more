@@ -13,7 +13,7 @@ if ! command -v mina &>/dev/null; then
 fi
 
 lsvms() {
-  grep -r -h -i "host\s" ~/.ssh/config ~/.ssh/config.d | awk '$2 != "*" {print $2}' | tr -d ' ' | sort | uniq
+  grep -r -h -i "host\s" ~/.ssh/config ~/.ssh/config.d | awk '$2 != "*" {print $2}' | tr -d ' ' | sort | uniq | grep -Ev "_bum$"
 }
 
 host="$(lsvms | mina -title "SSH in new tab" -icon "")"
