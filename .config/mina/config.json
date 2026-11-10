@@ -1,0 +1,8 @@
+{
+  "theme": {
+    "title_bg": "#c4746e",
+    "title_fg": "#282727",
+    "selected_list_item_bg": "#c4746e",
+    "selected_list_item_fg": "#282727"
+  }
+}
