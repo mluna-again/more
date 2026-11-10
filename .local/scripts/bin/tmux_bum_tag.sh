@@ -4,7 +4,7 @@ source ~/.local/scripts/bin/tmux_util.sh || exit
 
 skip_title="$1"
 
-read -r pane description < <(tmux display -p '#{pane_id} #{session_name}:#{window_name}')
+read -r pane description < <(tmux display -p '#{pane_id} #{session_name}:#{window_name} #{b:pane_current_path}')
 
 title=
 if [ -z "$skip_title" ]; then
